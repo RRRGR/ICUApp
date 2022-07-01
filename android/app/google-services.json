@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "318213283",
+    "project_id": "icuapp-76470",
+    "storage_bucket": "icuapp-76470.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:318213283:android:01c32c4ee9ffa6d1918316",
+        "android_client_info": {
+          "package_name": "com.gr.icuapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "318213283-aaljmfrdpcsumdkl7b7bund45hnie8vo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gr.icuapp",
+            "certificate_hash": "da223e0bb6edb49ae9b1d892a986c2b5712707f9"
+          }
+        },
+        {
+          "client_id": "318213283-qmbkj5lmbila6sb29h5ogfdlejdthq6d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gr.icuapp",
+            "certificate_hash": "ab650a50a945f9af0a852b4cd50ff4c060585585"
+          }
+        },
+        {
+          "client_id": "318213283-tjvkl57nvtm6gotiu26ev5ou44tal74i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gr.icuapp",
+            "certificate_hash": "88c7e7a6409eaf653788184295ec3ce5ff8b6a48"
+          }
+        },
+        {
+          "client_id": "318213283-es6827a8ispged3d8h59bcfgktage2h4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_rS65oMmltVeGq2-Nh-ut_HevEYK0GhI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "318213283-es6827a8ispged3d8h59bcfgktage2h4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
