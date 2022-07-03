@@ -14,11 +14,27 @@
       },
       "oauth_client": [
         {
+          "client_id": "318213283-5q7bos9vhkv5ae4r1l5t29gi28ib89h2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gr.icuapp",
+            "certificate_hash": "50627c044597e081bbc85f102137afef7a460b58"
+          }
+        },
+        {
           "client_id": "318213283-aaljmfrdpcsumdkl7b7bund45hnie8vo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.gr.icuapp",
             "certificate_hash": "da223e0bb6edb49ae9b1d892a986c2b5712707f9"
+          }
+        },
+        {
+          "client_id": "318213283-pl5qtgev627o0eh1nnf1hv9mkpvtr2ug.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gr.icuapp",
+            "certificate_hash": "68193a1dccb3d10199978387233ecbdb2b931974"
           }
         },
         {
@@ -53,6 +69,13 @@
             {
               "client_id": "318213283-es6827a8ispged3d8h59bcfgktage2h4.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "318213283-693fagpvi4vh8sm9rq6epe1367gcu378.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gr.icuapp"
+              }
             }
           ]
         }
