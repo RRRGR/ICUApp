@@ -28,6 +28,9 @@ void save(String year_season, String time, Map classInfo, ref) async {
         key_time = key_time.replaceAll('*', '');
         if (!className.contains('*')) className = '*$className';
       }
+      List? classInfo_before =
+          prefs.getStringList('${year_season}_${key_time}');
+      deleteSameClass(year_season, classInfo_before, ref);
       await prefs
           .setStringList('${year_season}_${key_time}', [className, room]);
       ref.read(TTProvider.notifier).update(key_time, [className, room]);
