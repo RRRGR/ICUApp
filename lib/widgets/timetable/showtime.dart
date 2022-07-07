@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/constant.dart';
 
+//授業時間の表示
 class ShowTime extends ConsumerWidget {
   final String time1;
   final String period;

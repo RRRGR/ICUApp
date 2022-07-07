@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/constant.dart';
 
+//時間割の曜日表示
 class ShowDay extends ConsumerWidget {
   final String day;
   const ShowDay(this.day, {Key? key}) : super(key: key);

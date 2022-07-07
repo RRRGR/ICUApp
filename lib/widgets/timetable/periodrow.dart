@@ -3,6 +3,7 @@ import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/widgets/timetable/cell.dart';
 import 'package:icuapp/widgets/timetable/showtime.dart';
 
+//rowをListとしてセット（授業時間のセル×1、授業名入れるセル×5or6）
 List<Widget> periodrow(period, satClass) {
   String time1 = '0:00';
   String time2 = '0:00';

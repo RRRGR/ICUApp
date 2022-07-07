@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/sharedpref.dart';
 
-double height = 0;
+double height = 0; //端末の大きさ
 double width = 0;
-final remainHeightProvider = StateProvider<double>((ref) => 0);
+final remainHeightProvider =
+    StateProvider<double>((ref) => 0); //広告の高さを除いた残りの画面の高さ
 
-String chosenTime = '1M';
+String chosenTime = '1M'; //選択された時間割のセルの時間
 
 final eighthClassProvider = StateProvider<bool>((ref) => false);
 final satClassProvider = StateProvider<bool>((ref) => false);
-final cWeekProvider = StateProvider<bool>((ref) => false);
+final cWeekProvider =
+    StateProvider<bool>((ref) => false); //それぞれ8限、土曜授業、cweekがあるかどうかの選択
 
 class ChosenYear {
   ChosenYear({required this.chosenYear});
@@ -20,7 +22,8 @@ class ChosenYear {
 final chosenYearProvider = StateProvider<String>((ref) => '2022');
 final chosenSeasonProvider = StateProvider<String>((ref) => 'Autumn');
 
-final cellFontSizeProvider = StateProvider<String>((ref) => '12');
+final cellFontSizeProvider =
+    StateProvider<String>((ref) => '12'); //選択されている年度、学期、フォントサイズの保持
 
 Map<String, List> initTT = {
   '1M': ['', ''],
@@ -85,6 +88,7 @@ class TT {
 class TTNotifier extends StateNotifier<Map> {
   TTNotifier() : super(initTT);
 
+  //key:時限、value:授業の(Providerの)Mapの値を更新
   void update(String period_day, List classInfo) {
     String className = classInfo[0];
     String room = classInfo[1];
@@ -96,6 +100,7 @@ class TTNotifier extends StateNotifier<Map> {
     state = oldstate;
   }
 
+  //SharedPreferencesに保存されている値をProviderに読み込む
   void load(ref) {
     Map<String, List> newstate = <String, List>{};
     final chosenYear = ref.watch(chosenYearProvider);
@@ -117,6 +122,7 @@ final TTProvider = StateNotifierProvider<TTNotifier, Map>((ref) {
 });
 
 const MaterialColor materialWhite = MaterialColor(
+  //AppBarの色
   0xEAEAEAEA,
   <int, Color>{
     50: Color(0xCCCCCCCC),

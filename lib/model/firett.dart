@@ -7,6 +7,7 @@ class FireTimeTable {
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
   Future updateTT() async {
+    //SharedPreferencesの値をFirestoreに保存
     Map<String, dynamic> TTMap = {};
     for (String year in ['2022', '2021', '2020', '2019', '2018', '2017']) {
       for (String season in ['Spring', 'Autumn', 'Winter']) {
@@ -24,6 +25,7 @@ class FireTimeTable {
   }
 
   Future recoverTT() async {
+    //Firestoreの値を端末に読み込む
     final prefs = await SharedPreferences.getInstance();
     final data =
         await FirebaseFirestore.instance.collection('users').doc(uid).get();

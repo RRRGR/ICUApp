@@ -6,6 +6,7 @@ import 'package:icuapp/model/sharedpref.dart';
 import 'package:icuapp/screen/choosepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//時間割の授業名の入るセル
 class Cell extends ConsumerWidget {
   final String period_day;
   const Cell(this.period_day, {Key? key}) : super(key: key);
