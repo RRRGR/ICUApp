@@ -7,6 +7,7 @@ import 'package:icuapp/widgets/timetable/showday.dart';
 import 'package:icuapp/widgets/timetable/showtime.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+//tableウィジェットを使用してセルなどを設置
 class Tables extends ConsumerStatefulWidget {
   const Tables({Key? key}) : super(key: key);
 
@@ -40,13 +41,13 @@ class TablesState extends ConsumerState<Tables> {
           children: [
             TableRow(
               children: [
-                Container(child: const Text('')),
-                ShowDay('Mon'),
-                ShowDay('Tue'),
-                ShowDay('Wed'),
-                ShowDay('Thu'),
-                ShowDay('Fri'),
-                if (satClass == true) ShowDay('Sat'),
+                const Text(''),
+                const ShowDay('Mon'),
+                const ShowDay('Tue'),
+                const ShowDay('Wed'),
+                const ShowDay('Thu'),
+                const ShowDay('Fri'),
+                if (satClass == true) const ShowDay('Sat'),
               ],
             ),
             TableRow(
