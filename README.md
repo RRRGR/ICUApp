@@ -11,7 +11,7 @@ lib
 ├── main.dart
 ├── model //データの処理
 │   ├── ad.dart //広告
-│   ├── constant.dart //定数定義
+│   ├── constant.dart //変数等定義
 │   ├── firett.dart //Firestoreとのやり取り
 │   └── sharedpref.dart //SharedPreferencesやProviderの値の操作
 ├── screen //画面遷移に使用するクラス達
