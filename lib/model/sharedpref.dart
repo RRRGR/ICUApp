@@ -1,6 +1,7 @@
 import 'package:icuapp/model/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//SharedPreferencesとProviderの値の更新（元々値があった場合はその値のkeyを全て削除）
 void save(String year_season, String time, Map classInfo, ref) async {
   final prefs = await SharedPreferences.getInstance();
 
@@ -49,6 +50,7 @@ void deleteSameClass(String year_season, List? classInfo_before, ref) async {
   }
 }
 
+//inputされた授業名の保存
 void save_nameinput(
     String year_season, String time, String nameinput, ref) async {
   final prefs = await SharedPreferences.getInstance();
@@ -59,6 +61,7 @@ void save_nameinput(
   ref.read(TTProvider.notifier).update(time, [nameinput, classRoom]);
 }
 
+//入力された部屋名の保存 必要なさそうと思って使ってない
 void save_roominput(
     String year_season, String time, String roominput, ref) async {
   final prefs = await SharedPreferences.getInstance();
@@ -69,6 +72,7 @@ void save_roominput(
   ref.read(TTProvider.notifier).update(time, [className, roominput]);
 }
 
+//SharedPreferencesの値を取得
 Future<List?> getValue(year_season_time) async {
   final prefs = await SharedPreferences.getInstance();
   final List? classInfo = prefs.getStringList(year_season_time);
@@ -82,12 +86,13 @@ Future<List?> getValue(year_season_time) async {
   yield className;
 }*/
 
+//SharedPreferencesの値をProviderに全てコピーする
 void read_tt_state(ref) async {
   final prefs = await SharedPreferences.getInstance();
   String? chosenYear = prefs.getString('chosenYear');
   String? chosenSeason = prefs.getString('chosenSeason');
   chosenYear ??= '2022';
-  chosenSeason ??= 'Spring';
+  chosenSeason ??= 'Autumn';
   for (var period in ['1', '2', '3', '4', '5', '6', '7', '8']) {
     for (var day in ['M', 'TU', 'W', 'TH', 'F', 'SA']) {
       List? classInfo =
@@ -99,6 +104,7 @@ void read_tt_state(ref) async {
   }
 }
 
+//以下それぞれProviderの値の更新と読み取り
 void update_chosenYear(String newYear, ref) async {
   ref.read(chosenYearProvider.notifier).state = newYear;
   final prefs = await SharedPreferences.getInstance();
@@ -185,6 +191,7 @@ void read_fontSizeState(ref) async {
   }
 }
 
+//一学期分の時限・授業のセットを初期化
 void resetTerm(ref) async {
   final chosenYear = ref.watch(chosenYearProvider);
   final chosenSeason = ref.watch(chosenSeasonProvider);
