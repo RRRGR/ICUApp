@@ -71,6 +71,7 @@ class ListTile_txt_info extends StatelessWidget {
   const ListTile_txt_info(this.classInfo, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    String? courseNo = classInfo['no'];
     String? className = classInfo['j'];
     String schedule = classInfo['schedule'];
     String? instructor = classInfo['instructor'];
@@ -82,7 +83,7 @@ class ListTile_txt_info extends StatelessWidget {
     } else {
       return ListTile(
         title: Text(
-          className!,
+          '${courseNo!}: ${className!}',
           style: deleted == 'true'
               ? const TextStyle(
                   color: Colors.black, decoration: TextDecoration.lineThrough)
