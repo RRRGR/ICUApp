@@ -17,12 +17,7 @@ class AssignedClassText extends ConsumerWidget {
             title: Text('Current: ${TT[chosenTime][0]}'),
           ),
         ],
-      )
-
-          //title:'Name: ${TT[chosenTime][0]}',
-          //style: TextStyle(fontSize: 15),
-          //textAlign: TextAlign.center,
-          ),
+      )),
     );
   }
 }
