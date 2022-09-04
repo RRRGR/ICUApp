@@ -25,7 +25,7 @@ class NameInput extends ConsumerWidget {
         obscureText: false,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
-          labelText: 'input',
+          labelText: 'Custom input',
         ),
       ),
     );
