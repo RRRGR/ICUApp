@@ -172,13 +172,12 @@ class WebPage extends StatelessWidget {
               },
             ),
           ),
-          if (webUrl.contains('aim-kenko') || webUrl.contains('openclassroom'))
-            SizedBox(
-              //color: Colors.white,
-              height: 50.0,
-              width: double.infinity,
-              child: AdWidget(ad: myBanner),
-            ),
+          SizedBox(
+            //color: Colors.white,
+            height: 50.0,
+            width: double.infinity,
+            child: AdWidget(ad: myBanner),
+          ),
         ],
       ),
     );
