@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icuapp/widgets/timetable/drawer.dart';
 
 class ShowInfo extends StatelessWidget {
   final Map classInfo;
@@ -22,15 +23,26 @@ class ShowInfo extends StatelessWidget {
     for (String key in ['Rgno', 'Label1', 'Ay', 'J', 'E']) {
       newInfo.remove(key);
     }
+    newInfo['Details'] = 'Tap here for syllabus';
     return ListView.builder(
       shrinkWrap: true,
       itemCount: newInfo.length,
       itemBuilder: (context, index) {
         var key = newInfo.keys.elementAt(index);
         return Card(
-          child: ListTile(
-            title: Text('$key : ${newInfo[key]}'),
-          ),
+          child: (key == 'Details')
+              ? ListTile(
+                  title: Text('$key : ${newInfo[key]}'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => WebPage(
+                            'https://campus.icu.ac.jp/public/ehandbook/PreviewSyllabus.aspx?regno=${classInfo['rgno']}&year=${classInfo['ay']}&term=${classInfo['rgno'][0]}')));
+                  },
+                )
+              : ListTile(
+                  title: Text('$key : ${newInfo[key]}'),
+                ),
         );
       },
     );

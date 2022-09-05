@@ -9,13 +9,15 @@ class AssignedClassText extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final TT = ref.watch(TTProvider);
     return Container(
-      //height: 30,
       margin: const EdgeInsets.all(8.0),
-      child: Text(
-        'Name: ${TT[chosenTime][0]}',
-        style: TextStyle(fontSize: 15),
-        textAlign: TextAlign.center,
-      ),
+      child: Card(
+          child: Column(
+        children: <Widget>[
+          ListTile(
+            title: Text('Current: ${TT[chosenTime][0]}'),
+          ),
+        ],
+      )),
     );
   }
 }
