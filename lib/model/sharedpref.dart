@@ -1,12 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //SharedPreferencesとProviderの値の更新（元々値があった場合はその値のkeyを全て削除）
-void save(String year_season, String time, Map classInfo, ref) async {
+void save(String year_season, String time, Map classInfo, ref, context) async {
   final prefs = await SharedPreferences.getInstance();
 
   List? classInfo_before = prefs.getStringList('${year_season}_$time');
-  deleteSameClass(year_season, classInfo_before, ref);
+  await deleteSameClass(year_season, classInfo_before, ref);
 
   String className = classInfo['j'];
   String schedule = classInfo['schedule'];
@@ -30,15 +31,17 @@ void save(String year_season, String time, Map classInfo, ref) async {
       }
       List? classInfo_before =
           prefs.getStringList('${year_season}_${key_time}');
-      deleteSameClass(year_season, classInfo_before, ref);
+      await deleteSameClass(year_season, classInfo_before, ref);
       await prefs
           .setStringList('${year_season}_${key_time}', [className, room]);
       ref.read(TTProvider.notifier).update(key_time, [className, room]);
     }
+    Navigator.of(context).pop();
   }
 }
 
-void deleteSameClass(String year_season, List? classInfo_before, ref) async {
+Future<void> deleteSameClass(
+    String year_season, List? classInfo_before, ref) async {
   final prefs = await SharedPreferences.getInstance();
   classInfo_before ??= ['', ''];
   for (var period in ['1', '2', '3', '4', '5', '6', '7', '8']) {
@@ -47,7 +50,7 @@ void deleteSameClass(String year_season, List? classInfo_before, ref) async {
       classInfo ??= ['', ''];
       if (classInfo_before[0] == classInfo[0]) {
         await prefs.setStringList('${year_season}_$period$day', ['', '']);
-        ref.read(TTProvider.notifier).update('$period$day', ['', '']);
+        await ref.read(TTProvider.notifier).update('$period$day', ['', '']);
       }
     }
   }

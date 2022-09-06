@@ -32,7 +32,7 @@ class ShowList extends ConsumerWidget {
               shrinkWrap: true,
               itemCount: chosenData.length,
               itemBuilder: (BuildContext context, int index) {
-                return _items(chosenData[index], ref);
+                return _items(chosenData[index], ref, context);
               },
             ),
           );
@@ -43,13 +43,14 @@ class ShowList extends ConsumerWidget {
     );
   }
 
-  Widget _items(Map classInfo, ref) {
+  Widget _items(Map classInfo, ref, BuildContext context) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        save('${chosenYear}_${chosenSeason}', chosenTime, classInfo, ref);
+        save('${chosenYear}_${chosenSeason}', chosenTime, classInfo, ref,
+            context);
       },
       child: Container(
         decoration: const BoxDecoration(
