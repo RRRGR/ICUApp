@@ -113,16 +113,16 @@ class RecoverAlert extends StatelessWidget {
             'OK',
             style: TextStyle(color: Colors.lightBlue),
           ),
-          onPressed: () {
-            Navigator.pop(context);
-            FireTimeTable().recoverTT();
-
-            showDialog(
-              context: context,
-              builder: (_) {
-                return const RestartAlert();
-              },
-            );
+          onPressed: () async {
+            //Navigator.pop(context);
+            int finished = await FireTimeTable().recoverTT();
+            if (finished == 0) {
+              showDialog(
+                  context: context, builder: (_) => const RestartAlert());
+            } else if (finished == 1) {
+              showDialog(
+                  context: context, builder: (_) => const NotSavedAlert());
+            }
           },
         )
       ],
@@ -137,7 +137,7 @@ class RestartAlert extends StatelessWidget {
     return AlertDialog(
       title: const Text('Recovering'),
       content: const Text(
-          'Wait a few seconds and select another year in the timetable page.'),
+          'Wait a few seconds and select another year in the timetable page or restart the app.'),
       actions: [
         TextButton(
           child: const Text(
@@ -145,6 +145,7 @@ class RestartAlert extends StatelessWidget {
             style: TextStyle(color: Colors.lightBlue),
           ),
           onPressed: () {
+            Navigator.pop(context);
             Navigator.pop(context);
           },
         )
@@ -167,6 +168,29 @@ class FailedAlert extends StatelessWidget {
             style: TextStyle(color: Colors.lightBlue),
           ),
           onPressed: () {
+            Navigator.pop(context);
+          },
+        )
+      ],
+    );
+  }
+}
+
+class NotSavedAlert extends StatelessWidget {
+  const NotSavedAlert({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Failed'),
+      content: const Text('No data is saved.'),
+      actions: [
+        TextButton(
+          child: const Text(
+            'OK',
+            style: TextStyle(color: Colors.lightBlue),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
             Navigator.pop(context);
           },
         )
