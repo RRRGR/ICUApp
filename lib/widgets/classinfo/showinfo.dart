@@ -32,14 +32,10 @@ class ShowInfo extends StatelessWidget {
         return Card(
           child: (key == 'Details')
               ? ListTile(
-                  title:
-                      Text.rich(TextSpan(text: '${key}: ', children: <TextSpan>[
-                    TextSpan(
-                        text: '${newInfo[key]}',
-                        style: const TextStyle(
-                          decoration: TextDecoration.underline,
-                        )),
-                  ])),
+                  title: Text('${newInfo[key]}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          decoration: TextDecoration.underline)),
                   onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).push(MaterialPageRoute(
