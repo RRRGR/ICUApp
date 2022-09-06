@@ -29,12 +29,14 @@ class FireTimeTable {
     final prefs = await SharedPreferences.getInstance();
     final data =
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    //Map<String, List<dynamic>> dataMap =
-    //Map<String, List<dynamic>>.from(data.data()!);
-    data.data()!.forEach((key, value) async {
-      await prefs
-          .setStringList(key, [(value[0].toString()), (value[1].toString())]);
-    });
-    return;
+    if (data.data() == null) {
+      return 1;
+    } else {
+      data.data()!.forEach((key, value) async {
+        await prefs
+            .setStringList(key, [(value[0].toString()), (value[1].toString())]);
+      });
+      return 0;
+    }
   }
 }
