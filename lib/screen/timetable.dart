@@ -46,19 +46,34 @@ class TimetableState extends ConsumerState<Timetable> {
     return Scaffold(
       appBar: AppBar(
         key: globalKeyAppBar,
-        centerTitle: true,
+        centerTitle: false,
         elevation: 2,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(width: width / 13),
-            const YearButton(),
-            const SeasonButton(),
-          ],
-        ),
         actions: [
-          const ResetButton(),
-          SizedBox(width: width / 30),
+          Expanded(
+            child: Stack(
+              children: [
+                Expanded(
+                    child: Center(
+                        child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const <Widget>[
+                    SizedBox(
+                      width: 20,
+                    ),
+                    YearButton(),
+                    SeasonButton(),
+                  ],
+                ))),
+                Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      child: const ResetButton(),
+                    ))
+              ],
+            ),
+          )
         ],
       ),
       body: const Tables(),
@@ -74,24 +89,24 @@ class YearButton extends ConsumerWidget {
     final String chosenYear = ref.watch(chosenYearProvider);
     List<String> yearList = ["2022", "2021", "2020", "2019", "2018", "2017"];
     return Container(
-      width: width / 6,
-      child: DropdownButton<String>(
-        value: chosenYear,
-        elevation: 0,
-        underline: const SizedBox(),
-        dropdownColor: Colors.lightBlue[50],
-        items: yearList.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        onChanged: (value) {
-          update_chosenYear(value!, ref);
-          ref.read(TTProvider.notifier).load(ref);
-        },
-      ),
-    );
+        child: DropdownButtonHideUnderline(
+            child: ButtonTheme(
+                alignedDropdown: true,
+                child: DropdownButton<String>(
+                  value: chosenYear,
+                  elevation: 0,
+                  dropdownColor: Colors.lightBlue[50],
+                  items: yearList.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    update_chosenYear(value!, ref);
+                    ref.read(TTProvider.notifier).load(ref);
+                  },
+                ))));
   }
 }
 
@@ -101,26 +116,27 @@ class SeasonButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String chosenSeason = ref.watch(chosenSeasonProvider);
     List<String> seasonList = ["Spring", "Autumn", "Winter"];
-    return SizedBox(
-      width: width / 4,
-      child: DropdownButton<String>(
-        isExpanded: true,
-        value: chosenSeason,
-        elevation: 0,
-        underline: const SizedBox(),
-        dropdownColor: Colors.lightBlue[50],
-        items: seasonList.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        onChanged: (value) {
-          update_chosenSeason(value!, ref);
-          ref.read(TTProvider.notifier).load(ref);
-        },
-      ),
-    );
+    return Container(
+        child: DropdownButtonHideUnderline(
+            child: ButtonTheme(
+                alignedDropdown: true,
+                child: DropdownButton<String>(
+                  value: chosenSeason,
+                  elevation: 0,
+                  underline: const SizedBox(),
+                  dropdownColor: Colors.lightBlue[50],
+                  items:
+                      seasonList.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    update_chosenSeason(value!, ref);
+                    ref.read(TTProvider.notifier).load(ref);
+                  },
+                ))));
   }
 }
 
