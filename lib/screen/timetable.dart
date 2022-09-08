@@ -59,7 +59,7 @@ class TimetableState extends ConsumerState<Timetable> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: const <Widget>[
                     SizedBox(
-                      width: 20,
+                      width: 12,
                     ),
                     YearButton(),
                     SeasonButton(),
