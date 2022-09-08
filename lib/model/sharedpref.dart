@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer';
 
 //SharedPreferencesとProviderの値の更新（元々値があった場合はその値のkeyを全て削除）
-void save(String year_season, String time, Map classInfo, ref, context) async {
+void save(String year_season, String time, Map classInfo, ref) async {
   final prefs = await SharedPreferences.getInstance();
 
-  List? classInfo_before = prefs.getStringList('${year_season}_$time');
-  await deleteSameClass(year_season, classInfo_before, ref);
+  List? classInfo_before =
+      prefs.getStringList('${year_season}_$time'); //選択を実行した所の以前の講義を取得
+  deleteSameClassOpt(
+      year_season, classInfo_before, ref); //その講義と同じ名前のものを全関連含めた講義の削除
 
   String className = classInfo['j'];
   String schedule = classInfo['schedule'];
@@ -16,42 +19,47 @@ void save(String year_season, String time, Map classInfo, ref, context) async {
   room ??= '';
   comment ??= '';
   if (comment == 'Online') room = '';
+
   if (className == 'Tap here to reset') {
     className = '';
-    await prefs.setStringList('${year_season}_$time', [className, '']);
-    ref.read(TTProvider.notifier).update(time, [className, '']);
+    await prefs.setStringList('${year_season}_$time', [className, '', '']);
+    ref.read(TTProvider.notifier).update(time, [className, '', '']);
   } else {
-    schedule = schedule.replaceAll('(', '').replaceAll(')', '');
-    List timesList = schedule.split(',');
-    for (var classTime in timesList) {
-      String key_time = classTime.replaceAll('/', '');
-      if (key_time.contains('*')) {
-        key_time = key_time.replaceAll('*', '');
-        if (!className.contains('*')) className = '*$className';
+    schedule =
+        schedule.replaceAll('(', '').replaceAll(')', '').replaceAll('/', '');
+    if (schedule.contains('*')) {
+      schedule.replaceAll('*', '');
+      if (!className.contains('*')) {
+        className = '*$className';
       }
-      List? classInfo_before =
-          prefs.getStringList('${year_season}_${key_time}');
-      await deleteSameClass(year_season, classInfo_before, ref);
-      await prefs
-          .setStringList('${year_season}_${key_time}', [className, room]);
-      ref.read(TTProvider.notifier).update(key_time, [className, room]);
     }
-    Navigator.of(context).pop();
+    String relatedTime = schedule;
+    List timesList = schedule.split(',');
+
+    for (var classTime in timesList) {
+      List? classInfo_before = prefs.getStringList(
+          '${year_season}_${classTime}'); //ロンフォー補正した後のKeyでprefから関連を取得 この時は今後挿入する箇所に入ってる講義を全消し
+      deleteSameClassOpt(year_season, classInfo_before, ref);
+      await prefs.setStringList(
+          '${year_season}_${classTime}', [className, room, relatedTime]);
+      ref
+          .read(TTProvider.notifier)
+          .update(classTime, [className, room, relatedTime]);
+    }
   }
 }
 
-Future<void> deleteSameClass(
-    String year_season, List? classInfo_before, ref) async {
+Future<void> deleteSameClassOpt(
+    String yearSeason, List? classInfoBefore, ref) async {
   final prefs = await SharedPreferences.getInstance();
-  classInfo_before ??= ['', ''];
-  for (var period in ['1', '2', '3', '4', '5', '6', '7', '8']) {
-    for (var day in ['M', 'TU', 'W', 'TH', 'F', 'SA']) {
-      List? classInfo = prefs.getStringList('${year_season}_$period$day');
-      classInfo ??= ['', ''];
-      if (classInfo_before[0] == classInfo[0]) {
-        await prefs.setStringList('${year_season}_$period$day', ['', '']);
-        await ref.read(TTProvider.notifier).update('$period$day', ['', '']);
-      }
+  classInfoBefore ??= ['', '', ''];
+  List timeList = classInfoBefore[2].split(',');
+  for (String classTime in timeList) {
+    List? oldClass = prefs.getStringList('${yearSeason}_$classTime');
+    oldClass ??= ['', '', ''];
+    if (classInfoBefore[0] == oldClass[0]) {
+      await prefs.setStringList('${yearSeason}_$classTime', ['', '', '']);
+      await ref.read(TTProvider.notifier).update(classTime, ['', '', '']);
     }
   }
 }
@@ -63,8 +71,8 @@ void save_nameinput(
   //List? classInfo = await getValue('${year_season}_$time');
   String classRoom = '';
   //if (classInfo![1] != '') classRoom = classInfo[1];
-  await prefs.setStringList('${year_season}_$time', [nameinput, classRoom]);
-  ref.read(TTProvider.notifier).update(time, [nameinput, classRoom]);
+  await prefs.setStringList('${year_season}_$time', [nameinput, classRoom, '']);
+  ref.read(TTProvider.notifier).update(time, [nameinput, classRoom, '']);
 }
 
 //入力された部屋名の保存 必要なさそうと思って使ってない
@@ -74,8 +82,8 @@ void save_roominput(
   List? classInfo = await getValue('${year_season}_$time');
   String className = '';
   if (classInfo![0] != '') className = classInfo[0];
-  await prefs.setStringList('${year_season}_$time', [className, roominput]);
-  ref.read(TTProvider.notifier).update(time, [className, roominput]);
+  await prefs.setStringList('${year_season}_$time', [className, roominput, '']);
+  ref.read(TTProvider.notifier).update(time, [className, roominput, '']);
 }
 
 //SharedPreferencesの値を取得
@@ -204,9 +212,9 @@ void resetTerm(ref) async {
   final prefs = await SharedPreferences.getInstance();
   for (var period in ['1', '2', '3', '4', '5', '6', '7', '8']) {
     for (var day in ['M', 'TU', 'W', 'TH', 'F', 'SA']) {
-      await prefs
-          .setStringList('${chosenYear}_${chosenSeason}_$period$day', ['', '']);
-      ref.read(TTProvider.notifier).update('$period$day', ['', '']);
+      await prefs.setStringList(
+          '${chosenYear}_${chosenSeason}_$period$day', ['', '', '']);
+      ref.read(TTProvider.notifier).update('$period$day', ['', '', '']);
     }
   }
 }

@@ -26,54 +26,54 @@ final cellFontSizeProvider =
     StateProvider<String>((ref) => '12'); //選択されている年度、学期、フォントサイズの保持
 
 Map<String, List> initTT = {
-  '1M': ['', ''],
-  '2M': ['', ''],
-  '3M': ['', ''],
-  '4M': ['', ''],
-  '5M': ['', ''],
-  '6M': ['', ''],
-  '7M': ['', ''],
-  '8M': ['', ''],
-  '1TU': ['', ''],
-  '2TU': ['', ''],
-  '3TU': ['', ''],
-  '4TU': ['', ''],
-  '5TU': ['', ''],
-  '6TU': ['', ''],
-  '7TU': ['', ''],
-  '8TU': ['', ''],
-  '1W': ['', ''],
-  '2W': ['', ''],
-  '3W': ['', ''],
-  '4W': ['', ''],
-  '5W': ['', ''],
-  '6W': ['', ''],
-  '7W': ['', ''],
-  '8W': ['', ''],
-  '1TH': ['', ''],
-  '2TH': ['', ''],
-  '3TH': ['', ''],
-  '4TH': ['', ''],
-  '5TH': ['', ''],
-  '6TH': ['', ''],
-  '7TH': ['', ''],
-  '8TH': ['', ''],
-  '1F': ['', ''],
-  '2F': ['', ''],
-  '3F': ['', ''],
-  '4F': ['', ''],
-  '5F': ['', ''],
-  '6F': ['', ''],
-  '7F': ['', ''],
-  '8F': ['', ''],
-  '1SA': ['', ''],
-  '2SA': ['', ''],
-  '3SA': ['', ''],
-  '4SA': ['', ''],
-  '5SA': ['', ''],
-  '6SA': ['', ''],
-  '7SA': ['', ''],
-  '8SA': ['', ''],
+  '1M': ['', '', ''],
+  '2M': ['', '', ''],
+  '3M': ['', '', ''],
+  '4M': ['', '', ''],
+  '5M': ['', '', ''],
+  '6M': ['', '', ''],
+  '7M': ['', '', ''],
+  '8M': ['', '', ''],
+  '1TU': ['', '', ''],
+  '2TU': ['', '', ''],
+  '3TU': ['', '', ''],
+  '4TU': ['', '', ''],
+  '5TU': ['', '', ''],
+  '6TU': ['', '', ''],
+  '7TU': ['', '', ''],
+  '8TU': ['', '', ''],
+  '1W': ['', '', ''],
+  '2W': ['', '', ''],
+  '3W': ['', '', ''],
+  '4W': ['', '', ''],
+  '5W': ['', '', ''],
+  '6W': ['', '', ''],
+  '7W': ['', '', ''],
+  '8W': ['', '', ''],
+  '1TH': ['', '', ''],
+  '2TH': ['', '', ''],
+  '3TH': ['', '', ''],
+  '4TH': ['', '', ''],
+  '5TH': ['', '', ''],
+  '6TH': ['', '', ''],
+  '7TH': ['', '', ''],
+  '8TH': ['', '', ''],
+  '1F': ['', '', ''],
+  '2F': ['', '', ''],
+  '3F': ['', '', ''],
+  '4F': ['', '', ''],
+  '5F': ['', '', ''],
+  '6F': ['', '', ''],
+  '7F': ['', '', ''],
+  '8F': ['', '', ''],
+  '1SA': ['', '', ''],
+  '2SA': ['', '', ''],
+  '3SA': ['', '', ''],
+  '4SA': ['', '', ''],
+  '5SA': ['', '', ''],
+  '6SA': ['', '', ''],
+  '7SA': ['', '', ''],
+  '8SA': ['', '', ''],
 };
 
 class TT {
@@ -92,11 +92,12 @@ class TTNotifier extends StateNotifier<Map> {
   void update(String period_day, List classInfo) {
     String className = classInfo[0];
     String room = classInfo[1];
+    String relatedTime = classInfo[2];
     Map<String, List> oldstate = <String, List>{};
     state.forEach((var key, var value) {
       oldstate[key] = value;
     });
-    oldstate[period_day] = [className, room];
+    oldstate[period_day] = [className, room, relatedTime];
     state = oldstate;
   }
 
@@ -108,7 +109,7 @@ class TTNotifier extends StateNotifier<Map> {
     initTT.forEach((var key, var value) async {
       List? newvalue = await getValue('${chosenYear}_${chosenSeason}_$key');
       if (newvalue == null) {
-        newstate[key] = ['', ''];
+        newstate[key] = ['', '', ''];
       } else {
         newstate[key] = newvalue;
       }
