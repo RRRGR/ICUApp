@@ -24,7 +24,7 @@ void save(String yearSeason, String time, Map classInfo, ref) async {
     schedule =
         schedule.replaceAll('(', '').replaceAll(')', '').replaceAll('/', '');
     if (schedule.contains('*')) {
-      schedule.replaceAll('*', '');
+      schedule = schedule.replaceAll('*', '');
       if (!className.contains('*')) className = '*$className';
     }
     String relatedTime = schedule;
