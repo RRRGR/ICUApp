@@ -90,6 +90,7 @@ class TTNotifier extends StateNotifier<Map> {
 
   //key:時限、value:授業の(Providerの)Mapの値を更新
   void update(String period_day, List classInfo) {
+    classInfo[2] ??= '';
     String className = classInfo[0];
     String room = classInfo[1];
     String relatedTime = classInfo[2];
