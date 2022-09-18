@@ -49,8 +49,9 @@ class ShowList extends ConsumerWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        save('${chosenYear}_${chosenSeason}', chosenTime, classInfo, ref,
-            context);
+        save('${chosenYear}_$chosenSeason', chosenTime, classInfo, ref, () {
+          Navigator.of(context).pop();
+        });
       },
       child: Container(
         decoration: const BoxDecoration(
@@ -83,38 +84,40 @@ class ListTile_txt_info extends StatelessWidget {
       );
     } else {
       return ListTile(
-        title: Text(
-          '${courseNo!}: ${className!}',
-          style: deleted == 'true'
-              ? const TextStyle(
-                  color: Colors.black, decoration: TextDecoration.lineThrough)
-              : const TextStyle(color: Colors.black),
-        ),
-        subtitle: instructor != null
-            ? Text(
-                '$schedule\n$instructor',
-                style: deleted == 'true'
-                    ? const TextStyle(
-                        color: Colors.black54,
-                        decoration: TextDecoration.lineThrough)
-                    : const TextStyle(color: Colors.black54),
-              )
-            : Text(
-                schedule,
-                style: deleted == 'true'
-                    ? const TextStyle(
-                        color: Colors.black54,
-                        decoration: TextDecoration.lineThrough)
-                    : const TextStyle(color: Colors.black54),
-              ),
-        trailing: GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => ClassInfo(classInfo)));
-          },
-          child: const Icon(Icons.info_outline),
-        ),
-      );
+          title: Text(
+            '${courseNo!}: ${className!}',
+            style: deleted == 'true'
+                ? const TextStyle(
+                    color: Colors.black, decoration: TextDecoration.lineThrough)
+                : const TextStyle(color: Colors.black),
+          ),
+          subtitle: instructor != null
+              ? Text(
+                  '$schedule\n$instructor',
+                  style: deleted == 'true'
+                      ? const TextStyle(
+                          color: Colors.black54,
+                          decoration: TextDecoration.lineThrough)
+                      : const TextStyle(color: Colors.black54),
+                )
+              : Text(
+                  schedule,
+                  style: deleted == 'true'
+                      ? const TextStyle(
+                          color: Colors.black54,
+                          decoration: TextDecoration.lineThrough)
+                      : const TextStyle(color: Colors.black54),
+                ),
+          trailing: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ClassInfo(classInfo)));
+            },
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: const Icon(Icons.info_outline),
+            ),
+          ));
     }
   }
 }
