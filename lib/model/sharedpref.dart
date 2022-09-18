@@ -16,26 +16,23 @@ void save(String year_season, String time, Map classInfo, ref,
   String? comment = classInfo['comment'];
   room ??= '';
   comment ??= '';
+
   if (comment == 'Online') room = '';
   if (className == 'Tap here to reset') {
     className = '';
     await prefs.setStringList('${year_season}_$time', [className, '']);
     ref.read(TTProvider.notifier).update(time, [className, '']);
   } else {
-    schedule = schedule.replaceAll('(', '').replaceAll(')', '');
-    List timesList = schedule.split(',');
+    if (schedule.contains('*')) {
+      schedule = schedule.replaceAll('*', '');
+      if (!className.contains('*')) className = '*$className';
+    }
+    List timesList = schedule.replaceAll(RegExp(r'[\/()]'), '').split(',');
     for (var classTime in timesList) {
-      String key_time = classTime.replaceAll('/', '');
-      if (key_time.contains('*')) {
-        key_time = key_time.replaceAll('*', '');
-        if (!className.contains('*')) className = '*$className';
-      }
-      List? classInfo_before =
-          prefs.getStringList('${year_season}_${key_time}');
+      List? classInfo_before = prefs.getStringList('${year_season}_$classTime');
       await deleteSameClass(year_season, classInfo_before, ref);
-      await prefs
-          .setStringList('${year_season}_${key_time}', [className, room]);
-      ref.read(TTProvider.notifier).update(key_time, [className, room]);
+      await prefs.setStringList('${year_season}_$classTime', [className, room]);
+      ref.read(TTProvider.notifier).update(classTime, [className, room]);
     }
   }
   successPop();
@@ -44,6 +41,7 @@ void save(String year_season, String time, Map classInfo, ref,
 Future<void> deleteSameClass(
     String year_season, List? classInfo_before, ref) async {
   final prefs = await SharedPreferences.getInstance();
+  var debug = prefs.getKeys();
   classInfo_before ??= ['', ''];
   for (var period in ['1', '2', '3', '4', '5', '6', '7', '8']) {
     for (var day in ['M', 'TU', 'W', 'TH', 'F', 'SA']) {
