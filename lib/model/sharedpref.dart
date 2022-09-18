@@ -3,7 +3,8 @@ import 'package:icuapp/model/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //SharedPreferencesとProviderの値の更新（元々値があった場合はその値のkeyを全て削除）
-void save(String year_season, String time, Map classInfo, ref, context) async {
+void save(String year_season, String time, Map classInfo, ref,
+    void Function() successPop) async {
   final prefs = await SharedPreferences.getInstance();
 
   List? classInfo_before = prefs.getStringList('${year_season}_$time');
@@ -36,8 +37,8 @@ void save(String year_season, String time, Map classInfo, ref, context) async {
           .setStringList('${year_season}_${key_time}', [className, room]);
       ref.read(TTProvider.notifier).update(key_time, [className, room]);
     }
-    Navigator.of(context).pop();
   }
+  successPop();
 }
 
 Future<void> deleteSameClass(

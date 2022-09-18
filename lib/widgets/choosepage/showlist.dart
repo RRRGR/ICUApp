@@ -49,8 +49,9 @@ class ShowList extends ConsumerWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        save('${chosenYear}_${chosenSeason}', chosenTime, classInfo, ref,
-            context);
+        save('${chosenYear}_$chosenSeason', chosenTime, classInfo, ref, () {
+          Navigator.of(context).pop();
+        });
       },
       child: Container(
         decoration: const BoxDecoration(
