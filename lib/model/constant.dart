@@ -115,6 +115,18 @@ class TTNotifier extends StateNotifier<Map> {
     });
     state = newstate;
   }
+
+  List find(String className) {
+    var curState = {...state};
+    List result = [];
+    if (className == '') return result;
+    curState.forEach(
+      (key, value) {
+        if (value[0] == className) result.add(key);
+      },
+    );
+    return result;
+  }
 }
 
 final TTProvider = StateNotifierProvider<TTNotifier, Map>((ref) {
