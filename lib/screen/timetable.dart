@@ -52,9 +52,8 @@ class TimetableState extends ConsumerState<Timetable> {
           Expanded(
             child: Stack(
               children: [
-                Expanded(
-                    child: Center(
-                        child: Row(
+                Center(
+                    child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: const <Widget>[
@@ -64,7 +63,7 @@ class TimetableState extends ConsumerState<Timetable> {
                     YearButton(),
                     SeasonButton(),
                   ],
-                ))),
+                )),
                 Align(
                     alignment: Alignment.centerRight,
                     child: Container(

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer';
 
 //SharedPreferencesとProviderの値の更新（元々値があった場合はその値のkeyを全て削除）
-void save(String year_season, String time, Map classInfo, ref, context) async {
+void save(String year_season, String time, Map classInfo, ref,
+    void Function() successPop) async {
   final prefs = await SharedPreferences.getInstance();
 
   List? classInfo_before = prefs.getStringList('${year_season}_$time');
@@ -15,44 +17,37 @@ void save(String year_season, String time, Map classInfo, ref, context) async {
   String? comment = classInfo['comment'];
   room ??= '';
   comment ??= '';
+
   if (comment == 'Online') room = '';
   if (className == 'Tap here to reset') {
     className = '';
     await prefs.setStringList('${year_season}_$time', [className, '']);
     ref.read(TTProvider.notifier).update(time, [className, '']);
   } else {
-    schedule = schedule.replaceAll('(', '').replaceAll(')', '');
-    List timesList = schedule.split(',');
-    for (var classTime in timesList) {
-      String key_time = classTime.replaceAll('/', '');
-      if (key_time.contains('*')) {
-        key_time = key_time.replaceAll('*', '');
-        if (!className.contains('*')) className = '*$className';
-      }
-      List? classInfo_before =
-          prefs.getStringList('${year_season}_${key_time}');
-      await deleteSameClass(year_season, classInfo_before, ref);
-      await prefs
-          .setStringList('${year_season}_${key_time}', [className, room]);
-      ref.read(TTProvider.notifier).update(key_time, [className, room]);
+    if (schedule.contains('*')) {
+      schedule = schedule.replaceAll('*', '');
+      if (!className.contains('*')) className = '*$className';
     }
-    Navigator.of(context).pop();
+    List timesList = schedule.replaceAll(RegExp(r'[\/()]'), '').split(',');
+    for (var classTime in timesList) {
+      List? classInfo_before = prefs.getStringList('${year_season}_$classTime');
+      await deleteSameClass(year_season, classInfo_before, ref);
+      await prefs.setStringList('${year_season}_$classTime', [className, room]);
+      ref.read(TTProvider.notifier).update(classTime, [className, room]);
+    }
   }
+  successPop();
 }
 
 Future<void> deleteSameClass(
     String year_season, List? classInfo_before, ref) async {
   final prefs = await SharedPreferences.getInstance();
   classInfo_before ??= ['', ''];
-  for (var period in ['1', '2', '3', '4', '5', '6', '7', '8']) {
-    for (var day in ['M', 'TU', 'W', 'TH', 'F', 'SA']) {
-      List? classInfo = prefs.getStringList('${year_season}_$period$day');
-      classInfo ??= ['', ''];
-      if (classInfo_before[0] == classInfo[0]) {
-        await prefs.setStringList('${year_season}_$period$day', ['', '']);
-        await ref.read(TTProvider.notifier).update('$period$day', ['', '']);
-      }
-    }
+  var timeBefore =
+      await ref.watch(TTProvider.notifier).find(classInfo_before[0]);
+  for (var i in timeBefore) {
+    await prefs.setStringList('${year_season}_$i', ['', '']);
+    await ref.read(TTProvider.notifier).update('$i', ['', '']);
   }
 }
 
