@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/firett.dart';
+import 'package:icuapp/model/constant.dart';
 
 class BackupButton extends StatelessWidget {
   const BackupButton({Key? key}) : super(key: key);
@@ -96,10 +98,10 @@ class WaitAlert extends StatelessWidget {
   }
 }
 
-class RecoverAlert extends StatelessWidget {
+class RecoverAlert extends ConsumerWidget {
   const RecoverAlert({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: const Text(
         'Use only when you have lost or want to transfer data',
@@ -119,6 +121,7 @@ class RecoverAlert extends StatelessWidget {
             if (finished == 0) {
               showDialog(
                   context: context, builder: (_) => const RestartAlert());
+              ref.read(TTProvider.notifier).load(ref);
             } else if (finished == 1) {
               showDialog(
                   context: context, builder: (_) => const NotSavedAlert());
@@ -136,8 +139,7 @@ class RestartAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Recovering'),
-      content: const Text(
-          'Wait a few seconds and select another year in the timetable page or restart the app.'),
+      content: const Text('Data recovery success!'),
       actions: [
         TextButton(
           child: const Text(
