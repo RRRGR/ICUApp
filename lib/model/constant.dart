@@ -115,6 +115,18 @@ class TTNotifier extends StateNotifier<Map> {
     });
     state = newstate;
   }
+
+  List find(String className) {
+    var curState = {...state};
+    List result = [];
+    if (className == '') return result;
+    curState.forEach(
+      (key, value) {
+        if (value[0] == className) result.add(key);
+      },
+    );
+    return result;
+  }
 }
 
 final TTProvider = StateNotifierProvider<TTNotifier, Map>((ref) {
@@ -137,3 +149,25 @@ const MaterialColor materialWhite = MaterialColor(
     900: Color(0xFFFFFFFF),
   },
 );
+
+const MaterialColor icu = MaterialColor(_icuPrimaryValue, <int, Color>{
+  50: Color(0xFFE0EBF7),
+  100: Color(0xFFB3CEEB),
+  200: Color(0xFF80ADDD),
+  300: Color(0xFF4D8CCF),
+  400: Color(0xFF2673C5),
+  500: Color(_icuPrimaryValue),
+  600: Color(0xFF0052B5),
+  700: Color(0xFF0048AC),
+  800: Color(0xFF003FA4),
+  900: Color(0xFF002E96),
+});
+const int _icuPrimaryValue = 0xFF005ABB;
+
+const MaterialColor icuAccent = MaterialColor(_icuAccentValue, <int, Color>{
+  100: Color(0xFFC1CFFF),
+  200: Color(_icuAccentValue),
+  400: Color(0xFF5B80FF),
+  700: Color(0xFF416CFF),
+});
+const int _icuAccentValue = 0xFF8EA8FF;
