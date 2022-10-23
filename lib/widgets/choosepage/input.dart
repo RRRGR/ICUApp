@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/model/sharedpref.dart';
-import 'dart:developer';
 
 class NameInput extends ConsumerWidget {
   const NameInput({Key? key}) : super(key: key);
