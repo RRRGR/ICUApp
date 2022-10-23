@@ -11,14 +11,6 @@ void save(String year_season, String time, Map classInfo, ref,
   List? classInfo_before = prefs.getStringList('${year_season}_$time');
   await deleteSameClass(year_season, classInfo_before, ref);
 
-  if (classInfo['flag'] == true) {
-    RegExpMatch? jMatch = RegExp(r'(?<=「).+(?=」)').firstMatch(classInfo['j']);
-    classInfo['j'] = jMatch![0];
-    RegExpMatch? scheduleMatch =
-        RegExp(r'(?<=" for ).+').firstMatch(classInfo['schedule']);
-    classInfo['schedule'] = scheduleMatch![0];
-  }
-
   String className = classInfo['j'];
   String schedule = classInfo['schedule'];
   String? room = classInfo['room'];
@@ -45,7 +37,6 @@ void save(String year_season, String time, Map classInfo, ref,
     }
   }
   ref.read(inputStringProvider.notifier).state = "";
-  ref.read(choosePageModeProvider.notifier).state = 'Info';
   successPop();
 }
 
@@ -59,13 +50,6 @@ Future<void> deleteSameClass(
     await prefs.setStringList('${year_season}_$i', ['', '']);
     await ref.read(TTProvider.notifier).update('$i', ['', '']);
   }
-}
-
-void delete(String yearSeason, String time, Map classInfo, ref) async {
-  final prefs = await SharedPreferences.getInstance();
-
-  List? classInfo_before = prefs.getStringList('${yearSeason}_$time');
-  await deleteSameClass(yearSeason, classInfo_before, ref);
 }
 
 //inputされた授業名の保存

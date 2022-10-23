@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/sharedpref.dart';
@@ -25,11 +23,6 @@ final chosenYearProvider = StateProvider<String>((ref) => '2022');
 final chosenSeasonProvider = StateProvider<String>((ref) => 'Autumn');
 
 final inputStringProvider = StateProvider<String>((ref) => '');
-final searchBoolProvider = StateProvider<bool>((ref) => true);
-final selectedTimeProvider = StateProvider<bool>((ref) => false);
-final choosePageModeProvider = StateProvider<String>((ref) => 'Info');
-final customClassProvider =
-    StateProvider<Map>(((ref) => {'j': '', 'schedule': ''}));
 
 final cellFontSizeProvider =
     StateProvider<String>((ref) => '12'); //選択されている年度、学期、フォントサイズの保持
@@ -136,18 +129,6 @@ class TTNotifier extends StateNotifier<Map> {
     );
     return result;
   }
-
-  void delete(String className) {
-    var curState = {...state};
-    curState.forEach(
-      (key, value) {
-        if (value[0] == className) {
-          curState[key] = ['', ''];
-        }
-      },
-    );
-    state = curState;
-  }
 }
 
 final TTProvider = StateNotifierProvider<TTNotifier, Map>((ref) {
@@ -156,7 +137,7 @@ final TTProvider = StateNotifierProvider<TTNotifier, Map>((ref) {
 
 const MaterialColor materialWhite = MaterialColor(
   //AppBarの色
-  0xFF7B7B7B,
+  0xEAEAEAEA,
   <int, Color>{
     50: Color(0xCCCCCCCC),
     100: Color(0xCCCCCCCC),
