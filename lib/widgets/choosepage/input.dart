@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/model/sharedpref.dart';
+import 'dart:developer';
 
 class NameInput extends ConsumerWidget {
   const NameInput({Key? key}) : super(key: key);
@@ -16,6 +17,8 @@ class NameInput extends ConsumerWidget {
       child: TextField(
         enabled: true,
         maxLength: 30,
+        onChanged: (input) =>
+            {ref.read(inputStringProvider.notifier).state = input},
         onSubmitted: (String nameInput) {
           save_nameinput(
               '${chosenYear}_$chosenSeason', chosenTime, nameInput, ref);

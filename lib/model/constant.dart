@@ -22,6 +22,8 @@ class ChosenYear {
 final chosenYearProvider = StateProvider<String>((ref) => '2022');
 final chosenSeasonProvider = StateProvider<String>((ref) => 'Autumn');
 
+final inputStringProvider = StateProvider<String>((ref) => '');
+
 final cellFontSizeProvider =
     StateProvider<String>((ref) => '12'); //選択されている年度、学期、フォントサイズの保持
 

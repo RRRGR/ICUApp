@@ -31,19 +31,21 @@ class ChoosePageState extends ConsumerState<ChoosePage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
+        ref.read(inputStringProvider.notifier).state = "";
         Navigator.pop(context);
         return Future.value(false);
       },
       child: Scaffold(
         appBar: AppBar(
           title: Text(chosenTime),
+          elevation: 2,
+          actions: const <Widget>[ResetTimeButton()],
         ),
         body: Column(
           children: [
             const AssignedClassText(),
             const NameInput(),
             //RoomInput(),
-            const Text('or'),
             const ShowList(),
             SizedBox(
               //color: Colors.white,
