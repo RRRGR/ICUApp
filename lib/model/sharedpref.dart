@@ -36,6 +36,7 @@ void save(String year_season, String time, Map classInfo, ref,
       ref.read(TTProvider.notifier).update(classTime, [className, room]);
     }
   }
+  ref.read(inputStringProvider.notifier).state = "";
   successPop();
 }
 
@@ -55,6 +56,8 @@ Future<void> deleteSameClass(
 void save_nameinput(
     String year_season, String time, String nameinput, ref) async {
   final prefs = await SharedPreferences.getInstance();
+  List? classInfo_before = prefs.getStringList('${year_season}_$time');
+  await deleteSameClass(year_season, classInfo_before, ref);
   //List? classInfo = await getValue('${year_season}_$time');
   String classRoom = '';
   //if (classInfo![1] != '') classRoom = classInfo[1];
