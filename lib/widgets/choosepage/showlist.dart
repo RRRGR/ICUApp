@@ -10,23 +10,36 @@ import 'package:icuapp/screen/classinfo.dart';
 class ShowList extends ConsumerWidget {
   const ShowList({Key? key}) : super(key: key);
 
-  Future<Map> loadLocalJson(String path) async {
+  Future<List> loadLocalJson(String path, String time, String arg) async {
     String jsonString = await rootBundle.loadString(path);
     Map jsonData = json.decode(jsonString);
-    return jsonData;
+    List loadedList = jsonData[time]; //[{},{},{}]//[{},{},{}][2,1,3]
+    List resultList = [];
+    for (int i = 0; i < loadedList.length; i++) {
+      String combinedStr = "";
+      loadedList[i].values.forEach((v) {
+        combinedStr += v.toString().toLowerCase();
+      });
+      if (combinedStr.contains(arg.toLowerCase())) {
+        resultList.add(loadedList[i]);
+      }
+    }
+    return resultList;
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
+    final inputString = ref.watch(inputStringProvider);
     return FutureBuilder(
       future: loadLocalJson(
-          'json/${chosenYear}_${chosenSeason.toLowerCase()}.json'),
-      builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+          'json/${chosenYear}_${chosenSeason.toLowerCase()}.json',
+          chosenTime,
+          inputString),
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
-          List chosenData = snapshot.data![chosenTime];
-          chosenData.insert(0, {'j': 'Tap here to reset', 'schedule': ''});
+          List chosenData = snapshot.data!;
           return Expanded(
             child: ListView.builder(
               shrinkWrap: true,
@@ -64,6 +77,33 @@ class ShowList extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+class ResetTimeButton extends ConsumerWidget {
+  const ResetTimeButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final chosenYear = ref.watch(chosenYearProvider);
+    final chosenSeason = ref.watch(chosenSeasonProvider);
+    return Row(children: [
+      TextButton(
+        onPressed: () {
+          save('${chosenYear}_$chosenSeason', chosenTime,
+              {'j': 'Tap here to reset', 'schedule': ''}, ref, () {
+            Navigator.of(context).pop();
+          });
+        },
+        child: const Text(
+          'Reset time',
+          style: TextStyle(color: Colors.red, fontSize: 16),
+        ),
+      ),
+      const SizedBox(
+        width: 10,
+      ),
+    ]);
   }
 }
 
