@@ -23,6 +23,7 @@ final chosenYearProvider = StateProvider<String>((ref) => '2022');
 final chosenSeasonProvider = StateProvider<String>((ref) => 'Autumn');
 
 final inputStringProvider = StateProvider<String>((ref) => '');
+final searchBoolProvider = StateProvider<bool>((ref) => true);
 
 final cellFontSizeProvider =
     StateProvider<String>((ref) => '12'); //選択されている年度、学期、フォントサイズの保持
@@ -137,7 +138,7 @@ final TTProvider = StateNotifierProvider<TTNotifier, Map>((ref) {
 
 const MaterialColor materialWhite = MaterialColor(
   //AppBarの色
-  0xEAEAEAEA,
+  0xFF7B7B7B,
   <int, Color>{
     50: Color(0xCCCCCCCC),
     100: Color(0xCCCCCCCC),

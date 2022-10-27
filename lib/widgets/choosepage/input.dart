@@ -10,25 +10,47 @@ class NameInput extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
+
     return SizedBox(
       height: 62,
       width: width - 30,
-      child: TextField(
-        enabled: true,
-        maxLength: 30,
-        onChanged: (input) =>
-            {ref.read(inputStringProvider.notifier).state = input},
-        onSubmitted: (String nameInput) {
-          save_nameinput(
-              '${chosenYear}_$chosenSeason', chosenTime, nameInput, ref);
-        },
-        maxLines: 1,
-        cursorColor: Colors.lightBlue,
-        obscureText: false,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Custom input',
-        ),
+      child: Stack(
+        children: [
+          TextField(
+            enabled: true,
+            maxLength: 30,
+            onTap: () => {ref.read(searchBoolProvider.notifier).state = false},
+            onChanged: (input) =>
+                {ref.read(inputStringProvider.notifier).state = input},
+            onSubmitted: (String nameInput) {
+              save_nameinput(
+                  '${chosenYear}_$chosenSeason', chosenTime, nameInput, ref);
+            },
+            maxLines: 1,
+            cursorColor: Colors.lightBlue,
+            obscureText: false,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Search / Custom input',
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 5, 8, 0),
+                  child: TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                          padding: const EdgeInsets.all(8.0),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          minimumSize: const Size(0, 0),
+                          backgroundColor: Colors.black),
+                      child: const Text('Save')))
+            ]),
+          )
+        ],
       ),
     );
   }

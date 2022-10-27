@@ -14,7 +14,13 @@ class ShowList extends ConsumerWidget {
     String jsonString = await rootBundle.loadString(path);
     Map jsonData = json.decode(jsonString);
     List loadedList = jsonData[time]; //[{},{},{}]//[{},{},{}][2,1,3]
-    List resultList = [];
+    List resultList = [
+      {
+        'no': '現在の入力値を登録する',
+        'j': '「$arg」を登録する',
+        'schedule': 'Save current input "$arg" for $time'
+      }
+    ];
     for (int i = 0; i < loadedList.length; i++) {
       String combinedStr = "";
       loadedList[i].values.forEach((v) {
@@ -40,14 +46,18 @@ class ShowList extends ConsumerWidget {
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
           List chosenData = snapshot.data!;
-          return Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: chosenData.length,
-              itemBuilder: (BuildContext context, int index) {
-                return _items(chosenData[index], ref, context);
-              },
-            ),
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: chosenData.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _items(chosenData[index], ref, context);
+                  },
+                ),
+              ),
+            ],
           );
         } else {
           return const CircularProgressIndicator();
@@ -115,6 +125,7 @@ class ListTile_txt_info extends StatelessWidget {
   Widget build(BuildContext context) {
     String? courseNo = classInfo['no'];
     String? className = classInfo['j'];
+    String? classNameE = classInfo['e'];
     String schedule = classInfo['schedule'];
     String? instructor = classInfo['instructor'];
     String? deleted = classInfo['deleted'];
@@ -133,7 +144,7 @@ class ListTile_txt_info extends StatelessWidget {
           ),
           subtitle: instructor != null
               ? Text(
-                  '$schedule\n$instructor',
+                  '$classNameE\n$schedule\n$instructor',
                   style: deleted == 'true'
                       ? const TextStyle(
                           color: Colors.black54,
