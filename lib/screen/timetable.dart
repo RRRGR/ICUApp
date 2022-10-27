@@ -92,6 +92,10 @@ class YearButton extends ConsumerWidget {
             child: ButtonTheme(
                 alignedDropdown: true,
                 child: DropdownButton<String>(
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                   value: chosenYear,
                   elevation: 0,
                   dropdownColor: Colors.lightBlue[50],
@@ -120,6 +124,10 @@ class SeasonButton extends ConsumerWidget {
             child: ButtonTheme(
                 alignedDropdown: true,
                 child: DropdownButton<String>(
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                   value: chosenSeason,
                   elevation: 0,
                   underline: const SizedBox(),
