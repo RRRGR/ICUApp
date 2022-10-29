@@ -37,6 +37,7 @@ void save(String year_season, String time, Map classInfo, ref,
     }
   }
   ref.read(inputStringProvider.notifier).state = "";
+  ref.read(choosePageModeProvider.notifier).state = 'Info';
   successPop();
 }
 
@@ -50,6 +51,13 @@ Future<void> deleteSameClass(
     await prefs.setStringList('${year_season}_$i', ['', '']);
     await ref.read(TTProvider.notifier).update('$i', ['', '']);
   }
+}
+
+void delete(String yearSeason, String time, Map classInfo, ref) async {
+  final prefs = await SharedPreferences.getInstance();
+
+  List? classInfo_before = prefs.getStringList('${yearSeason}_$time');
+  await deleteSameClass(yearSeason, classInfo_before, ref);
 }
 
 //inputされた授業名の保存

@@ -55,7 +55,7 @@ class ChoosePageState extends ConsumerState<ChoosePage> {
               child: Text('Custom input or search from below'),
             ),
 
-            const NameInput(),
+            const SearchInput(),
             //RoomInput(),
             Expanded(
               child: Stack(

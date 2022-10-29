@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/sharedpref.dart';
@@ -25,7 +27,7 @@ final chosenSeasonProvider = StateProvider<String>((ref) => 'Autumn');
 final inputStringProvider = StateProvider<String>((ref) => '');
 final searchBoolProvider = StateProvider<bool>((ref) => true);
 
-final choosePageModeProvider = StateProvider<String>((ref) => 'Current Info');
+final choosePageModeProvider = StateProvider<String>((ref) => 'Info');
 
 final cellFontSizeProvider =
     StateProvider<String>((ref) => '12'); //選択されている年度、学期、フォントサイズの保持
@@ -131,6 +133,18 @@ class TTNotifier extends StateNotifier<Map> {
       },
     );
     return result;
+  }
+
+  void delete(String className) {
+    var curState = {...state};
+    curState.forEach(
+      (key, value) {
+        if (value[0] == className) {
+          curState[key] = ['', ''];
+        }
+      },
+    );
+    state = curState;
   }
 }
 
