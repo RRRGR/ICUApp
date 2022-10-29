@@ -97,23 +97,30 @@ class ResetTimeButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
-    return Row(children: [
-      TextButton(
-        onPressed: () {
-          save('${chosenYear}_$chosenSeason', chosenTime,
-              {'j': 'Tap here to reset', 'schedule': ''}, ref, () {
-            Navigator.of(context).pop();
-          });
-        },
-        child: const Text(
-          'Reset time',
-          style: TextStyle(color: Colors.red, fontSize: 16),
+    return Row(
+      children: [
+        TextButton(
+          onPressed: () {
+            save(
+              '${chosenYear}_$chosenSeason',
+              chosenTime,
+              {'j': 'Tap here to reset', 'schedule': ''},
+              ref,
+              () {
+                Navigator.of(context).pop();
+              },
+            );
+          },
+          child: const Text(
+            'Reset time',
+            style: TextStyle(color: Colors.red, fontSize: 16),
+          ),
         ),
-      ),
-      const SizedBox(
-        width: 10,
-      ),
-    ]);
+        const SizedBox(
+          width: 10,
+        ),
+      ],
+    );
   }
 }
 
@@ -130,45 +137,48 @@ class ListTile_txt_info extends StatelessWidget {
     String? instructor = classInfo['instructor'];
     String? deleted = classInfo['deleted'];
     if (className == 'Tap here to reset') {
-      return ListTile(
-        title: Text(className!),
+      return const ListTile(
+        title: Text('No Data yet!'),
+        subtitle:
+            Text('Use the other tabs to search courses or add custom events'),
       );
     } else {
       return ListTile(
-          title: Text(
-            '${courseNo!}: ${className!}',
-            style: deleted == 'true'
-                ? const TextStyle(
-                    color: Colors.black, decoration: TextDecoration.lineThrough)
-                : const TextStyle(color: Colors.black),
+        title: Text(
+          '${courseNo!}: ${className!}',
+          style: deleted == 'true'
+              ? const TextStyle(
+                  color: Colors.black, decoration: TextDecoration.lineThrough)
+              : const TextStyle(color: Colors.black),
+        ),
+        subtitle: instructor != null
+            ? Text(
+                '$classNameE\n$schedule\n$instructor',
+                style: deleted == 'true'
+                    ? const TextStyle(
+                        color: Colors.black54,
+                        decoration: TextDecoration.lineThrough)
+                    : const TextStyle(color: Colors.black54),
+              )
+            : Text(
+                schedule,
+                style: deleted == 'true'
+                    ? const TextStyle(
+                        color: Colors.black54,
+                        decoration: TextDecoration.lineThrough)
+                    : const TextStyle(color: Colors.black54),
+              ),
+        trailing: GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => ClassInfo(classInfo)));
+          },
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: const Icon(Icons.info_outline),
           ),
-          subtitle: instructor != null
-              ? Text(
-                  '$classNameE\n$schedule\n$instructor',
-                  style: deleted == 'true'
-                      ? const TextStyle(
-                          color: Colors.black54,
-                          decoration: TextDecoration.lineThrough)
-                      : const TextStyle(color: Colors.black54),
-                )
-              : Text(
-                  schedule,
-                  style: deleted == 'true'
-                      ? const TextStyle(
-                          color: Colors.black54,
-                          decoration: TextDecoration.lineThrough)
-                      : const TextStyle(color: Colors.black54),
-                ),
-          trailing: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ClassInfo(classInfo)));
-            },
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              child: const Icon(Icons.info_outline),
-            ),
-          ));
+        ),
+      );
     }
   }
 }
