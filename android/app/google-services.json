@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "318213283-0tkdvjb075jq8ove35t21tnm3d9i717v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gr.icuapp",
+            "certificate_hash": "a3819f0a03f338ab216bd7d7fe0c5fbcd6a2bef2"
+          }
+        },
+        {
           "client_id": "318213283-5q7bos9vhkv5ae4r1l5t29gi28ib89h2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
