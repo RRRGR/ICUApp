@@ -36,7 +36,7 @@ class SignInButton extends StatelessWidget {
 
       await FirebaseAuth.instance.signInWithCredential(credential);
       String? address = FirebaseAuth.instance.currentUser!.email;
-      if (address!.contains('@icu.ac.jp') ||
+      if (RegExp(r'[cp][0-9]{6}.@icu.ac.jp$').hasMatch(address!) ||
           address.contains('icuapp.tester@gmail.com')) {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const Timetable()));
