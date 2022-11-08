@@ -5,11 +5,7 @@ import 'dart:convert';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:icuapp/model/sharedpref.dart';
-import 'package:icuapp/screen/classinfo.dart';
-import 'dart:developer';
-
 import 'package:icuapp/widgets/choosepage/showlist.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AssignedClassText extends ConsumerWidget {
   const AssignedClassText({Key? key}) : super(key: key);
@@ -34,6 +30,10 @@ class AssignedClassText extends ConsumerWidget {
           },
         );
       }
+    }
+    if (className != '' && result['j'] == '') {
+      result['j'] = className;
+      result['no'] = '予定 ';
     }
     return result;
   }

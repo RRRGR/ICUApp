@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -106,7 +104,6 @@ class MenuIconsState extends ConsumerState<MenuIcons> {
     return GestureDetector(
       onTap: () => {
         ref.watch(choosePageModeProvider.notifier).state = type,
-        log('message')
       },
       child: Stack(
         children: [
