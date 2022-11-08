@@ -11,6 +11,14 @@ void save(String year_season, String time, Map classInfo, ref,
   List? classInfo_before = prefs.getStringList('${year_season}_$time');
   await deleteSameClass(year_season, classInfo_before, ref);
 
+  if (classInfo['flag'] == true) {
+    RegExpMatch? jMatch = RegExp(r'(?<=「).+(?=」)').firstMatch(classInfo['j']);
+    classInfo['j'] = jMatch![0];
+    RegExpMatch? scheduleMatch =
+        RegExp(r'(?<=" for ).+').firstMatch(classInfo['schedule']);
+    classInfo['schedule'] = scheduleMatch![0];
+  }
+
   String className = classInfo['j'];
   String schedule = classInfo['schedule'];
   String? room = classInfo['room'];

@@ -14,13 +14,7 @@ class ShowList extends ConsumerWidget {
     String jsonString = await rootBundle.loadString(path);
     Map jsonData = json.decode(jsonString);
     List loadedList = jsonData[time]; //[{},{},{}]//[{},{},{}][2,1,3]
-    List resultList = [
-      {
-        'no': '現在の入力値を登録する',
-        'j': '「$arg」を登録する',
-        'schedule': 'Save current input "$arg" for $time'
-      }
-    ];
+    List resultList = [];
     for (int i = 0; i < loadedList.length; i++) {
       String combinedStr = "";
       loadedList[i].values.forEach((v) {
@@ -33,16 +27,31 @@ class ShowList extends ConsumerWidget {
     return resultList;
   }
 
+  Future<List> insertEdit(String time, String arg) async {
+    List resultList = [
+      {
+        'no': '新規予定として',
+        'j': '「$arg」を登録する',
+        'schedule': 'Save current input "$arg" for $time',
+        'flag': true
+      }
+    ];
+    return resultList;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
     final inputString = ref.watch(inputStringProvider);
+    final mode = ref.watch(choosePageModeProvider);
     return FutureBuilder(
-      future: loadLocalJson(
-          'json/${chosenYear}_${chosenSeason.toLowerCase()}.json',
-          chosenTime,
-          inputString),
+      future: mode == 'Search'
+          ? loadLocalJson(
+              'json/${chosenYear}_${chosenSeason.toLowerCase()}.json',
+              chosenTime,
+              inputString)
+          : insertEdit(chosenTime, inputString),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
           List chosenData = snapshot.data!;
@@ -69,12 +78,17 @@ class ShowList extends ConsumerWidget {
   Widget _items(Map classInfo, ref, BuildContext context) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
+    final inputState = ref.watch(searchBoolProvider);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        save('${chosenYear}_$chosenSeason', chosenTime, classInfo, ref, () {
-          Navigator.of(context).pop();
-        });
+        inputState == false
+            ? save('${chosenYear}_$chosenSeason', chosenTime, classInfo, ref,
+                () {
+                ref.watch(inputStringProvider.notifier).state = '';
+                Navigator.of(context).pop();
+              })
+            : null;
       },
       child: Container(
         decoration: const BoxDecoration(

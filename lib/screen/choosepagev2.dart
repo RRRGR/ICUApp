@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/widgets/choosepage/menu.dart';
 import 'package:icuapp/widgets/choosepage/showlist.dart';
+import 'package:icuapp/widgets/choosepage/table.dart';
 
 class ChoosePageV2 extends ConsumerStatefulWidget {
   const ChoosePageV2({Key? key}) : super(key: key);
@@ -37,6 +38,7 @@ class ChoosePageStateV2 extends ConsumerState<ChoosePageV2> {
         case 'Search':
           return const ShowList();
         case 'Edit':
+          //return const SelectTable();
           return const SizedBox(
             height: 0,
           );
@@ -50,6 +52,7 @@ class ChoosePageStateV2 extends ConsumerState<ChoosePageV2> {
     return WillPopScope(
       onWillPop: () {
         ref.read(choosePageModeProvider.notifier).state = 'Info';
+        ref.read(inputStringProvider.notifier).state = '';
         Navigator.pop(context);
         return Future.value(false);
       },
