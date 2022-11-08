@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/model/sharedpref.dart';
+import 'package:icuapp/widgets/choosepage/showlist.dart';
 
 class SearchInput extends ConsumerWidget {
   const SearchInput({Key? key}) : super(key: key);
@@ -30,10 +31,10 @@ class SearchInput extends ConsumerWidget {
                     {ref.read(searchBoolProvider.notifier).state = false},
                 onChanged: (input) =>
                     {ref.read(inputStringProvider.notifier).state = input},
-                onSubmitted: (String nameInput) {
+                /*onSubmitted: (String nameInput) {
                   save_nameinput('${chosenYear}_$chosenSeason', chosenTime,
                       nameInput, ref);
-                },
+                },*/
                 maxLines: 1,
                 cursorColor: Colors.lightBlue,
                 obscureText: false,
@@ -53,7 +54,7 @@ class SearchInput extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 4, 8, 0),
+                    padding: const EdgeInsets.fromLTRB(10, 4, 6, 0),
                     child: TextButton(
                       onPressed: () {},
                       style: TextButton.styleFrom(
@@ -62,13 +63,14 @@ class SearchInput extends ConsumerWidget {
                           minimumSize: const Size(0, 0),
                           backgroundColor: Colors.black),
                       child: GestureDetector(
-                        onTap: () =>
-                            {FocusScope.of(context).requestFocus(FocusNode())},
-                        child: const Text(
-                          'Search!',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                          onTap: () => {
+                                FocusScope.of(context).requestFocus(FocusNode())
+                              },
+                          child: const Icon(
+                            Icons.keyboard_hide,
+                            size: 16,
+                            color: Colors.white,
+                          )),
                     ),
                   )
                 ],
@@ -88,6 +90,14 @@ class RoomInput extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
+    final inputString = ref.watch(inputStringProvider.notifier);
+    final selectedList = [
+      {
+        'no': '新規予定として登録する',
+        'j': '「${ref.watch(inputStringProvider.notifier).state}」を登録する',
+        'schedule': 'Save current input "${inputString.state}" for $chosenTime'
+      }
+    ];
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -107,26 +117,7 @@ class RoomInput extends ConsumerWidget {
             child: Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.fromLTRB(0, 14, 0, 8),
-                  height: 36,
-                  child: TextField(
-                    enabled: true,
-                    maxLength: 30,
-                    maxLines: 1,
-                    cursorColor: Colors.lightBlue,
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                      counterText: "",
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(),
-                      labelText: 'Title',
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(0, 8, 0, 14),
+                  margin: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                   height: 36,
                   child: TextField(
                     enabled: true,
@@ -135,10 +126,6 @@ class RoomInput extends ConsumerWidget {
                         {ref.read(searchBoolProvider.notifier).state = false},
                     onChanged: (input) =>
                         {ref.read(inputStringProvider.notifier).state = input},
-                    onSubmitted: (String nameInput) {
-                      save_nameinput('${chosenYear}_$chosenSeason', chosenTime,
-                          nameInput, ref);
-                    },
                     maxLines: 1,
                     cursorColor: Colors.lightBlue,
                     obscureText: false,
@@ -148,10 +135,14 @@ class RoomInput extends ConsumerWidget {
                         borderSide: BorderSide(color: Colors.grey, width: 1.0),
                       ),
                       enabledBorder: OutlineInputBorder(),
-                      labelText: 'Memo',
+                      labelText: 'Custom Input / カスタム入力',
                     ),
                   ),
                 ),
+                SingleChildScrollView(
+                    child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxHeight: 70),
+                        child: const ShowList()))
               ],
             ),
           ),
