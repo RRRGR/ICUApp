@@ -79,16 +79,24 @@ class ShowList extends ConsumerWidget {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
     final inputState = ref.watch(searchBoolProvider);
+    final pageMode = ref.watch(choosePageModeProvider);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        inputState == false
+        pageMode == "Search"
             ? save('${chosenYear}_$chosenSeason', chosenTime, classInfo, ref,
                 () {
                 ref.watch(inputStringProvider.notifier).state = '';
                 Navigator.of(context).pop();
               })
-            : null;
+            : inputState == false
+                ? save(
+                    '${chosenYear}_$chosenSeason', chosenTime, classInfo, ref,
+                    () {
+                    ref.watch(inputStringProvider.notifier).state = '';
+                    Navigator.of(context).pop();
+                  })
+                : null;
       },
       child: Container(
         decoration: const BoxDecoration(
