@@ -104,6 +104,7 @@ class MenuIconsState extends ConsumerState<MenuIcons> {
     return GestureDetector(
       onTap: () => {
         ref.watch(choosePageModeProvider.notifier).state = type,
+        ref.read(inputStringProvider.notifier).state = '',
       },
       child: Stack(
         children: [

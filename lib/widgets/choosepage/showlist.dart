@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async' show Future;
@@ -79,6 +81,7 @@ class ShowList extends ConsumerWidget {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
     final inputState = ref.watch(searchBoolProvider);
+    final inputString = ref.watch(inputStringProvider);
     final pageMode = ref.watch(choosePageModeProvider);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -90,12 +93,13 @@ class ShowList extends ConsumerWidget {
                 Navigator.of(context).pop();
               })
             : inputState == false
-                ? save(
-                    '${chosenYear}_$chosenSeason', chosenTime, classInfo, ref,
-                    () {
-                    ref.watch(inputStringProvider.notifier).state = '';
-                    Navigator.of(context).pop();
-                  })
+                ? inputString == ''
+                    ? null
+                    : save('${chosenYear}_$chosenSeason', chosenTime, classInfo,
+                        ref, () {
+                        ref.watch(inputStringProvider.notifier).state = '';
+                        Navigator.of(context).pop();
+                      })
                 : null;
       },
       child: Container(
