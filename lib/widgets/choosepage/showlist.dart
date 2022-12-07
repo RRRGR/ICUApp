@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async' show Future;
@@ -10,31 +12,63 @@ import 'package:icuapp/screen/classinfo.dart';
 class ShowList extends ConsumerWidget {
   const ShowList({Key? key}) : super(key: key);
 
-  Future<Map> loadLocalJson(String path) async {
+  Future<List> loadLocalJson(String path, String time, String arg) async {
     String jsonString = await rootBundle.loadString(path);
     Map jsonData = json.decode(jsonString);
-    return jsonData;
+    List loadedList = jsonData[time]; //[{},{},{}]//[{},{},{}][2,1,3]
+    List resultList = [];
+    for (int i = 0; i < loadedList.length; i++) {
+      String combinedStr = "";
+      loadedList[i].values.forEach((v) {
+        combinedStr += v.toString().toLowerCase();
+      });
+      if (combinedStr.contains(arg.toLowerCase())) {
+        resultList.add(loadedList[i]);
+      }
+    }
+    return resultList;
+  }
+
+  Future<List> insertEdit(String time, String arg) async {
+    List resultList = [
+      {
+        'no': '新規予定として',
+        'j': '「$arg」を登録する',
+        'schedule': 'Save current input "$arg" for $time',
+        'flag': true
+      }
+    ];
+    return resultList;
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
+    final inputString = ref.watch(inputStringProvider);
+    final mode = ref.watch(choosePageModeProvider);
     return FutureBuilder(
-      future: loadLocalJson(
-          'json/${chosenYear}_${chosenSeason.toLowerCase()}.json'),
-      builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+      future: mode == 'Search'
+          ? loadLocalJson(
+              'json/${chosenYear}_${chosenSeason.toLowerCase()}.json',
+              chosenTime,
+              inputString)
+          : insertEdit(chosenTime, inputString),
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
-          List chosenData = snapshot.data![chosenTime];
-          chosenData.insert(0, {'j': 'Tap here to reset', 'schedule': ''});
-          return Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: chosenData.length,
-              itemBuilder: (BuildContext context, int index) {
-                return _items(chosenData[index], ref, context);
-              },
-            ),
+          List chosenData = snapshot.data!;
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: chosenData.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _items(chosenData[index], ref, context);
+                  },
+                ),
+              ),
+            ],
           );
         } else {
           return const CircularProgressIndicator();
@@ -46,12 +80,27 @@ class ShowList extends ConsumerWidget {
   Widget _items(Map classInfo, ref, BuildContext context) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
+    final inputState = ref.watch(searchBoolProvider);
+    final inputString = ref.watch(inputStringProvider);
+    final pageMode = ref.watch(choosePageModeProvider);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        save('${chosenYear}_$chosenSeason', chosenTime, classInfo, ref, () {
-          Navigator.of(context).pop();
-        });
+        pageMode == "Search"
+            ? save('${chosenYear}_$chosenSeason', chosenTime, classInfo, ref,
+                () {
+                ref.watch(inputStringProvider.notifier).state = '';
+                Navigator.of(context).pop();
+              })
+            : inputState == false
+                ? inputString == ''
+                    ? null
+                    : save('${chosenYear}_$chosenSeason', chosenTime, classInfo,
+                        ref, () {
+                        ref.watch(inputStringProvider.notifier).state = '';
+                        Navigator.of(context).pop();
+                      })
+                : null;
       },
       child: Container(
         decoration: const BoxDecoration(
@@ -67,6 +116,40 @@ class ShowList extends ConsumerWidget {
   }
 }
 
+class ResetTimeButton extends ConsumerWidget {
+  const ResetTimeButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final chosenYear = ref.watch(chosenYearProvider);
+    final chosenSeason = ref.watch(chosenSeasonProvider);
+    return Row(
+      children: [
+        TextButton(
+          onPressed: () {
+            save(
+              '${chosenYear}_$chosenSeason',
+              chosenTime,
+              {'j': 'Tap here to reset', 'schedule': ''},
+              ref,
+              () {
+                Navigator.of(context).pop();
+              },
+            );
+          },
+          child: const Text(
+            'Reset time',
+            style: TextStyle(color: Colors.red, fontSize: 16),
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+      ],
+    );
+  }
+}
+
 class ListTile_txt_info extends StatelessWidget {
   final Map classInfo;
 
@@ -75,49 +158,53 @@ class ListTile_txt_info extends StatelessWidget {
   Widget build(BuildContext context) {
     String? courseNo = classInfo['no'];
     String? className = classInfo['j'];
+    String? classNameE = classInfo['e'];
     String schedule = classInfo['schedule'];
     String? instructor = classInfo['instructor'];
     String? deleted = classInfo['deleted'];
     if (className == 'Tap here to reset') {
-      return ListTile(
-        title: Text(className!),
+      return const ListTile(
+        title: Text('No Data yet!'),
+        subtitle:
+            Text('Use the other tabs to search courses or add custom events'),
       );
     } else {
       return ListTile(
-          title: Text(
-            '${courseNo!}: ${className!}',
-            style: deleted == 'true'
-                ? const TextStyle(
-                    color: Colors.black, decoration: TextDecoration.lineThrough)
-                : const TextStyle(color: Colors.black),
+        title: Text(
+          '${courseNo!}: ${className!}',
+          style: deleted == 'true'
+              ? const TextStyle(
+                  color: Colors.black, decoration: TextDecoration.lineThrough)
+              : const TextStyle(color: Colors.black),
+        ),
+        subtitle: instructor != null
+            ? Text(
+                '$classNameE\n$schedule\n$instructor',
+                style: deleted == 'true'
+                    ? const TextStyle(
+                        color: Colors.black54,
+                        decoration: TextDecoration.lineThrough)
+                    : const TextStyle(color: Colors.black54),
+              )
+            : Text(
+                schedule,
+                style: deleted == 'true'
+                    ? const TextStyle(
+                        color: Colors.black54,
+                        decoration: TextDecoration.lineThrough)
+                    : const TextStyle(color: Colors.black54),
+              ),
+        trailing: GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => ClassInfo(classInfo)));
+          },
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: const Icon(Icons.info_outline),
           ),
-          subtitle: instructor != null
-              ? Text(
-                  '$schedule\n$instructor',
-                  style: deleted == 'true'
-                      ? const TextStyle(
-                          color: Colors.black54,
-                          decoration: TextDecoration.lineThrough)
-                      : const TextStyle(color: Colors.black54),
-                )
-              : Text(
-                  schedule,
-                  style: deleted == 'true'
-                      ? const TextStyle(
-                          color: Colors.black54,
-                          decoration: TextDecoration.lineThrough)
-                      : const TextStyle(color: Colors.black54),
-                ),
-          trailing: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ClassInfo(classInfo)));
-            },
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              child: const Icon(Icons.info_outline),
-            ),
-          ));
+        ),
+      );
     }
   }
 }

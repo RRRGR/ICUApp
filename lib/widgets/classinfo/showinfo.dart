@@ -8,12 +8,12 @@ class ShowInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //String className_j = classInfo['j'];
-    String className_e = classInfo['e'];
-    String classSeason = classInfo['season'];
-    String classYear = classInfo['ay'];
-    String deleted = classInfo['deleted'];
+    String? classNameE = classInfo['e'];
+    String? classSeason = classInfo['season'];
+    String? classYear = classInfo['ay'];
+    String? deleted = classInfo['deleted'];
 
-    Map newInfo = {'Name': className_e, 'Season': '$classYear, $classSeason'};
+    Map newInfo = {'Name': classNameE, 'Season': '$classYear, $classSeason'};
     for (String key in classInfo.keys) {
       String capitalizedKey = '${key[0].toUpperCase()}${key.substring(1)}';
       if (capitalizedKey != 'Season') newInfo[capitalizedKey] = classInfo[key];
