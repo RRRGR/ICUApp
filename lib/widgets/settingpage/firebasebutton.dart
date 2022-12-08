@@ -17,7 +17,7 @@ class BackupButton extends StatelessWidget {
           showDialog(
             context: context,
             builder: (_) {
-              return const BackupAlert();
+              return const UnavailableAlert();
             },
           );
         },
@@ -39,7 +39,7 @@ class RecoverButton extends StatelessWidget {
           showDialog(
             context: context,
             builder: (_) {
-              return const RecoverAlert();
+              return const UnavailableAlert();
             },
           );
         },
@@ -193,6 +193,28 @@ class NotSavedAlert extends StatelessWidget {
           ),
           onPressed: () {
             Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        )
+      ],
+    );
+  }
+}
+
+class UnavailableAlert extends StatelessWidget {
+  const UnavailableAlert({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Alert'),
+      content: const Text('Currently Unavailable.'),
+      actions: [
+        TextButton(
+          child: const Text(
+            'OK',
+            style: TextStyle(color: Colors.lightBlue),
+          ),
+          onPressed: () {
             Navigator.pop(context);
           },
         )
