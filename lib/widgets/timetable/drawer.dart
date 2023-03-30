@@ -10,6 +10,7 @@ import 'package:icuapp/screen/settings.dart';
 import 'package:icuapp/widgets/signinpage/signinbutton.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WebDrawer extends StatelessWidget {
   const WebDrawer({Key? key}) : super(key: key);
@@ -51,6 +52,20 @@ class WebDrawer extends StatelessWidget {
                   builder: (context) =>
                       WebPage('https://www.aim-kenko.jp/0002240')));
             },
+          ),
+          ListTile(
+            leading: Image.asset(
+              'images/drive_icon.png',
+              width: 33.0,
+              height: 33.0,
+            ),
+            title: const Text('過去授業資料'),
+            onTap: () {
+              final Uri _url = Uri.parse(
+                  'https://drive.google.com/drive/folders/1FSV9lI-4gC5edrfok9jcrxrzt2MLL1tB?usp=share_link');
+              launchUrl(_url, mode: LaunchMode.externalApplication);
+            },
+            trailing: const Icon(Icons.open_in_new),
           ),
           ListTile(
             leading: const SizedBox(),
