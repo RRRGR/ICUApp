@@ -40,6 +40,15 @@ class WebDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: const SizedBox(),
+            title: const Text('シラバス検索'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => WebPage('https://syllabus.icu')));
+            },
+          ),
+          ListTile(
             leading: Image.asset(
               'images/favicon_cafe.png',
               width: 38.0,
