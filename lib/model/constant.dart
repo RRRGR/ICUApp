@@ -21,8 +21,8 @@ class ChosenYear {
   final String chosenYear;
 }
 
-final chosenYearProvider = StateProvider<String>((ref) => '2022');
-final chosenSeasonProvider = StateProvider<String>((ref) => 'Autumn');
+final chosenYearProvider = StateProvider<String>((ref) => '2023');
+final chosenSeasonProvider = StateProvider<String>((ref) => 'Spring');
 
 final inputStringProvider = StateProvider<String>((ref) => '');
 final searchBoolProvider = StateProvider<bool>((ref) => true);

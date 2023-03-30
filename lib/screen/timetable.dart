@@ -86,7 +86,15 @@ class YearButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final String chosenYear = ref.watch(chosenYearProvider);
-    List<String> yearList = ["2022", "2021", "2020", "2019", "2018", "2017"];
+    List<String> yearList = [
+      "2023",
+      "2022",
+      "2021",
+      "2020",
+      "2019",
+      "2018",
+      "2017"
+    ];
     return Container(
         child: DropdownButtonHideUnderline(
             child: ButtonTheme(

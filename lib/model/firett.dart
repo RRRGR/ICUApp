@@ -9,7 +9,15 @@ class FireTimeTable {
   Future updateTT() async {
     //SharedPreferencesの値をFirestoreに保存
     Map<String, dynamic> TTMap = {};
-    for (String year in ['2022', '2021', '2020', '2019', '2018', '2017']) {
+    for (String year in [
+      '2023',
+      '2022',
+      '2021',
+      '2020',
+      '2019',
+      '2018',
+      '2017'
+    ]) {
       for (String season in ['Spring', 'Autumn', 'Winter']) {
         for (String period in ['1', '2', '3', '4', '5', '6', '7', '8']) {
           for (String day in ['M', 'TU', 'W', 'TH', 'F', 'SA']) {

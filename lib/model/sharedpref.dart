@@ -111,8 +111,8 @@ void read_tt_state(ref) async {
   final prefs = await SharedPreferences.getInstance();
   String? chosenYear = prefs.getString('chosenYear');
   String? chosenSeason = prefs.getString('chosenSeason');
-  chosenYear ??= '2022';
-  chosenSeason ??= 'Autumn';
+  chosenYear ??= '2023';
+  chosenSeason ??= 'Spring';
   for (var period in ['1', '2', '3', '4', '5', '6', '7', '8']) {
     for (var day in ['M', 'TU', 'W', 'TH', 'F', 'SA']) {
       List? classInfo =
