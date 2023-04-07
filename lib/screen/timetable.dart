@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:icuapp/db/crud.dart';
 import 'package:icuapp/model/ad.dart';
 import 'package:icuapp/model/firett.dart';
 import 'package:icuapp/model/sharedpref.dart';
@@ -38,6 +39,9 @@ class TimetableState extends ConsumerState<Timetable> {
       appBarHeight = appBarWidget.size.height;
       double remainHeight = height - (appBarDy + appBarHeight) - 50.0;
       ref.read(remainHeightProvider.notifier).state = remainHeight;
+    });
+    Future(() async {
+      await IsarService().updateCourse("json/2023_spring.json");
     });
   }
 
