@@ -2,13 +2,6 @@ import 'package:isar/isar.dart';
 
 part 'coursedb.g.dart';
 
-@Collection()
-class Course {
-  late Id id;
-  final courseInfo = IsarLinks<CourseInfo>();
-}
-
-@collection
 class CourseInfo {
   Id id = Isar.autoIncrement;
   int? rgno;
@@ -30,3 +23,24 @@ class CourseInfo {
   String? unit;
   bool? deleted;
 }
+
+@collection
+class CourseInfo2017 extends CourseInfo {}
+
+@collection
+class CourseInfo2018 extends CourseInfo {}
+
+@collection
+class CourseInfo2019 extends CourseInfo {}
+
+@collection
+class CourseInfo2020 extends CourseInfo {}
+
+@collection
+class CourseInfo2021 extends CourseInfo {}
+
+@collection
+class CourseInfo2022 extends CourseInfo {}
+
+@collection
+class CourseInfo2023 extends CourseInfo {}

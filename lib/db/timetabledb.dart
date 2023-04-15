@@ -2,7 +2,7 @@ import 'package:isar/isar.dart';
 
 part 'timetabledb.g.dart';
 
-@Collection()
+@collection
 class TimeTable {
   Id id = Isar.autoIncrement;
 

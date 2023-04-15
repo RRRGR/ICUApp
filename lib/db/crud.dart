@@ -14,7 +14,16 @@ class IsarService {
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
       return await Isar.open(
-        [CourseSchema, CourseInfoSchema, TimeTableSchema],
+        [
+          CourseInfo2017Schema,
+          CourseInfo2018Schema,
+          CourseInfo2019Schema,
+          CourseInfo2020Schema,
+          CourseInfo2021Schema,
+          CourseInfo2022Schema,
+          CourseInfo2023Schema,
+          TimeTableSchema
+        ],
         inspector: true,
       );
     }
@@ -28,13 +37,12 @@ class IsarService {
     jsonData.forEach((key, courseList) async {
       int year = int.parse(key);
       for (Map courseInfo in courseList) {
-        List result = await isar.courses
+        List result = isar.courseInfo2023s
             .filter()
-            .idEqualTo(year)
-            .courseInfo((q) => q.rgnoEqualTo(int.parse(courseInfo["rgno"])))
-            .findAll();
+            .rgnoEqualTo(int.parse(courseInfo["rgno"]))
+            .findAllSync();
         if (result.isEmpty) {
-          final info = CourseInfo()
+          final info = CourseInfo2023()
             ..rgno = int.parse(courseInfo["rgno"])
             ..season = courseInfo["season"]
             ..ay = courseInfo["ay"]
@@ -53,16 +61,13 @@ class IsarService {
             ..instructor = courseInfo["instructor"]
             ..unit = courseInfo["unit"]
             ..deleted = courseInfo["deleted"] == "true";
-          final course = Course()..id = year;
-          course.courseInfo.add(info);
           await isar.writeTxn(() async {
-            await isar.courses.put(course);
-            await isar.courseInfos.put(info);
-            await course.courseInfo.save();
+            await isar.courseInfo2023s.put(info);
           });
         } else {
-          Course state = result[0];
-          print(isar.courseInfos);
+          // print(result[0]);
+          // print(isar.courseInfos.get(1));
+          // print(state.courseInfo.length);
           // final info = state.courseInfo;
           // final info = CourseInfo()
           //   ..rgno = int.parse(courseInfo["rgno"])
@@ -93,5 +98,16 @@ class IsarService {
         }
       }
     });
+  }
+
+  Future<List> getCourses(int year, String chosenTime) async {
+    final isar = await db;
+    List result = isar.courseInfo2023s
+        .filter()
+        .scheduleContains("${chosenTime[0]}/${chosenTime[1]}")
+        .findAllSync();
+    print(result);
+    print(chosenTime);
+    return result;
   }
 }
