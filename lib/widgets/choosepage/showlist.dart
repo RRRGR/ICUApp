@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:icuapp/db/coursedb.dart';
+import 'package:icuapp/db/crud.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/model/sharedpref.dart';
 import 'package:icuapp/screen/classinfo.dart';
@@ -49,14 +51,12 @@ class ShowList extends ConsumerWidget {
     final mode = ref.watch(choosePageModeProvider);
     return FutureBuilder(
       future: mode == 'Search'
-          ? loadLocalJson(
-              'json/${chosenYear}_${chosenSeason.toLowerCase()}.json',
-              chosenTime,
-              inputString)
+          ? IsarService().getCourses(int.parse(chosenYear), chosenTime)
           : insertEdit(chosenTime, inputString),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
           List chosenData = snapshot.data!;
+          print(chosenData);
           return Column(
             children: [
               Expanded(
@@ -77,7 +77,7 @@ class ShowList extends ConsumerWidget {
     );
   }
 
-  Widget _items(Map classInfo, ref, BuildContext context) {
+  Widget _items(CourseInfo classInfo, ref, BuildContext context) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
     final inputState = ref.watch(searchBoolProvider);
@@ -86,21 +86,21 @@ class ShowList extends ConsumerWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        pageMode == "Search"
-            ? save('${chosenYear}_$chosenSeason', chosenTime, classInfo, ref,
-                () {
-                ref.watch(inputStringProvider.notifier).state = '';
-                Navigator.of(context).pop();
-              })
-            : inputState == false
-                ? inputString == ''
-                    ? null
-                    : save('${chosenYear}_$chosenSeason', chosenTime, classInfo,
-                        ref, () {
-                        ref.watch(inputStringProvider.notifier).state = '';
-                        Navigator.of(context).pop();
-                      })
-                : null;
+        // pageMode == "Search"
+        //     ? save('${chosenYear}_$chosenSeason', chosenTime, classInfo, ref,
+        //         () {
+        //         ref.watch(inputStringProvider.notifier).state = '';
+        //         Navigator.of(context).pop();
+        //       })
+        //     : inputState == false
+        //         ? inputString == ''
+        //             ? null
+        //             : save('${chosenYear}_$chosenSeason', chosenTime, classInfo,
+        //                 ref, () {
+        //                 ref.watch(inputStringProvider.notifier).state = '';
+        //                 Navigator.of(context).pop();
+        //               })
+        //         : null;
       },
       child: Container(
         decoration: const BoxDecoration(
@@ -151,17 +151,17 @@ class ResetTimeButton extends ConsumerWidget {
 }
 
 class ListTile_txt_info extends StatelessWidget {
-  final Map classInfo;
+  final CourseInfo classInfo;
 
   const ListTile_txt_info(this.classInfo, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    String? courseNo = classInfo['no'];
-    String? className = classInfo['j'];
-    String? classNameE = classInfo['e'];
-    String schedule = classInfo['schedule'];
-    String? instructor = classInfo['instructor'];
-    String? deleted = classInfo['deleted'];
+    int? courseNo = classInfo.rgno;
+    String? className = classInfo.j;
+    String? classNameE = classInfo.e;
+    String? schedule = classInfo.schedule;
+    String? instructor = classInfo.instructor;
+    bool? deleted = classInfo.deleted;
     if (className == 'Tap here to reset') {
       return const ListTile(
         title: Text('No Data yet!'),
@@ -187,7 +187,7 @@ class ListTile_txt_info extends StatelessWidget {
                     : const TextStyle(color: Colors.black54),
               )
             : Text(
-                schedule,
+                schedule!,
                 style: deleted == 'true'
                     ? const TextStyle(
                         color: Colors.black54,
@@ -195,10 +195,10 @@ class ListTile_txt_info extends StatelessWidget {
                     : const TextStyle(color: Colors.black54),
               ),
         trailing: GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => ClassInfo(classInfo)));
-          },
+          // onTap: () {
+          //   Navigator.of(context).push(
+          //       MaterialPageRoute(builder: (context) => ClassInfo(classInfo)));
+          // },
           child: Container(
             padding: const EdgeInsets.all(10),
             child: const Icon(Icons.info_outline),
