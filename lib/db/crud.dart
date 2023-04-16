@@ -30,19 +30,85 @@ class IsarService {
     return Future.value(Isar.getInstance());
   }
 
-  Future<void> updateCourse(String path) async {
+  Future<void> updateCourse(int year) async {
     final isar = await db;
-    String jsonString = await rootBundle.loadString("json/syllabus.json");
+    String jsonString = await rootBundle.loadString("json/syllabus_$year.json");
     Map jsonData = json.decode(jsonString);
     jsonData.forEach((key, courseList) async {
-      int year = int.parse(key);
       for (Map courseInfo in courseList) {
-        List result = isar.courseInfo2023s
-            .filter()
-            .rgnoEqualTo(int.parse(courseInfo["rgno"]))
-            .findAllSync();
+        List result = [];
+        switch (year) {
+          case 2017:
+            result = isar.courseInfo2017s
+                .filter()
+                .rgnoEqualTo(int.parse(courseInfo["rgno"]))
+                .findAllSync();
+            break;
+          case 2018:
+            result = isar.courseInfo2018s
+                .filter()
+                .rgnoEqualTo(int.parse(courseInfo["rgno"]))
+                .findAllSync();
+            break;
+          case 2019:
+            result = isar.courseInfo2019s
+                .filter()
+                .rgnoEqualTo(int.parse(courseInfo["rgno"]))
+                .findAllSync();
+            break;
+          case 2020:
+            result = isar.courseInfo2020s
+                .filter()
+                .rgnoEqualTo(int.parse(courseInfo["rgno"]))
+                .findAllSync();
+            break;
+          case 2021:
+            result = isar.courseInfo2021s
+                .filter()
+                .rgnoEqualTo(int.parse(courseInfo["rgno"]))
+                .findAllSync();
+            break;
+          case 2022:
+            result = isar.courseInfo2022s
+                .filter()
+                .rgnoEqualTo(int.parse(courseInfo["rgno"]))
+                .findAllSync();
+            break;
+          case 2023:
+            result = isar.courseInfo2023s
+                .filter()
+                .rgnoEqualTo(int.parse(courseInfo["rgno"]))
+                .findAllSync();
+            break;
+        }
         if (result.isEmpty) {
-          final info = CourseInfo2023()
+          var info;
+          switch (year) {
+            case 2017:
+              info = CourseInfo2017();
+              break;
+            case 2018:
+              info = CourseInfo2018();
+              break;
+            case 2019:
+              info = CourseInfo2019();
+              break;
+            case 2020:
+              info = CourseInfo2020();
+              break;
+            case 2021:
+              info = CourseInfo2021();
+              break;
+            case 2022:
+              info = CourseInfo2022();
+              break;
+            case 2023:
+              info = CourseInfo2023();
+              break;
+            default:
+              info = CourseInfo();
+          }
+          info
             ..rgno = int.parse(courseInfo["rgno"])
             ..season = courseInfo["season"]
             ..ay = courseInfo["ay"]
@@ -62,7 +128,29 @@ class IsarService {
             ..unit = courseInfo["unit"]
             ..deleted = courseInfo["deleted"] == "true";
           await isar.writeTxn(() async {
-            await isar.courseInfo2023s.put(info);
+            switch (year) {
+              case 2017:
+                await isar.courseInfo2017s.put(info);
+                break;
+              case 2018:
+                await isar.courseInfo2018s.put(info);
+                break;
+              case 2019:
+                await isar.courseInfo2019s.put(info);
+                break;
+              case 2020:
+                await isar.courseInfo2020s.put(info);
+                break;
+              case 2021:
+                await isar.courseInfo2021s.put(info);
+                break;
+              case 2022:
+                await isar.courseInfo2022s.put(info);
+                break;
+              case 2023:
+                await isar.courseInfo2023s.put(info);
+                break;
+            }
           });
         } else {
           // print(result[0]);
@@ -100,12 +188,61 @@ class IsarService {
     });
   }
 
-  Future<List> getCourses(int year, String chosenTime) async {
+  Future<List> getCourses(
+      int year, String chosenSeason, String chosenTime) async {
     final isar = await db;
-    List result = isar.courseInfo2023s
-        .filter()
-        .scheduleContains("${chosenTime[0]}/${chosenTime[1]}")
-        .findAllSync();
+    List result = [];
+    switch (year) {
+      case 2017:
+        result = isar.courseInfo2017s
+            .filter()
+            .seasonContains(chosenSeason)
+            .scheduleContains("${chosenTime[0]}/${chosenTime[1]}")
+            .findAllSync();
+        break;
+      case 2018:
+        result = isar.courseInfo2018s
+            .filter()
+            .seasonContains(chosenSeason)
+            .scheduleContains("${chosenTime[0]}/${chosenTime[1]}")
+            .findAllSync();
+        break;
+      case 2019:
+        result = isar.courseInfo2019s
+            .filter()
+            .seasonContains(chosenSeason)
+            .scheduleContains("${chosenTime[0]}/${chosenTime[1]}")
+            .findAllSync();
+        break;
+      case 2020:
+        result = isar.courseInfo2020s
+            .filter()
+            .seasonContains(chosenSeason)
+            .scheduleContains("${chosenTime[0]}/${chosenTime[1]}")
+            .findAllSync();
+        break;
+      case 2021:
+        result = isar.courseInfo2021s
+            .filter()
+            .seasonContains(chosenSeason)
+            .scheduleContains("${chosenTime[0]}/${chosenTime[1]}")
+            .findAllSync();
+        break;
+      case 2022:
+        result = isar.courseInfo2022s
+            .filter()
+            .seasonContains(chosenSeason)
+            .scheduleContains("${chosenTime[0]}/${chosenTime[1]}")
+            .findAllSync();
+        break;
+      case 2023:
+        result = isar.courseInfo2023s
+            .filter()
+            .seasonContains(chosenSeason)
+            .scheduleContains("${chosenTime[0]}/${chosenTime[1]}")
+            .findAllSync();
+        break;
+    }
     print(result);
     print(chosenTime);
     return result;
