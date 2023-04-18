@@ -4,7 +4,7 @@ part 'timetabledb.g.dart';
 
 @collection
 class TimeTable {
-  Id id = Isar.autoIncrement;
+  Id id = 1;
 
   AcademicYear? ay2010;
   AcademicYear? ay2011;
@@ -70,5 +70,15 @@ class Term {
 
 @embedded
 class Period {
-  int id = Isar.autoIncrement;
+  Day? monday;
+  Day? tuesday;
+  Day? wednesday;
+  Day? thursday;
+  Day? friday;
+  Day? saturday;
+}
+
+@embedded
+class Day {
+  int? id;
 }

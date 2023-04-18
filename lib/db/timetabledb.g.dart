@@ -274,7 +274,8 @@ const TimeTableSchema = CollectionSchema(
   embeddedSchemas: {
     r'AcademicYear': AcademicYearSchema,
     r'Term': TermSchema,
-    r'Period': PeriodSchema
+    r'Period': PeriodSchema,
+    r'Day': DaySchema
   },
   getId: _timeTableGetId,
   getLinks: _timeTableGetLinks,
@@ -3428,10 +3429,41 @@ const PeriodSchema = Schema(
   name: r'Period',
   id: 7289986870337649148,
   properties: {
-    r'id': PropertySchema(
+    r'friday': PropertySchema(
       id: 0,
-      name: r'id',
-      type: IsarType.long,
+      name: r'friday',
+      type: IsarType.object,
+      target: r'Day',
+    ),
+    r'monday': PropertySchema(
+      id: 1,
+      name: r'monday',
+      type: IsarType.object,
+      target: r'Day',
+    ),
+    r'saturday': PropertySchema(
+      id: 2,
+      name: r'saturday',
+      type: IsarType.object,
+      target: r'Day',
+    ),
+    r'thursday': PropertySchema(
+      id: 3,
+      name: r'thursday',
+      type: IsarType.object,
+      target: r'Day',
+    ),
+    r'tuesday': PropertySchema(
+      id: 4,
+      name: r'tuesday',
+      type: IsarType.object,
+      target: r'Day',
+    ),
+    r'wednesday': PropertySchema(
+      id: 5,
+      name: r'wednesday',
+      type: IsarType.object,
+      target: r'Day',
     )
   },
   estimateSize: _periodEstimateSize,
@@ -3446,6 +3478,48 @@ int _periodEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.friday;
+    if (value != null) {
+      bytesCount +=
+          3 + DaySchema.estimateSize(value, allOffsets[Day]!, allOffsets);
+    }
+  }
+  {
+    final value = object.monday;
+    if (value != null) {
+      bytesCount +=
+          3 + DaySchema.estimateSize(value, allOffsets[Day]!, allOffsets);
+    }
+  }
+  {
+    final value = object.saturday;
+    if (value != null) {
+      bytesCount +=
+          3 + DaySchema.estimateSize(value, allOffsets[Day]!, allOffsets);
+    }
+  }
+  {
+    final value = object.thursday;
+    if (value != null) {
+      bytesCount +=
+          3 + DaySchema.estimateSize(value, allOffsets[Day]!, allOffsets);
+    }
+  }
+  {
+    final value = object.tuesday;
+    if (value != null) {
+      bytesCount +=
+          3 + DaySchema.estimateSize(value, allOffsets[Day]!, allOffsets);
+    }
+  }
+  {
+    final value = object.wednesday;
+    if (value != null) {
+      bytesCount +=
+          3 + DaySchema.estimateSize(value, allOffsets[Day]!, allOffsets);
+    }
+  }
   return bytesCount;
 }
 
@@ -3455,7 +3529,42 @@ void _periodSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.id);
+  writer.writeObject<Day>(
+    offsets[0],
+    allOffsets,
+    DaySchema.serialize,
+    object.friday,
+  );
+  writer.writeObject<Day>(
+    offsets[1],
+    allOffsets,
+    DaySchema.serialize,
+    object.monday,
+  );
+  writer.writeObject<Day>(
+    offsets[2],
+    allOffsets,
+    DaySchema.serialize,
+    object.saturday,
+  );
+  writer.writeObject<Day>(
+    offsets[3],
+    allOffsets,
+    DaySchema.serialize,
+    object.thursday,
+  );
+  writer.writeObject<Day>(
+    offsets[4],
+    allOffsets,
+    DaySchema.serialize,
+    object.tuesday,
+  );
+  writer.writeObject<Day>(
+    offsets[5],
+    allOffsets,
+    DaySchema.serialize,
+    object.wednesday,
+  );
 }
 
 Period _periodDeserialize(
@@ -3465,7 +3574,36 @@ Period _periodDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Period();
-  object.id = reader.readLong(offsets[0]);
+  object.friday = reader.readObjectOrNull<Day>(
+    offsets[0],
+    DaySchema.deserialize,
+    allOffsets,
+  );
+  object.monday = reader.readObjectOrNull<Day>(
+    offsets[1],
+    DaySchema.deserialize,
+    allOffsets,
+  );
+  object.saturday = reader.readObjectOrNull<Day>(
+    offsets[2],
+    DaySchema.deserialize,
+    allOffsets,
+  );
+  object.thursday = reader.readObjectOrNull<Day>(
+    offsets[3],
+    DaySchema.deserialize,
+    allOffsets,
+  );
+  object.tuesday = reader.readObjectOrNull<Day>(
+    offsets[4],
+    DaySchema.deserialize,
+    allOffsets,
+  );
+  object.wednesday = reader.readObjectOrNull<Day>(
+    offsets[5],
+    DaySchema.deserialize,
+    allOffsets,
+  );
   return object;
 }
 
@@ -3477,14 +3615,268 @@ P _periodDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLong(offset)) as P;
+      return (reader.readObjectOrNull<Day>(
+        offset,
+        DaySchema.deserialize,
+        allOffsets,
+      )) as P;
+    case 1:
+      return (reader.readObjectOrNull<Day>(
+        offset,
+        DaySchema.deserialize,
+        allOffsets,
+      )) as P;
+    case 2:
+      return (reader.readObjectOrNull<Day>(
+        offset,
+        DaySchema.deserialize,
+        allOffsets,
+      )) as P;
+    case 3:
+      return (reader.readObjectOrNull<Day>(
+        offset,
+        DaySchema.deserialize,
+        allOffsets,
+      )) as P;
+    case 4:
+      return (reader.readObjectOrNull<Day>(
+        offset,
+        DaySchema.deserialize,
+        allOffsets,
+      )) as P;
+    case 5:
+      return (reader.readObjectOrNull<Day>(
+        offset,
+        DaySchema.deserialize,
+        allOffsets,
+      )) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
 extension PeriodQueryFilter on QueryBuilder<Period, Period, QFilterCondition> {
-  QueryBuilder<Period, Period, QAfterFilterCondition> idEqualTo(int value) {
+  QueryBuilder<Period, Period, QAfterFilterCondition> fridayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'friday',
+      ));
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> fridayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'friday',
+      ));
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> mondayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'monday',
+      ));
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> mondayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'monday',
+      ));
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> saturdayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'saturday',
+      ));
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> saturdayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'saturday',
+      ));
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> thursdayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'thursday',
+      ));
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> thursdayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'thursday',
+      ));
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> tuesdayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'tuesday',
+      ));
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> tuesdayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'tuesday',
+      ));
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> wednesdayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'wednesday',
+      ));
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> wednesdayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'wednesday',
+      ));
+    });
+  }
+}
+
+extension PeriodQueryObject on QueryBuilder<Period, Period, QFilterCondition> {
+  QueryBuilder<Period, Period, QAfterFilterCondition> friday(
+      FilterQuery<Day> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'friday');
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> monday(
+      FilterQuery<Day> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'monday');
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> saturday(
+      FilterQuery<Day> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'saturday');
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> thursday(
+      FilterQuery<Day> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'thursday');
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> tuesday(
+      FilterQuery<Day> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'tuesday');
+    });
+  }
+
+  QueryBuilder<Period, Period, QAfterFilterCondition> wednesday(
+      FilterQuery<Day> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'wednesday');
+    });
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
+
+const DaySchema = Schema(
+  name: r'Day',
+  id: 4355558770213572104,
+  properties: {
+    r'id': PropertySchema(
+      id: 0,
+      name: r'id',
+      type: IsarType.long,
+    )
+  },
+  estimateSize: _dayEstimateSize,
+  serialize: _daySerialize,
+  deserialize: _dayDeserialize,
+  deserializeProp: _dayDeserializeProp,
+);
+
+int _dayEstimateSize(
+  Day object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  return bytesCount;
+}
+
+void _daySerialize(
+  Day object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeLong(offsets[0], object.id);
+}
+
+Day _dayDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = Day();
+  object.id = reader.readLongOrNull(offsets[0]);
+  return object;
+}
+
+P _dayDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readLongOrNull(offset)) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+extension DayQueryFilter on QueryBuilder<Day, Day, QFilterCondition> {
+  QueryBuilder<Day, Day, QAfterFilterCondition> idIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'id',
+      ));
+    });
+  }
+
+  QueryBuilder<Day, Day, QAfterFilterCondition> idIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'id',
+      ));
+    });
+  }
+
+  QueryBuilder<Day, Day, QAfterFilterCondition> idEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -3493,8 +3885,8 @@ extension PeriodQueryFilter on QueryBuilder<Period, Period, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Period, Period, QAfterFilterCondition> idGreaterThan(
-    int value, {
+  QueryBuilder<Day, Day, QAfterFilterCondition> idGreaterThan(
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -3506,8 +3898,8 @@ extension PeriodQueryFilter on QueryBuilder<Period, Period, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Period, Period, QAfterFilterCondition> idLessThan(
-    int value, {
+  QueryBuilder<Day, Day, QAfterFilterCondition> idLessThan(
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -3519,9 +3911,9 @@ extension PeriodQueryFilter on QueryBuilder<Period, Period, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Period, Period, QAfterFilterCondition> idBetween(
-    int lower,
-    int upper, {
+  QueryBuilder<Day, Day, QAfterFilterCondition> idBetween(
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -3537,4 +3929,4 @@ extension PeriodQueryFilter on QueryBuilder<Period, Period, QFilterCondition> {
   }
 }
 
-extension PeriodQueryObject on QueryBuilder<Period, Period, QFilterCondition> {}
+extension DayQueryObject on QueryBuilder<Day, Day, QFilterCondition> {}

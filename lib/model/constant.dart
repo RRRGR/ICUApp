@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:icuapp/db/crud.dart';
+import 'package:icuapp/db/timetabledb.dart';
 import 'package:icuapp/model/sharedpref.dart';
 
 double height = 0; //端末の大きさ
@@ -33,6 +35,59 @@ final customClassProvider =
 
 final cellFontSizeProvider =
     StateProvider<String>((ref) => '12'); //選択されている年度、学期、フォントサイズの保持
+
+final streamTimeTableProvider = StreamProvider((ref) async* {
+  yield await IsarService().getTermDB(
+      int.parse(ref.read(chosenYearProvider)), ref.read(chosenSeasonProvider));
+});
+
+final streamCellProvider =
+    StreamProvider.autoDispose.family((ref, String period_day) async* {
+  int year = int.parse(ref.read(chosenYearProvider));
+  String season = ref.read(chosenSeasonProvider);
+  IsarService i = IsarService();
+  Term termDB = await i.getTermDB(year, season);
+  Period? periodDB;
+  Day? dayDB;
+  if (period_day.contains("1")) {
+    periodDB = termDB.first;
+  } else if (period_day.contains("2")) {
+    periodDB = termDB.second;
+  } else if (period_day.contains("3")) {
+    periodDB = termDB.third;
+  } else if (period_day.contains("4")) {
+    periodDB = termDB.fourth;
+  } else if (period_day.contains("5")) {
+    periodDB = termDB.fifth;
+  } else if (period_day.contains("6")) {
+    periodDB = termDB.sixth;
+  } else if (period_day.contains("7")) {
+    periodDB = termDB.seventh;
+  } else if (period_day.contains("8")) {
+    periodDB = termDB.eighth;
+  }
+  if (period_day.contains("M")) {
+    dayDB = periodDB?.monday;
+  } else if (period_day.contains("TU")) {
+    dayDB = periodDB?.tuesday;
+  } else if (period_day.contains("W")) {
+    dayDB = periodDB?.wednesday;
+  } else if (period_day.contains("TH")) {
+    dayDB = periodDB?.thursday;
+  } else if (period_day.contains("F")) {
+    dayDB = periodDB?.friday;
+  } else if (period_day.contains("SA")) {
+    dayDB = periodDB?.saturday;
+  }
+  // if (dayDB == null) yield null;
+  int? id = dayDB?.id;
+  // if (id == null) yield null;
+  if (id != null) {
+    yield await i.getCourseById(id!, year, season);
+  } else {
+    yield null;
+  }
+});
 
 Map<String, List> initTT = {
   '1M': ['', ''],

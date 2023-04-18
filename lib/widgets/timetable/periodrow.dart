@@ -4,7 +4,7 @@ import 'package:icuapp/widgets/timetable/cell.dart';
 import 'package:icuapp/widgets/timetable/showtime.dart';
 
 //rowをListとしてセット（授業時間のセル×1、授業名入れるセル×5or6）
-List<Widget> periodrow(period, satClass) {
+List<Widget> periodrow(period, satClass, timeTableData) {
   String time1 = '0:00';
   String time2 = '0:00';
   if (period == '1') {
@@ -34,16 +34,16 @@ List<Widget> periodrow(period, satClass) {
   }
   return [
     ShowTime(time1, period, time2),
-    Cell('${period}M'),
-    Cell('${period}TU'),
-    Cell('${period}W'),
-    Cell('${period}TH'),
-    Cell('${period}F'),
-    if (satClass == true) Cell('${period}SA'),
+    Cell('${period}M', timeTableData),
+    Cell('${period}TU', timeTableData),
+    Cell('${period}W', timeTableData),
+    Cell('${period}TH', timeTableData),
+    Cell('${period}F', timeTableData),
+    if (satClass == true) Cell('${period}SA', timeTableData),
   ];
 }
 
-List<Widget> periodrow_cWeek(period, satClass) {
+List<Widget> periodrow_cWeek(period, satClass, timeTableData) {
   String time1 = '0:00';
   String time2 = '0:00';
   if (period == '1') {
@@ -73,11 +73,11 @@ List<Widget> periodrow_cWeek(period, satClass) {
   }
   return [
     ShowTime(time1, period, time2),
-    Cell('${period}M'),
-    Cell('${period}TU'),
-    Cell('${period}W'),
-    Cell('${period}TH'),
-    Cell('${period}F'),
-    if (satClass == true) Cell('${period}SA'),
+    Cell('${period}M', timeTableData),
+    Cell('${period}TU', timeTableData),
+    Cell('${period}W', timeTableData),
+    Cell('${period}TH', timeTableData),
+    Cell('${period}F', timeTableData),
+    if (satClass == true) Cell('${period}SA', timeTableData),
   ];
 }

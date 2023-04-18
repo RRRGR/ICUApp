@@ -44,6 +44,7 @@ class TimetableState extends ConsumerState<Timetable> {
       for (int year in [2023, 2022, 2021, 2020, 2019, 2018, 2017]) {
         await IsarService().updateCourse(year);
       }
+      IsarService().convertTimeTableDB();
     });
   }
 
@@ -59,23 +60,25 @@ class TimetableState extends ConsumerState<Timetable> {
             child: Stack(
               children: [
                 Center(
-                    child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const <Widget>[
-                    SizedBox(
-                      width: 20,
-                    ),
-                    YearButton(),
-                    SeasonButton(),
-                  ],
-                )),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const <Widget>[
+                      SizedBox(
+                        width: 20,
+                      ),
+                      YearButton(),
+                      SeasonButton(),
+                    ],
+                  ),
+                ),
                 Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      child: const ResetButton(),
-                    ))
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    child: const ResetButton(),
+                  ),
+                ),
               ],
             ),
           )
