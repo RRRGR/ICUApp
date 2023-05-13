@@ -114,14 +114,17 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 3.0, >= 1.5)
   - GTMSessionFetcher/Core (2.3.0)
+  - isar_flutter_libs (1.0.0):
+    - Flutter
   - nanopb (2.30909.0):
     - nanopb/decode (= 2.30909.0)
     - nanopb/encode (= 2.30909.0)
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - OrderedSet (5.0.0)
-  - path_provider_ios (0.0.1):
+  - path_provider_foundation (0.0.1):
     - Flutter
+    - FlutterMacOS
   - pdfx (1.0.0):
     - Flutter
   - PromisesObjC (2.2.0)
@@ -147,7 +150,8 @@ DEPENDENCIES:
   - flutter_pdfview (from `.symlinks/plugins/flutter_pdfview/ios`)
   - google_mobile_ads (from `.symlinks/plugins/google_mobile_ads/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
-  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
+  - isar_flutter_libs (from `.symlinks/plugins/isar_flutter_libs/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
   - pdfx (from `.symlinks/plugins/pdfx/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -195,8 +199,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_mobile_ads/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/ios"
-  path_provider_ios:
-    :path: ".symlinks/plugins/path_provider_ios/ios"
+  isar_flutter_libs:
+    :path: ".symlinks/plugins/isar_flutter_libs/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/ios"
   pdfx:
     :path: ".symlinks/plugins/pdfx/ios"
   shared_preferences_foundation:
@@ -223,7 +229,7 @@ SPEC CHECKSUMS:
   FirebaseAuth: dd64c01631df724b09f33e584625775c52f7d71f
   FirebaseCore: e317665b9d744727a97e623edbbed009320afdd7
   FirebaseCoreInternal: 8845798510aae74703467480f71ac613788d0696
-  FirebaseFirestore: 7b7d95b74637ed61b76996077a2b292167dae7e5
+  FirebaseFirestore: 712ff268d746fc65efb361e9ce2cfeb458f10643
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   flutter_pdfview: 25f53dd6097661e6395b17de506e6060585946bd
@@ -237,9 +243,10 @@ SPEC CHECKSUMS:
   GoogleUtilities: c2bdc4cf2ce786c4d2e6b3bcfd599a25ca78f06f
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
+  isar_flutter_libs: b69f437aeab9c521821c3f376198c4371fa21073
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
-  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
+  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
   pdfx: 7b876b09de8b7a0bf444a4f82b439ffcff4ee1ec
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
@@ -249,4 +256,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: f6bb8d5b717560d9dfab45ae2d6dc9e28a4feeac
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1

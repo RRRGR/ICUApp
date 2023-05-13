@@ -10,7 +10,7 @@ import device_info_plus_macos
 import firebase_auth
 import firebase_core
 import isar_flutter_libs
-import path_provider_macos
+import path_provider_foundation
 import pdfx
 import shared_preferences_foundation
 import sqflite
