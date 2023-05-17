@@ -75,4 +75,17 @@ class IsarService {
       await isar.courseInfos.putAll(courseInfoList);
     });
   }
+
+  Future<List> getCoursesByTime(
+      int year, String chosenSeason, String chosenTime) async {
+    final isar = await db;
+    List result = [];
+    result = isar.courseInfos
+        .filter()
+        .ayEqualTo(year.toString())
+        .seasonContains(chosenSeason)
+        .scheduleContains("${chosenTime[0]}/${chosenTime[1]}")
+        .findAllSync();
+    return result;
+  }
 }
