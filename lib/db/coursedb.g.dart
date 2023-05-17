@@ -25,7 +25,7 @@ const CourseInfoSchema = CollectionSchema(
     r'ay': PropertySchema(
       id: 1,
       name: r'ay',
-      type: IsarType.string,
+      type: IsarType.long,
     ),
     r'cno': PropertySchema(
       id: 2,
@@ -135,12 +135,6 @@ int _courseInfoEstimateSize(
     }
   }
   {
-    final value = object.ay;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
     final value = object.cno;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -234,7 +228,7 @@ void _courseInfoSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.Label1);
-  writer.writeString(offsets[1], object.ay);
+  writer.writeLong(offsets[1], object.ay);
   writer.writeString(offsets[2], object.cno);
   writer.writeString(offsets[3], object.comment);
   writer.writeBool(offsets[4], object.deleted);
@@ -261,7 +255,7 @@ CourseInfo _courseInfoDeserialize(
 ) {
   final object = CourseInfo();
   object.Label1 = reader.readStringOrNull(offsets[0]);
-  object.ay = reader.readStringOrNull(offsets[1]);
+  object.ay = reader.readLongOrNull(offsets[1]);
   object.cno = reader.readStringOrNull(offsets[2]);
   object.comment = reader.readStringOrNull(offsets[3]);
   object.courseId = id;
@@ -292,7 +286,7 @@ P _courseInfoDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
@@ -590,54 +584,46 @@ extension CourseInfoQueryFilter
   }
 
   QueryBuilder<CourseInfo, CourseInfo, QAfterFilterCondition> ayEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'ay',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<CourseInfo, CourseInfo, QAfterFilterCondition> ayGreaterThan(
-    String? value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'ay',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<CourseInfo, CourseInfo, QAfterFilterCondition> ayLessThan(
-    String? value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'ay',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<CourseInfo, CourseInfo, QAfterFilterCondition> ayBetween(
-    String? lower,
-    String? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -646,75 +632,6 @@ extension CourseInfoQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CourseInfo, CourseInfo, QAfterFilterCondition> ayStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'ay',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CourseInfo, CourseInfo, QAfterFilterCondition> ayEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'ay',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CourseInfo, CourseInfo, QAfterFilterCondition> ayContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'ay',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CourseInfo, CourseInfo, QAfterFilterCondition> ayMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'ay',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CourseInfo, CourseInfo, QAfterFilterCondition> ayIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'ay',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<CourseInfo, CourseInfo, QAfterFilterCondition> ayIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'ay',
-        value: '',
       ));
     });
   }
@@ -3401,10 +3318,9 @@ extension CourseInfoQueryWhereDistinct
     });
   }
 
-  QueryBuilder<CourseInfo, CourseInfo, QDistinct> distinctByAy(
-      {bool caseSensitive = true}) {
+  QueryBuilder<CourseInfo, CourseInfo, QDistinct> distinctByAy() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'ay', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'ay');
     });
   }
 
@@ -3533,7 +3449,7 @@ extension CourseInfoQueryProperty
     });
   }
 
-  QueryBuilder<CourseInfo, String?, QQueryOperations> ayProperty() {
+  QueryBuilder<CourseInfo, int?, QQueryOperations> ayProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'ay');
     });

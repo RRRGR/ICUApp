@@ -20,7 +20,7 @@ const TimeTableSchema = CollectionSchema(
     r'ay': PropertySchema(
       id: 0,
       name: r'ay',
-      type: IsarType.string,
+      type: IsarType.long,
     ),
     r'courseId': PropertySchema(
       id: 1,
@@ -64,12 +64,6 @@ int _timeTableEstimateSize(
 ) {
   var bytesCount = offsets.last;
   {
-    final value = object.ay;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
     final value = object.day;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -96,7 +90,7 @@ void _timeTableSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.ay);
+  writer.writeLong(offsets[0], object.ay);
   writer.writeLong(offsets[1], object.courseId);
   writer.writeString(offsets[2], object.day);
   writer.writeString(offsets[3], object.period);
@@ -110,7 +104,7 @@ TimeTable _timeTableDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = TimeTable();
-  object.ay = reader.readStringOrNull(offsets[0]);
+  object.ay = reader.readLongOrNull(offsets[0]);
   object.courseId = reader.readLongOrNull(offsets[1]);
   object.day = reader.readStringOrNull(offsets[2]);
   object.id = id;
@@ -127,7 +121,7 @@ P _timeTableDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
@@ -249,54 +243,46 @@ extension TimeTableQueryFilter
   }
 
   QueryBuilder<TimeTable, TimeTable, QAfterFilterCondition> ayEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'ay',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<TimeTable, TimeTable, QAfterFilterCondition> ayGreaterThan(
-    String? value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'ay',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<TimeTable, TimeTable, QAfterFilterCondition> ayLessThan(
-    String? value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'ay',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<TimeTable, TimeTable, QAfterFilterCondition> ayBetween(
-    String? lower,
-    String? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -305,75 +291,6 @@ extension TimeTableQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TimeTable, TimeTable, QAfterFilterCondition> ayStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'ay',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TimeTable, TimeTable, QAfterFilterCondition> ayEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'ay',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TimeTable, TimeTable, QAfterFilterCondition> ayContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'ay',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TimeTable, TimeTable, QAfterFilterCondition> ayMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'ay',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TimeTable, TimeTable, QAfterFilterCondition> ayIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'ay',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<TimeTable, TimeTable, QAfterFilterCondition> ayIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'ay',
-        value: '',
       ));
     });
   }
@@ -1085,10 +1002,9 @@ extension TimeTableQuerySortThenBy
 
 extension TimeTableQueryWhereDistinct
     on QueryBuilder<TimeTable, TimeTable, QDistinct> {
-  QueryBuilder<TimeTable, TimeTable, QDistinct> distinctByAy(
-      {bool caseSensitive = true}) {
+  QueryBuilder<TimeTable, TimeTable, QDistinct> distinctByAy() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'ay', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'ay');
     });
   }
 
@@ -1128,7 +1044,7 @@ extension TimeTableQueryProperty
     });
   }
 
-  QueryBuilder<TimeTable, String?, QQueryOperations> ayProperty() {
+  QueryBuilder<TimeTable, int?, QQueryOperations> ayProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'ay');
     });

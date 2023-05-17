@@ -41,7 +41,7 @@ class IsarService {
       List result = await isar.courseInfos
           .filter()
           .rgnoEqualTo(int.parse(courseInfo["rgno"]))
-          .ayEqualTo(year.toString())
+          .ayEqualTo(year)
           .findAll();
       CourseInfo info = CourseInfo();
       info
@@ -82,7 +82,7 @@ class IsarService {
     List result = [];
     result = isar.courseInfos
         .filter()
-        .ayEqualTo(year.toString())
+        .ayEqualTo(year)
         .seasonContains(chosenSeason)
         .scheduleContains("${chosenTime[0]}/${chosenTime[1]}")
         .findAllSync();

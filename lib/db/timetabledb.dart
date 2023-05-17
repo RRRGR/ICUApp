@@ -6,7 +6,7 @@ part 'timetabledb.g.dart';
 class TimeTable {
   Id id = Isar.autoIncrement;
   int? courseId;
-  String? ay;
+  int? ay;
   String? season;
   String? day;
   String? period;

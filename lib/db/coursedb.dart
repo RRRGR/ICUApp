@@ -7,7 +7,7 @@ class CourseInfo {
   late Id courseId;
   int? rgno;
   String? season;
-  String? ay;
+  int? ay;
   String? Label1;
   String? no;
   String? cno;
