@@ -42,9 +42,11 @@ class TimetableState extends ConsumerState<Timetable> {
       ref.read(remainHeightProvider.notifier).state = remainHeight;
     });
     Future(() async {
+      IsarService i = IsarService();
       for (int year in [2023, 2022, 2021, 2020, 2019, 2018, 2017]) {
-        await IsarService().writeJsonToDB(year);
+        await i.writeJsonToDB(year);
       }
+      i.sharedPreferenceToIsar();
     });
   }
 

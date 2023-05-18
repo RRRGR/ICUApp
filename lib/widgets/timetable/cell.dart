@@ -42,29 +42,43 @@ class CellText extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final TT = ref.watch(TTProvider);
     final FontSize = ref.watch(cellFontSizeProvider);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          TT[period_day][0]!,
-          style:
-              TextStyle(fontSize: double.parse(FontSize), color: Colors.black),
-          textAlign: TextAlign.center,
-          maxLines: int.parse(FontSize) <= 11
-              ? 3
-              : int.parse(FontSize) <= 14
-                  ? 2
-                  : 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        Text(
-          TT[period_day][1]!,
-          style:
-              TextStyle(fontSize: double.parse(FontSize), color: Colors.black),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
+    AsyncValue cellProv = ref.watch(streamCellProvider(period_day));
+    ref.listen(chosenYearProvider, (previous, next) {
+      ref.refresh(streamCellProvider(period_day));
+    });
+    ref.listen(chosenSeasonProvider, (previous, next) {
+      ref.refresh(streamCellProvider(period_day));
+    });
+    return cellProv.when(
+        loading: () => const Text(""),
+        error: (err, stack) => Text('Error: $err'),
+        data: (courseData) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                courseData == null ? "" : courseData.j,
+                // TT[period_day][0]!,
+                style: TextStyle(
+                    fontSize: double.parse(FontSize), color: Colors.black),
+                textAlign: TextAlign.center,
+                maxLines: int.parse(FontSize) <= 11
+                    ? 3
+                    : int.parse(FontSize) <= 14
+                        ? 2
+                        : 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                courseData == null ? "" : courseData.room,
+                // TT[period_day][1]!,
+                style: TextStyle(
+                    fontSize: double.parse(FontSize), color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          );
+        });
   }
 }

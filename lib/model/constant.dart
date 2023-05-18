@@ -2,7 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:icuapp/db/crud.dart';
+import 'package:icuapp/db/timetabledb.dart';
 import 'package:icuapp/model/sharedpref.dart';
+import 'package:isar/isar.dart';
 
 double height = 0; //端末の大きさ
 double width = 0;
@@ -33,6 +36,21 @@ final customClassProvider =
 
 final cellFontSizeProvider =
     StateProvider<String>((ref) => '12'); //選択されている年度、学期、フォントサイズの保持
+
+final streamCellProvider =
+    StreamProvider.autoDispose.family((ref, String period_day) async* {
+  int year = int.parse(ref.read(chosenYearProvider));
+  String season = ref.read(chosenSeasonProvider);
+  IsarService i = IsarService();
+  TimeTable? result = await i.getTTCourseByTime(
+      year, season, period_day[0], period_day.substring(1));
+  if (result == null) {
+    yield null;
+  } else {
+    var result2 = await i.getCourseById(result.courseId!);
+    yield result2;
+  }
+});
 
 Map<String, List> initTT = {
   '1M': ['', ''],

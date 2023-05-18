@@ -51,8 +51,8 @@ class ShowList extends ConsumerWidget {
     final mode = ref.watch(choosePageModeProvider);
     return FutureBuilder(
       future: mode == 'Search'
-          ? IsarService()
-              .getCoursesByTime(int.parse(chosenYear), chosenSeason, chosenTime)
+          ? IsarService().getCourseInfosByTime(
+              int.parse(chosenYear), chosenSeason, chosenTime)
           : insertEdit(chosenTime, inputString),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
