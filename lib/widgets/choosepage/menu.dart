@@ -78,7 +78,7 @@ class MenuIconsState extends ConsumerState<MenuIcons> {
           const SizedBox(
             width: 8,
           ),
-          iconCell('Edit', choosePageMode == 'Edit', ref),
+          // iconCell('Edit', choosePageMode == 'Edit', ref),
         ],
       ),
     );
