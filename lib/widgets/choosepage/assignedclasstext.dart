@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:icuapp/db/coursedb.dart';
 import 'package:icuapp/model/constant.dart';
 import 'dart:convert';
 import 'dart:async' show Future;
@@ -45,7 +46,9 @@ class AssignedClassText extends ConsumerWidget {
     final chosenSeason = ref.watch(chosenSeasonProvider);
     final classInfoBefore = TT[chosenTime];
 
-    final Map noneFoundData = {'j': 'Tap here to reset', 'schedule': ''};
+    final CourseInfo noneFoundData = CourseInfo()
+      ..j = 'Tap here to reset'
+      ..schedule = '';
     final yearSeason = '${chosenYear}_$chosenSeason';
 
     return FutureBuilder(

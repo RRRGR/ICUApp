@@ -47,7 +47,7 @@ class IsarService {
       info
         ..rgno = int.parse(courseInfo["rgno"])
         ..season = courseInfo["season"]
-        ..ay = courseInfo["ay"]
+        ..ay = int.parse(courseInfo["ay"])
         ..Label1 = courseInfo["Label1"]
         ..no = courseInfo["no"]
         ..cno = courseInfo["cno"]
