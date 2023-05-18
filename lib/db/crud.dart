@@ -1,5 +1,7 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/db/coursedb.dart';
 import 'package:icuapp/db/timetabledb.dart';
+import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/model/sharedpref.dart';
 import 'package:isar/isar.dart';
 import 'dart:convert';
@@ -103,11 +105,11 @@ class IsarService {
   Future sharedPreferenceToIsar() async {
     final prefs = await SharedPreferences.getInstance();
     bool? exportedToIsar = prefs.getBool("exportedToIsar");
-    // if (exportedToIsar == null) {
-    //   return;
-    // } else if (exportedToIsar) {
-    //   return;
-    // }
+    if (exportedToIsar == null) {
+      return;
+    } else if (exportedToIsar) {
+      return;
+    }
     final isar = await db;
     List<TimeTable> ttList = [];
     for (int year in [2017, 2018, 2019, 2020, 2021, 2022, 2023]) {
@@ -150,7 +152,7 @@ class IsarService {
     return result[0];
   }
 
-  Future getCourseById(int courseId) async {
+  Future<CourseInfo?> getCourseById(int courseId) async {
     final isar = await db;
     List result =
         isar.courseInfos.filter().courseIdEqualTo(courseId).findAllSync();
@@ -170,5 +172,41 @@ class IsarService {
         .findAllSync();
     if (result.isEmpty) return null;
     return result[0];
+  }
+
+  Future addCourseToTT(
+      int courseId, int year, String season, WidgetRef ref) async {
+    final isar = await db;
+    CourseInfo? courseInfo = await getCourseById(courseId);
+    RegExp exp = RegExp(r'\d/[A-Z]{1,2}');
+    Iterable<RegExpMatch> matches = exp.allMatches(courseInfo!.schedule!);
+    List<TimeTable> ttList = [];
+    for (final m in matches) {
+      TimeTable tt = TimeTable();
+      tt.courseId = courseId;
+      tt.ay = year;
+      tt.season = season;
+      tt.period = m[0]![0];
+      tt.day = m[0]!.substring(2);
+      ttList.add(tt);
+    }
+    await isar.writeTxn(() async {
+      await isar.timeTables.putAll(ttList);
+    });
+    for (final m in matches) {
+      ref.refresh(streamCellProvider('${m[0]![0]}${m[0]!.substring(2)}'));
+    }
+  }
+
+  Future deleteCourseFromTT(int courseId, WidgetRef ref) async {
+    final isar = await db;
+    List<TimeTable> result =
+        isar.timeTables.filter().courseIdEqualTo(courseId).findAllSync();
+    for (TimeTable t in result) {
+      await isar.writeTxn(() async {
+        await isar.timeTables.delete(t.id);
+      });
+      ref.refresh(streamCellProvider("${t.period}${t.day}"));
+    }
   }
 }

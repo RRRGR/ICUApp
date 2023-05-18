@@ -30,7 +30,7 @@ final chosenSeasonProvider = StateProvider<String>((ref) => 'Spring');
 final inputStringProvider = StateProvider<String>((ref) => '');
 final searchBoolProvider = StateProvider<bool>((ref) => true);
 final selectedTimeProvider = StateProvider<bool>((ref) => false);
-final choosePageModeProvider = StateProvider<String>((ref) => 'Info');
+final choosePageModeProvider = StateProvider<String>((ref) => 'Search');
 final customClassProvider =
     StateProvider<Map>(((ref) => {'j': '', 'schedule': ''}));
 

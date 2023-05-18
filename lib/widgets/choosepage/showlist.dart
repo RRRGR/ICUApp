@@ -83,24 +83,24 @@ class ShowList extends ConsumerWidget {
     final inputState = ref.watch(searchBoolProvider);
     final inputString = ref.watch(inputStringProvider);
     final pageMode = ref.watch(choosePageModeProvider);
+    void addAndPop(int courseId, int year, String season, WidgetRef ref,
+        BuildContext context) async {
+      await IsarService().addCourseToTT(courseId, year, season, ref);
+      Navigator.of(context).pop();
+    }
+
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        //   pageMode == "Search"
-        //       ? save('${chosenYear}_$chosenSeason', chosenTime, classInfo, ref,
-        //           () {
-        //           ref.watch(inputStringProvider.notifier).state = '';
-        //           Navigator.of(context).pop();
-        //         })
-        //       : inputState == false
-        //           ? inputString == ''
-        //               ? null
-        //               : save('${chosenYear}_$chosenSeason', chosenTime, classInfo,
-        //                   ref, () {
-        //                   ref.watch(inputStringProvider.notifier).state = '';
-        //                   Navigator.of(context).pop();
-        //                 })
-        //           : null;
+        pageMode == "Search"
+            ? addAndPop(classInfo.courseId, int.parse(chosenYear), chosenSeason,
+                ref, context)
+            : inputState == false
+                ? inputString == ''
+                    ? null
+                    : addAndPop(classInfo.courseId, int.parse(chosenYear),
+                        chosenSeason, ref, context)
+                : null;
       },
       child: Container(
         decoration: const BoxDecoration(
@@ -188,7 +188,7 @@ class ListTile_txt_info extends StatelessWidget {
               )
             : Text(
                 schedule!,
-                style: deleted == 'true'
+                style: deleted == true
                     ? const TextStyle(
                         color: Colors.black54,
                         decoration: TextDecoration.lineThrough)

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/db/coursedb.dart';
+import 'package:icuapp/db/crud.dart';
+import 'package:icuapp/db/timetabledb.dart';
 import 'package:icuapp/model/constant.dart';
 import 'dart:convert';
 import 'dart:async' show Future;
@@ -39,6 +41,18 @@ class AssignedClassText extends ConsumerWidget {
     return result;
   }
 
+  Future getCourseInfo(int year, String season, String period_day) async {
+    final CourseInfo noneFoundData = CourseInfo()
+      ..j = 'Tap here to reset'
+      ..schedule = '';
+    IsarService i = IsarService();
+    TimeTable? result = await i.getTTCourseByTime(
+        year, season, period_day[0], period_day.substring(1));
+    if (result == null) return noneFoundData;
+    CourseInfo? result2 = await i.getCourseById(result.courseId!);
+    return result2;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TT = ref.watch(TTProvider);
@@ -52,10 +66,10 @@ class AssignedClassText extends ConsumerWidget {
     final yearSeason = '${chosenYear}_$chosenSeason';
 
     return FutureBuilder(
-      future: convert(TT[chosenTime][0], chosenYear, chosenSeason),
-      builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+      future: getCourseInfo(int.parse(chosenYear), chosenSeason, chosenTime),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          Map chosenData = snapshot.data!;
+          CourseInfo chosenData = snapshot.data!;
           List selectedList = [chosenData];
           return Card(
               color: Colors.white,
@@ -77,7 +91,7 @@ class AssignedClassText extends ConsumerWidget {
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final item = selectedList[index];
-                      return (chosenData['no'] != '')
+                      return (chosenData.no != '')
                           ? Dismissible(
                               key: UniqueKey(),
                               confirmDismiss: (direction) {
@@ -85,14 +99,12 @@ class AssignedClassText extends ConsumerWidget {
                                 return Future<bool>.value(true);
                               },
                               onDismissed: (direction) {
-                                delete(
-                                    yearSeason,
-                                    chosenTime,
-                                    {'j': 'Tap here to reset', 'schedule': ''},
-                                    ref);
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text(
-                                        '${item['j']} / ${item['e']} removed!')));
+                                IsarService()
+                                    .deleteCourseFromTT(item.courseId, ref);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            '${item.j} / ${item.e} removed!')));
                               },
                               background:
                                   Container(color: const Color(0xFFD71A1A)),
