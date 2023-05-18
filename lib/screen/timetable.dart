@@ -62,23 +62,25 @@ class TimetableState extends ConsumerState<Timetable> {
             child: Stack(
               children: [
                 Center(
-                    child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const <Widget>[
-                    SizedBox(
-                      width: 20,
-                    ),
-                    YearButton(),
-                    SeasonButton(),
-                  ],
-                )),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const <Widget>[
+                      SizedBox(
+                        width: 20,
+                      ),
+                      YearButton(),
+                      SeasonButton(),
+                    ],
+                  ),
+                ),
                 Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      child: const ResetButton(),
-                    ))
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    child: const ResetButton(),
+                  ),
+                )
               ],
             ),
           )
@@ -105,28 +107,31 @@ class YearButton extends ConsumerWidget {
       "2017"
     ];
     return Container(
-        child: DropdownButtonHideUnderline(
-            child: ButtonTheme(
-                alignedDropdown: true,
-                child: DropdownButton<String>(
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                  value: chosenYear,
-                  elevation: 3,
-                  dropdownColor: Colors.grey,
-                  items: yearList.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    update_chosenYear(value!, ref);
-                    ref.read(TTProvider.notifier).load(ref);
-                  },
-                ))));
+      child: DropdownButtonHideUnderline(
+        child: ButtonTheme(
+          alignedDropdown: true,
+          child: DropdownButton<String>(
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+            value: chosenYear,
+            elevation: 3,
+            dropdownColor: Colors.grey,
+            items: yearList.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (value) {
+              update_chosenYear(value!, ref);
+              ref.read(TTProvider.notifier).load(ref);
+            },
+          ),
+        ),
+      ),
+    );
   }
 }
 

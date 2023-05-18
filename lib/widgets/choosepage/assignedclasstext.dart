@@ -72,48 +72,51 @@ class AssignedClassText extends ConsumerWidget {
           CourseInfo chosenData = snapshot.data!;
           List selectedList = [chosenData];
           return Card(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: Colors.black, width: 2),
-                  borderRadius: BorderRadius.circular(4.0)),
-              margin: const EdgeInsets.fromLTRB(8, 40, 8, 8),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 6, 10, 10),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 1.0, color: Colors.black26),
-                    ),
-                  ),
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: 1,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      final item = selectedList[index];
-                      return (chosenData.no != '')
-                          ? Dismissible(
-                              key: UniqueKey(),
-                              confirmDismiss: (direction) {
-                                selectedList.removeAt(index);
-                                return Future<bool>.value(true);
-                              },
-                              onDismissed: (direction) {
-                                IsarService()
-                                    .deleteCourseFromTT(item.courseId, ref);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            '${item.j} / ${item.e} removed!')));
-                              },
-                              background:
-                                  Container(color: const Color(0xFFD71A1A)),
-                              child: ListTile_txt_info(selectedList[index]))
-                          : ListTile_txt_info(noneFoundData);
-                    },
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+                side: const BorderSide(color: Colors.black, width: 2),
+                borderRadius: BorderRadius.circular(4.0)),
+            margin: const EdgeInsets.fromLTRB(8, 40, 8, 8),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 6, 10, 10),
+              child: Container(
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(width: 1.0, color: Colors.black26),
                   ),
                 ),
-              ));
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: 1,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final item = selectedList[index];
+                    return (chosenData.no != '')
+                        ? Dismissible(
+                            key: UniqueKey(),
+                            confirmDismiss: (direction) {
+                              selectedList.removeAt(index);
+                              return Future<bool>.value(true);
+                            },
+                            onDismissed: (direction) {
+                              IsarService()
+                                  .deleteCourseFromTT(item.courseId, ref);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text('${item.j} / ${item.e} removed!'),
+                                ),
+                              );
+                            },
+                            background:
+                                Container(color: const Color(0xFFD71A1A)),
+                            child: ListTile_txt_info(selectedList[index]))
+                        : ListTile_txt_info(noneFoundData);
+                  },
+                ),
+              ),
+            ),
+          );
         } else {
           return const SizedBox(
             width: double.infinity,

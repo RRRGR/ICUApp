@@ -38,9 +38,12 @@ class ShowInfo extends StatelessWidget {
                           decoration: TextDecoration.underline)),
                   onTap: () {
                     Navigator.of(context).pop();
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
                         builder: (context) => WebPage(
-                            'https://campus.icu.ac.jp/public/ehandbook/PreviewSyllabus.aspx?regno=${classInfo['rgno']}&year=${classInfo['ay']}&term=${classInfo['rgno'][0]}')));
+                            'https://campus.icu.ac.jp/public/ehandbook/PreviewSyllabus.aspx?regno=${classInfo['rgno']}&year=${classInfo['ay']}&term=${classInfo['rgno'][0]}'),
+                      ),
+                    );
                   },
                 )
               : ListTile(

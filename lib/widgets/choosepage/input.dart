@@ -63,16 +63,16 @@ class SearchInput extends ConsumerWidget {
                           minimumSize: const Size(0, 0),
                           backgroundColor: Colors.black),
                       child: GestureDetector(
-                          onTap: () => {
-                                FocusScope.of(context).requestFocus(FocusNode())
-                              },
-                          child: const Icon(
-                            Icons.keyboard_hide,
-                            size: 16,
-                            color: Colors.white,
-                          )),
+                        onTap: () =>
+                            {FocusScope.of(context).requestFocus(FocusNode())},
+                        child: const Icon(
+                          Icons.keyboard_hide,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

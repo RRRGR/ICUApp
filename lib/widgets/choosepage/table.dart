@@ -118,8 +118,9 @@ class SelectTableState extends ConsumerState<SelectTable> {
                 ? (reg.hasMatch(time))
                     ? const Align(
                         child: SizedBox(
-                        height: 1,
-                      ))
+                          height: 1,
+                        ),
+                      )
                     //Checkbox(value: false, onChanged: (bool? val) {}))
                     : Align(
                         child: Text(time),

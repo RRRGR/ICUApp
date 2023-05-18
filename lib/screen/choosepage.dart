@@ -65,18 +65,19 @@ class ChoosePageState extends ConsumerState<ChoosePage> {
                       ? Align(
                           alignment: FractionalOffset.bottomCenter,
                           child: Container(
-                              width: double.infinity,
-                              height: 130,
-                              child: Column(
-                                children: [
-                                  const AssignedClassText(),
-                                ],
-                              )),
+                            width: double.infinity,
+                            height: 130,
+                            child: Column(
+                              children: const [
+                                AssignedClassText(),
+                              ],
+                            ),
+                          ),
                         )
                       : const SizedBox(
                           width: 0,
                           height: 0,
-                        )
+                        ),
                 ],
               ),
             ),
@@ -85,7 +86,7 @@ class ChoosePageState extends ConsumerState<ChoosePage> {
               height: 50.0,
               width: double.infinity,
               child: AdWidget(ad: myBanner),
-            )
+            ),
           ],
         ),
       ),
