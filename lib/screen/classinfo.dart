@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:icuapp/db/coursedb.dart';
 import 'package:icuapp/model/ad.dart';
 import 'package:icuapp/widgets/classinfo/showinfo.dart';
 
 class ClassInfo extends StatefulWidget {
-  final Map classInfo;
+  final CourseInfo classInfo;
   const ClassInfo(this.classInfo, {Key? key}) : super(key: key);
 
   @override
@@ -12,7 +13,7 @@ class ClassInfo extends StatefulWidget {
 }
 
 class _ClassInfoState extends State<ClassInfo> {
-  final Map classInfo;
+  final CourseInfo classInfo;
   _ClassInfoState(this.classInfo);
 
   BannerAd myBanner = BannerAd(
@@ -29,10 +30,10 @@ class _ClassInfoState extends State<ClassInfo> {
 
   @override
   Widget build(BuildContext context) {
-    String className = classInfo['j'];
+    String? className = classInfo.j;
     return Scaffold(
       appBar: AppBar(
-        title: Text(className),
+        title: Text(className!),
       ),
       body: Column(
         children: [

@@ -195,10 +195,10 @@ class ListTile_txt_info extends StatelessWidget {
                     : const TextStyle(color: Colors.black54),
               ),
         trailing: GestureDetector(
-          // onTap: () {
-          //   Navigator.of(context).push(
-          //       MaterialPageRoute(builder: (context) => ClassInfo(classInfo)));
-          // },
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => ClassInfo(classInfo)));
+          },
           child: Container(
             padding: const EdgeInsets.all(10),
             child: const Icon(Icons.info_outline),
