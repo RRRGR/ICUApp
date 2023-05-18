@@ -58,7 +58,11 @@ class CellText extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                courseData == null ? "" : courseData.j,
+                courseData == null
+                    ? ""
+                    : courseData.schedule.contains("*")
+                        ? "*${courseData.j}"
+                        : courseData.j,
                 // TT[period_day][0]!,
                 style: TextStyle(
                     fontSize: double.parse(FontSize), color: Colors.black),
@@ -71,7 +75,7 @@ class CellText extends ConsumerWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                courseData == null ? "" : courseData.room,
+                courseData == null ? "" : courseData.room ?? "",
                 // TT[period_day][1]!,
                 style: TextStyle(
                     fontSize: double.parse(FontSize), color: Colors.black),
