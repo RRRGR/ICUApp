@@ -87,7 +87,7 @@ class IsarService {
         .filter()
         .ayEqualTo(year)
         .seasonContains(chosenSeason)
-        .scheduleContains("${chosenTime[0]}/${chosenTime[1]}")
+        .scheduleContains("${chosenTime[0]}/${chosenTime.substring(1)}")
         .findAllSync();
     return result;
   }
