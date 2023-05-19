@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:icuapp/db/crud.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/model/sharedpref.dart';
 import 'package:icuapp/widgets/choosepage/showlist.dart';
@@ -31,7 +32,7 @@ class SearchInput extends ConsumerWidget {
                     {ref.read(searchBoolProvider.notifier).state = false},
                 onChanged: (input) {
                   ref.read(inputStringProvider.notifier).state = input;
-                  ref.refresh(streamCourseListProvider);
+                  ref.invalidate(streamCourseListProvider);
                 },
                 /*onSubmitted: (String nameInput) {
                   save_nameinput('${chosenYear}_$chosenSeason', chosenTime,
@@ -92,14 +93,20 @@ class RoomInput extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
-    final inputString = ref.watch(inputStringProvider.notifier);
-    final selectedList = [
-      {
-        'no': '新規予定として登録する',
-        'j': '「${ref.watch(inputStringProvider.notifier).state}」を登録する',
-        'schedule': 'Save current input "${inputString.state}" for $chosenTime'
-      }
-    ];
+    final inputString = ref.watch(inputStringProvider);
+    // void addCustomAndPop(int year, String season, String inputString,
+    //     WidgetRef ref, BuildContext context) async {
+    //   await IsarService().addCustomCourseToTT(year, season, inputString, ref);
+    //   Navigator.of(context).pop();
+    // }
+
+    // final selectedList = [
+    //   {
+    //     'no': '新規予定として登録する',
+    //     'j': '「${ref.watch(inputStringProvider.notifier).state}」を登録する',
+    //     'schedule': 'Save current input "${inputString.state}" for $chosenTime'
+    //   }
+    // ];
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -142,9 +149,33 @@ class RoomInput extends ConsumerWidget {
                   ),
                 ),
                 SingleChildScrollView(
-                    child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxHeight: 70),
-                        child: const ShowList()))
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxHeight: 70),
+                    child: GestureDetector(
+                      onTap: () async {
+                        // addCustomAndPop(int.parse(chosenYear), chosenSeason,
+                        //     inputString, ref, context);
+
+                        await IsarService().addCustomCourseToTT(
+                            int.parse(chosenYear),
+                            chosenSeason,
+                            inputString,
+                            ref);
+                        Navigator.pop(context);
+                      },
+                      child: ListTile(
+                        title: Text(
+                          "新規予定として: 「${inputString}」を登録する",
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                        subtitle: Text(
+                          'Save custom input "${inputString}" for ',
+                          style: const TextStyle(color: Colors.black54),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),

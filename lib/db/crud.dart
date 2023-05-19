@@ -194,7 +194,21 @@ class IsarService {
     RegExp exp = RegExp(r'\d/[A-Z]{1,2}');
     Iterable<RegExpMatch> matches = exp.allMatches(courseInfo!.schedule!);
     List<TimeTable> ttList = [];
+    List<int> deleteIdList = [];
     for (final m in matches) {
+      String period = m[0]![0];
+      String day = m[0]!.substring(2);
+      List result = isar.timeTables
+          .filter()
+          .ayEqualTo(year)
+          .seasonEqualTo(season)
+          .periodContains(period)
+          .dayContains(day)
+          .findAllSync();
+      if (result.isNotEmpty) {
+        print(result[0].courseId);
+        deleteCourseFromTT(result[0].courseId, ref);
+      }
       TimeTable tt = TimeTable();
       tt.courseId = courseId;
       tt.ay = year;
@@ -204,10 +218,11 @@ class IsarService {
       ttList.add(tt);
     }
     await isar.writeTxn(() async {
+      await isar.timeTables.deleteAll(deleteIdList);
       await isar.timeTables.putAll(ttList);
     });
     for (final m in matches) {
-      ref.refresh(streamCellProvider('${m[0]![0]}${m[0]!.substring(2)}'));
+      ref.invalidate(streamCellProvider('${m[0]![0]}${m[0]!.substring(2)}'));
     }
   }
 
@@ -219,7 +234,7 @@ class IsarService {
       await isar.writeTxn(() async {
         await isar.timeTables.delete(t.id);
       });
-      ref.refresh(streamCellProvider("${t.period}${t.day}"));
+      ref.invalidate(streamCellProvider("${t.period}${t.day}"));
     }
   }
 
@@ -234,7 +249,42 @@ class IsarService {
       await isar.writeTxn(() async {
         await isar.timeTables.delete(t.id);
       });
-      ref.refresh(streamCellProvider("${t.period}${t.day}"));
+      ref.invalidate(streamCellProvider("${t.period}${t.day}"));
     }
+  }
+
+  Future addCustomCourseToTT(
+      int year, String season, String inputCourseName, WidgetRef ref) async {
+    final isar = await db;
+    List result =
+        isar.courseInfos.filter().courseIdGreaterThan(1000000).findAllSync();
+    int newCourseId = result.length + 1000001;
+    TimeTable tt = TimeTable()
+      ..courseId = newCourseId
+      ..ay = year
+      ..season = season
+      ..period = chosenTime[0]
+      ..day = chosenTime.substring(1);
+    CourseInfo ci = CourseInfo()
+      ..courseId = newCourseId
+      ..j = inputCourseName
+      ..schedule = "${chosenTime[0]}/${chosenTime.substring(1)}";
+    String period = chosenTime[0];
+    String day = chosenTime.substring(1);
+    List result2 = isar.timeTables
+        .filter()
+        .ayEqualTo(year)
+        .seasonEqualTo(season)
+        .periodContains(period)
+        .dayContains(day)
+        .findAllSync();
+    if (result2.isNotEmpty) {
+      deleteCourseFromTT(result2[0].courseId, ref);
+    }
+    await isar.writeTxn(() async {
+      await isar.timeTables.put(tt);
+      await isar.courseInfos.put(ci);
+    });
+    ref.invalidate(streamCellProvider(chosenTime));
   }
 }

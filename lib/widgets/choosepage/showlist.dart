@@ -33,7 +33,7 @@ class ShowList extends ConsumerWidget {
     final inputString = ref.watch(inputStringProvider);
     final mode = ref.watch(choosePageModeProvider);
     ref.listen(inputStringProvider, (previous, next) {
-      ref.refresh(streamCourseListProvider);
+      ref.invalidate(streamCourseListProvider);
     });
     AsyncValue courseListProv = ref.watch(streamCourseListProvider);
     return courseListProv.when(
@@ -149,13 +149,16 @@ class ListTile_txt_info extends StatelessWidget {
       );
     } else {
       return ListTile(
-        title: Text(
-          '${courseNo!}: ${className!}',
-          style: deleted == true
-              ? const TextStyle(
-                  color: Colors.black, decoration: TextDecoration.lineThrough)
-              : const TextStyle(color: Colors.black),
-        ),
+        title: courseNo == null
+            ? Text("")
+            : Text(
+                '${courseNo!}: ${className!}',
+                style: deleted == true
+                    ? const TextStyle(
+                        color: Colors.black,
+                        decoration: TextDecoration.lineThrough)
+                    : const TextStyle(color: Colors.black),
+              ),
         subtitle: instructor != null
             ? Text(
                 '$classNameE\n$schedule\n$instructor',

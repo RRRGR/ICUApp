@@ -64,10 +64,11 @@ final streamCourseListProvider = StreamProvider((ref) async* {
         chosenTime.substring(1),
         inputString);
   } else {
-    yield CourseInfo()
+    CourseInfo customCourseInfo = CourseInfo()
       ..no = "新規予定として"
       ..j = "$inputStringを登録する"
       ..schedule = "Save current input $inputString for $chosenTime";
+    yield [customCourseInfo];
   }
 });
 

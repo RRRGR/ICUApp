@@ -43,10 +43,10 @@ class CellText extends ConsumerWidget {
     final FontSize = ref.watch(cellFontSizeProvider);
     AsyncValue cellProv = ref.watch(streamCellProvider(period_day));
     ref.listen(chosenYearProvider, (previous, next) {
-      ref.refresh(streamCellProvider(period_day));
+      ref.invalidate(streamCellProvider(period_day));
     });
     ref.listen(chosenSeasonProvider, (previous, next) {
-      ref.refresh(streamCellProvider(period_day));
+      ref.invalidate(streamCellProvider(period_day));
     });
     return cellProv.when(
         loading: () => const Text(""),
