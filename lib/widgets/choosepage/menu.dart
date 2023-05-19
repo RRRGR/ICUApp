@@ -27,7 +27,6 @@ class MenuState extends ConsumerState<Menu> {
   @override
   Widget build(BuildContext context) {
     final choosePageMode = ref.watch(choosePageModeProvider);
-    final TT = ref.watch(TTProvider);
     return Container(
       width: double.infinity,
       color: Colors.white,

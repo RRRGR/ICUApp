@@ -121,7 +121,6 @@ class RecoverAlert extends ConsumerWidget {
             if (finished == 0) {
               showDialog(
                   context: context, builder: (_) => const RestartAlert());
-              ref.read(TTProvider.notifier).load(ref);
             } else if (finished == 1) {
               showDialog(
                   context: context, builder: (_) => const NotSavedAlert());

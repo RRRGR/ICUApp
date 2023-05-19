@@ -14,23 +14,6 @@ import 'package:icuapp/screen/classinfo.dart';
 class ShowList extends ConsumerWidget {
   const ShowList({Key? key}) : super(key: key);
 
-  Future<List> loadLocalJson(String path, String time, String arg) async {
-    String jsonString = await rootBundle.loadString(path);
-    Map jsonData = json.decode(jsonString);
-    List loadedList = jsonData[time]; //[{},{},{}]//[{},{},{}][2,1,3]
-    List resultList = [];
-    for (int i = 0; i < loadedList.length; i++) {
-      String combinedStr = "";
-      loadedList[i].values.forEach((v) {
-        combinedStr += v.toString().toLowerCase();
-      });
-      if (combinedStr.contains(arg.toLowerCase())) {
-        resultList.add(loadedList[i]);
-      }
-    }
-    return resultList;
-  }
-
   Future<List> insertEdit(String time, String arg) async {
     List resultList = [
       {
@@ -127,15 +110,15 @@ class ResetTimeButton extends ConsumerWidget {
       children: [
         TextButton(
           onPressed: () {
-            save(
-              '${chosenYear}_$chosenSeason',
-              chosenTime,
-              {'j': 'Tap here to reset', 'schedule': ''},
-              ref,
-              () {
-                Navigator.of(context).pop();
-              },
-            );
+            // save(
+            //   '${chosenYear}_$chosenSeason',
+            //   chosenTime,
+            //   {'j': 'Tap here to reset', 'schedule': ''},
+            //   ref,
+            //   () {
+            //     Navigator.of(context).pop();
+            //   },
+            // );
           },
           child: const Text(
             'Reset time',

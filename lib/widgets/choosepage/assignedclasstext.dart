@@ -55,10 +55,8 @@ class AssignedClassText extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final TT = ref.watch(TTProvider);
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
-    final classInfoBefore = TT[chosenTime];
 
     final CourseInfo noneFoundData = CourseInfo()
       ..j = 'Tap here to reset'

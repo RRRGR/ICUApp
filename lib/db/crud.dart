@@ -209,4 +209,19 @@ class IsarService {
       ref.refresh(streamCellProvider("${t.period}${t.day}"));
     }
   }
+
+  Future deleteOneSeasonCourses(int year, String season, WidgetRef ref) async {
+    final isar = await db;
+    List<TimeTable> result = isar.timeTables
+        .filter()
+        .ayEqualTo(year)
+        .seasonEqualTo(season)
+        .findAllSync();
+    for (TimeTable t in result) {
+      await isar.writeTxn(() async {
+        await isar.timeTables.delete(t.id);
+      });
+      ref.refresh(streamCellProvider("${t.period}${t.day}"));
+    }
+  }
 }

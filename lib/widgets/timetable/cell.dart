@@ -40,7 +40,6 @@ class CellText extends ConsumerWidget {
   const CellText(this.period_day, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final TT = ref.watch(TTProvider);
     final FontSize = ref.watch(cellFontSizeProvider);
     AsyncValue cellProv = ref.watch(streamCellProvider(period_day));
     ref.listen(chosenYearProvider, (previous, next) {

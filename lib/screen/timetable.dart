@@ -28,7 +28,6 @@ class TimetableState extends ConsumerState<Timetable> {
     super.initState();
     read_chosenYear(ref);
     read_chosenSeason(ref);
-    read_tt_state(ref);
     read_eighthState(ref);
     read_satClassState(ref);
     read_cWeekState(ref);
@@ -126,7 +125,6 @@ class YearButton extends ConsumerWidget {
             }).toList(),
             onChanged: (value) {
               update_chosenYear(value!, ref);
-              ref.read(TTProvider.notifier).load(ref);
             },
           ),
         ),
@@ -162,7 +160,6 @@ class SeasonButton extends ConsumerWidget {
             }).toList(),
             onChanged: (value) {
               update_chosenSeason(value!, ref);
-              ref.read(TTProvider.notifier).load(ref);
             },
           ),
         ),
@@ -176,6 +173,8 @@ class ResetButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final chosenYear = ref.watch(chosenYearProvider);
+    final chosenSeason = ref.watch(chosenSeasonProvider);
     return GestureDetector(
       child: const Icon(Icons.more_horiz),
       onTapDown: (details) {
@@ -187,7 +186,8 @@ class ResetButton extends ConsumerWidget {
             PopupMenuItem(
               child: const Text('Reset this term'),
               onTap: () {
-                resetTerm(ref);
+                IsarService().deleteOneSeasonCourses(
+                    int.parse(chosenYear), chosenSeason, ref);
               },
             ),
           ],
