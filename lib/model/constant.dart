@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:icuapp/db/coursedb.dart';
 import 'package:icuapp/db/crud.dart';
 import 'package:icuapp/db/timetabledb.dart';
 import 'package:icuapp/model/sharedpref.dart';
@@ -49,6 +50,24 @@ final streamCellProvider =
   } else {
     var result2 = await i.getCourseById(result.courseId!);
     yield result2;
+  }
+});
+
+final streamCourseListProvider = StreamProvider((ref) async* {
+  final mode = ref.watch(choosePageModeProvider);
+  final inputString = ref.watch(inputStringProvider);
+  if (mode == "Search") {
+    yield await IsarService().getCoursesByTime(
+        int.parse(ref.read(chosenYearProvider)),
+        ref.read(chosenSeasonProvider),
+        chosenTime[0],
+        chosenTime.substring(1),
+        inputString);
+  } else {
+    yield CourseInfo()
+      ..no = "新規予定として"
+      ..j = "$inputStringを登録する"
+      ..schedule = "Save current input $inputString for $chosenTime";
   }
 });
 

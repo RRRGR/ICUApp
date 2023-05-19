@@ -32,32 +32,28 @@ class ShowList extends ConsumerWidget {
     final chosenSeason = ref.watch(chosenSeasonProvider);
     final inputString = ref.watch(inputStringProvider);
     final mode = ref.watch(choosePageModeProvider);
-    return FutureBuilder(
-      future: mode == 'Search'
-          ? IsarService().getCourseInfosByTime(
-              int.parse(chosenYear), chosenSeason, chosenTime)
-          : insertEdit(chosenTime, inputString),
-      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-        if (snapshot.hasData) {
-          List chosenData = snapshot.data!;
+    ref.listen(inputStringProvider, (previous, next) {
+      ref.refresh(streamCourseListProvider);
+    });
+    AsyncValue courseListProv = ref.watch(streamCourseListProvider);
+    return courseListProv.when(
+        loading: () => const CircularProgressIndicator(),
+        error: (err, stack) => Text('Error: $err'),
+        data: (courseList) {
           return Column(
             children: [
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: chosenData.length,
+                  itemCount: courseList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return _items(chosenData[index], ref, context);
+                    return _items(courseList[index], ref, context);
                   },
                 ),
               ),
             ],
           );
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
-    );
+        });
   }
 
   Widget _items(CourseInfo classInfo, ref, BuildContext context) {

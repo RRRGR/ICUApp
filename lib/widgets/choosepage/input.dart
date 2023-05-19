@@ -29,8 +29,10 @@ class SearchInput extends ConsumerWidget {
                 maxLength: 30,
                 onTap: () =>
                     {ref.read(searchBoolProvider.notifier).state = false},
-                onChanged: (input) =>
-                    {ref.read(inputStringProvider.notifier).state = input},
+                onChanged: (input) {
+                  ref.read(inputStringProvider.notifier).state = input;
+                  ref.refresh(streamCourseListProvider);
+                },
                 /*onSubmitted: (String nameInput) {
                   save_nameinput('${chosenYear}_$chosenSeason', chosenTime,
                       nameInput, ref);

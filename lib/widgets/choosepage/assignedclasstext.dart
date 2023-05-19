@@ -13,34 +13,6 @@ import 'package:icuapp/widgets/choosepage/showlist.dart';
 class AssignedClassText extends ConsumerWidget {
   const AssignedClassText({Key? key}) : super(key: key);
 
-  Future<Map> convert(String className, String year, String season) async {
-    Map result = {'no': '', 'j': '', 'e': '', 'schedule': chosenTime};
-    String path = 'json/${year}_${season.toLowerCase()}.json';
-    String jsonString = await rootBundle.loadString(path);
-    if (chosenTime == '4TU' || chosenTime == '4TH') {
-      className = className.replaceAll('*', '');
-    }
-    List loadedList = json.decode(jsonString)[chosenTime];
-    for (var element in loadedList) {
-      if (element['j'] == className) {
-        element.forEach(
-          (key, value) {
-            if (key == Null) {
-              result[key] = '';
-            } else {
-              result[key] = value;
-            }
-          },
-        );
-      }
-    }
-    if (className != '' && result['j'] == '') {
-      result['j'] = className;
-      result['no'] = '予定 ';
-    }
-    return result;
-  }
-
   Future getCourseInfo(int year, String season, String period_day) async {
     final CourseInfo noneFoundData = CourseInfo()
       ..j = 'Tap here to reset'

@@ -92,6 +92,19 @@ class IsarService {
     return result;
   }
 
+  Future<List> getCoursesByTime(int year, String season, String period,
+      String day, String inputString) async {
+    final isar = await db;
+    List result = isar.courseInfos
+        .filter()
+        .ayEqualTo(year)
+        .seasonEqualTo(season)
+        .scheduleContains("$period/$day")
+        .jContains(inputString)
+        .findAllSync();
+    return result;
+  }
+
   Future getSeasonTT(int year, String season) async {
     final isar = await db;
     List result = isar.timeTables
