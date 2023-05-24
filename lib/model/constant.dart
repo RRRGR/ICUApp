@@ -55,7 +55,7 @@ final streamCellProvider =
 
 final streamCourseListProvider = StreamProvider((ref) async* {
   final mode = ref.watch(choosePageModeProvider);
-  final inputString = ref.watch(inputStringProvider);
+  final inputString = '';
   if (mode == "Search") {
     yield await IsarService().getCoursesByTime(
         int.parse(ref.read(chosenYearProvider)),

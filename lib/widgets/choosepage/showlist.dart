@@ -26,28 +26,46 @@ class ShowList extends ConsumerWidget {
     return resultList;
   }
 
+  List filterList(List rawList, String search) {
+    List resultList = [];
+    for (int i = 0; i < rawList.length; i++) {
+      String combinedStr = "";
+      log("message");
+      rawList[i].toMap().values.forEach((v) {
+        combinedStr += v.toString().toLowerCase();
+      });
+      if (combinedStr.contains(search.toLowerCase())) {
+        resultList.add(rawList[i]);
+      }
+    }
+    return resultList;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
     final inputString = ref.watch(inputStringProvider);
     final mode = ref.watch(choosePageModeProvider);
+
     ref.listen(inputStringProvider, (previous, next) {
       ref.invalidate(streamCourseListProvider);
     });
+
     AsyncValue courseListProv = ref.watch(streamCourseListProvider);
     return courseListProv.when(
         loading: () => const CircularProgressIndicator(),
         error: (err, stack) => Text('Error: $err'),
         data: (courseList) {
+          List resultList = filterList(courseList, inputString);
           return Column(
             children: [
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: courseList.length,
+                  itemCount: resultList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return _items(courseList[index], ref, context);
+                    return _items(resultList[index], ref, context);
                   },
                 ),
               ),
@@ -135,7 +153,7 @@ class ListTile_txt_info extends StatelessWidget {
   const ListTile_txt_info(this.classInfo, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    int? courseNo = classInfo.rgno;
+    String? courseNo = classInfo.no;
     String? className = classInfo.j;
     String? classNameE = classInfo.e;
     String? schedule = classInfo.schedule;

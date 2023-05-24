@@ -23,4 +23,28 @@ class CourseInfo {
   String? instructor;
   String? unit;
   bool? deleted;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'courseId': courseId,
+      'rgno': rgno,
+      'season': season,
+      'ay': ay,
+      'label1': Label1,
+      'no': no,
+      'cno': cno,
+      'lang': lang,
+      'section': section,
+      'e': e,
+      'j': j,
+      'schedule': schedule,
+      'room': room,
+      'comment': comment,
+      'maxnum': maxnum,
+      'flg': flg,
+      'instructor': instructor,
+      'unit': unit,
+      'deleted': deleted,
+    };
+  }
 }
