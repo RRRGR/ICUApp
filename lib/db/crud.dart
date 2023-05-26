@@ -267,6 +267,7 @@ class IsarService {
       ..day = chosenTime.substring(1);
     CourseInfo ci = CourseInfo()
       ..courseId = newCourseId
+      ..no = "予定"
       ..j = inputCourseName
       ..schedule = "${chosenTime[0]}/${chosenTime.substring(1)}";
     String period = chosenTime[0];
