@@ -268,6 +268,8 @@ class IsarService {
     CourseInfo ci = CourseInfo()
       ..courseId = newCourseId
       ..no = "予定"
+      ..e = "Custom input made by user"
+      ..deleted = false
       ..j = inputCourseName
       ..schedule = "${chosenTime[0]}/${chosenTime.substring(1)}";
     String period = chosenTime[0];
