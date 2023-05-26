@@ -52,6 +52,7 @@ class TimetableState extends ConsumerState<Timetable> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         key: globalKeyAppBar,
         centerTitle: false,
