@@ -155,13 +155,17 @@ class RoomInput extends ConsumerWidget {
                       onTap: () async {
                         // addCustomAndPop(int.parse(chosenYear), chosenSeason,
                         //     inputString, ref, context);
-
-                        await IsarService().addCustomCourseToTT(
-                            int.parse(chosenYear),
-                            chosenSeason,
-                            inputString,
-                            ref);
-                        Navigator.pop(context);
+                        if (inputString != '') {
+                          await IsarService().addCustomCourseToTT(
+                              int.parse(chosenYear),
+                              chosenSeason,
+                              inputString,
+                              ref);
+                          ref.watch(inputStringProvider.notifier).state = '';
+                          ref.watch(choosePageModeProvider.notifier).state =
+                              'Info';
+                          Navigator.pop(context);
+                        }
                       },
                       child: ListTile(
                         title: Text(

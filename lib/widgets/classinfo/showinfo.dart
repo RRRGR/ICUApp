@@ -13,8 +13,9 @@ class ShowInfo extends StatelessWidget {
     int? classYear = classInfo.ay;
     bool? deleted = classInfo.deleted;
 
-    Map newInfo = {'Name': classNameE, 'Season': '$classYear, $classSeason'};
-    newInfo["no"] = classInfo.no;
+    Map newInfo = {'Name': classNameE};
+    if (classYear != null) newInfo['Season'] = '$classYear, $classSeason';
+    if (classInfo.no != "予定") newInfo["no"] = classInfo.no;
     newInfo["Language"] = classInfo.lang;
     newInfo["Section"] = classInfo.section;
     newInfo["Schedule"] = classInfo.schedule;
@@ -24,7 +25,9 @@ class ShowInfo extends StatelessWidget {
     newInfo["Unit"] = classInfo.unit;
     if (deleted!) newInfo["Deleted"] = "True";
     newInfo.removeWhere((key, value) => value == null);
-    newInfo['Details'] = 'Tap here for syllabus';
+    if (classNameE != "Custom input made by user") {
+      newInfo['Details'] = 'Tap here for syllabus';
+    }
     return ListView.builder(
       shrinkWrap: true,
       itemCount: newInfo.length,
