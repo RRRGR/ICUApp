@@ -28,22 +28,25 @@ class TimetableState extends ConsumerState<Timetable> {
       barrierDismissible: false,
       context: context,
       builder: (_) {
-        return Dialog(
-          backgroundColor: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                CircularProgressIndicator(),
-                SizedBox(
-                  height: 15,
-                ),
-                Text('Loading...')
-              ],
+        return Consumer(builder: (context, ref, child) {
+          final loadCounter = ref.watch(loadCounterProvider);
+          return Dialog(
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text('Loading... $loadCounter/7')
+                ],
+              ),
             ),
-          ),
-        );
+          );
+        });
       },
     );
   }
@@ -74,6 +77,7 @@ class TimetableState extends ConsumerState<Timetable> {
       }
       for (int year in [2023, 2022, 2021, 2020, 2019, 2018, 2017]) {
         await i.writeJsonToDB(year);
+        ref.read(loadCounterProvider.notifier).update((state) => state + 1);
       }
       i.sharedPreferenceToIsar();
       if (allCourseList.isEmpty) {
