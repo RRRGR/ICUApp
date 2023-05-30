@@ -23,6 +23,31 @@ class TimetableState extends ConsumerState<Timetable> {
   double appBarDy = 0.0;
   double appBarHeight = 0.0;
 
+  Future<void> loadingDialog() async {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                CircularProgressIndicator(),
+                SizedBox(
+                  height: 15,
+                ),
+                Text('Loading...')
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -42,10 +67,18 @@ class TimetableState extends ConsumerState<Timetable> {
     });
     Future(() async {
       IsarService i = IsarService();
+      List allCourseList = await i.getAllCourseInfo();
+      if (allCourseList.isEmpty) {
+        WidgetsBinding.instance!.addPostFrameCallback((_) => loadingDialog() //
+            );
+      }
       for (int year in [2023, 2022, 2021, 2020, 2019, 2018, 2017]) {
         await i.writeJsonToDB(year);
       }
       i.sharedPreferenceToIsar();
+      if (allCourseList.isEmpty) {
+        Navigator.pop(context);
+      }
     });
   }
 

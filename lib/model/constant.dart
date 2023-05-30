@@ -38,6 +38,8 @@ final customClassProvider =
 final cellFontSizeProvider =
     StateProvider<String>((ref) => '12'); //選択されている年度、学期、フォントサイズの保持
 
+final loadCounterProvider = StateProvider<int>((ref) => 0);
+
 final streamCellProvider =
     StreamProvider.autoDispose.family((ref, String period_day) async* {
   int year = int.parse(ref.read(chosenYearProvider));

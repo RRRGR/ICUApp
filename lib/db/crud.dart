@@ -187,6 +187,12 @@ class IsarService {
     return result[0];
   }
 
+  Future<List> getAllCourseInfo() async {
+    final isar = await db;
+    List result = isar.courseInfos.where().findAllSync();
+    return result;
+  }
+
   Future addCourseToTT(
       int courseId, int year, String season, WidgetRef ref) async {
     final isar = await db;
