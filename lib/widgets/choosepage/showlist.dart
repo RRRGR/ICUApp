@@ -82,6 +82,8 @@ class ShowList extends ConsumerWidget {
     final pageMode = ref.watch(choosePageModeProvider);
     void addAndPop(int courseId, int year, String season, WidgetRef ref,
         BuildContext context) async {
+      ref.read(choosePageModeProvider.notifier).state = 'Info';
+      ref.read(inputStringProvider.notifier).state = '';
       await IsarService().addCourseToTT(courseId, year, season, ref);
       Navigator.of(context).pop();
     }
