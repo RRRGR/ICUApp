@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "318213283-7ok8ths47vgtrfub0elite0jdpf57mh0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gr.icuapp",
+            "certificate_hash": "51c6962842942d50922d0ef6ac2f25c84854ffbf"
+          }
+        },
+        {
           "client_id": "318213283-aaljmfrdpcsumdkl7b7bund45hnie8vo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
