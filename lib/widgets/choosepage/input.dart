@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/db/crud.dart';
 import 'package:icuapp/model/constant.dart';
-// import 'package:icuapp/model/sharedpref.dart';
-// import 'package:icuapp/widgets/choosepage/showlist.dart';
 
 class SearchInput extends ConsumerWidget {
   const SearchInput({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final chosenYear = ref.watch(chosenYearProvider);
-    // final chosenSeason = ref.watch(chosenSeasonProvider);
-
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
