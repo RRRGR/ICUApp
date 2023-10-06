@@ -4,10 +4,7 @@ import 'package:icuapp/db/coursedb.dart';
 import 'package:icuapp/db/crud.dart';
 import 'package:icuapp/db/timetabledb.dart';
 import 'package:icuapp/model/constant.dart';
-import 'dart:convert';
 import 'dart:async' show Future;
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:icuapp/model/sharedpref.dart';
 import 'package:icuapp/widgets/choosepage/showlist.dart';
 
 class AssignedClassText extends ConsumerWidget {
@@ -33,7 +30,6 @@ class AssignedClassText extends ConsumerWidget {
     final CourseInfo noneFoundData = CourseInfo()
       ..j = 'Tap here to reset'
       ..schedule = '';
-    final yearSeason = '${chosenYear}_$chosenSeason';
 
     return FutureBuilder(
       future: getCourseInfo(int.parse(chosenYear), chosenSeason, chosenTime),

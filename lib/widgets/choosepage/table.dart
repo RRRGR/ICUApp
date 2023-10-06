@@ -1,10 +1,6 @@
-import 'dart:developer';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/constant.dart';
-import 'package:icuapp/model/sharedpref.dart';
 
 class SelectTable extends ConsumerStatefulWidget {
   const SelectTable({Key? key}) : super(key: key);
@@ -30,9 +26,6 @@ class SelectTableState extends ConsumerState<SelectTable> {
   Widget build(BuildContext context) {
     final satEnabled = ref.watch(satClassProvider);
     final eighthClassEnabled = ref.watch(eighthClassProvider);
-    final isChecked = ref.watch(selectedTimeProvider.notifier);
-
-    List daysOfWeek = ['\\', 'M', 'TU', 'W', 'TH', 'F', 'SA'];
     List nest = [
       ['0', '0M', '0TU', '0W', '0TH', '0F', '0SA'],
       ['1', '1M', '1TU', '1W', '1TH', '1F', '1SA'],
@@ -46,8 +39,6 @@ class SelectTableState extends ConsumerState<SelectTable> {
     ];
 
     int periodLimit = (eighthClassEnabled) ? 9 : 8;
-    int weekLimit = (satEnabled) ? 7 : 6;
-
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Container(

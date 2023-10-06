@@ -1,12 +1,12 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/db/coursedb.dart';
 import 'package:icuapp/db/crud.dart';
 import 'package:icuapp/db/timetabledb.dart';
-import 'package:icuapp/model/sharedpref.dart';
-import 'package:isar/isar.dart';
+// import 'package:icuapp/model/sharedpref.dart';
+// import 'package:isar/isar.dart';
 
 double height = 0; //端末の大きさ
 double width = 0;
@@ -55,7 +55,7 @@ final streamCellProvider =
 
 final streamCourseListProvider = StreamProvider((ref) async* {
   final mode = ref.watch(choosePageModeProvider);
-  final inputString = '';
+  const inputString = '';
   if (mode == "Search") {
     yield await IsarService().getCoursesByTime(
         int.parse(ref.read(chosenYearProvider)),

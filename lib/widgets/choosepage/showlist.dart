@@ -1,14 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'dart:async' show Future;
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/db/coursedb.dart';
 import 'package:icuapp/db/crud.dart';
-import 'package:icuapp/model/sharedpref.dart';
 import 'package:icuapp/screen/classinfo.dart';
 
 class ShowList extends ConsumerWidget {
@@ -43,10 +39,7 @@ class ShowList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chosenYear = ref.watch(chosenYearProvider);
-    final chosenSeason = ref.watch(chosenSeasonProvider);
     final inputString = ref.watch(inputStringProvider);
-    final mode = ref.watch(choosePageModeProvider);
 
     ref.listen(inputStringProvider, (previous, next) {
       ref.invalidate(streamCourseListProvider);
@@ -83,6 +76,7 @@ class ShowList extends ConsumerWidget {
     void addAndPop(int courseId, int year, String season, WidgetRef ref,
         BuildContext context) async {
       await IsarService().addCourseToTT(courseId, year, season, ref);
+      ref.read(choosePageModeProvider.notifier).state = 'Info';
       Navigator.of(context).pop();
     }
 
@@ -118,8 +112,6 @@ class ResetTimeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chosenYear = ref.watch(chosenYearProvider);
-    final chosenSeason = ref.watch(chosenSeasonProvider);
     return Row(
       children: [
         TextButton(
@@ -162,15 +154,14 @@ class ListTile_txt_info extends StatelessWidget {
     if (className == 'Tap here to reset') {
       return const ListTile(
         title: Text('No Data yet!'),
-        subtitle:
-            Text('Use the other tabs to search courses or add custom events'),
+        subtitle: Text('Use the search tab to add courses'),
       );
     } else {
       return ListTile(
         title: courseNo == null
-            ? Text("")
+            ? const Text("")
             : Text(
-                '${courseNo!}: ${className!}',
+                '$courseNo: ${className!}',
                 style: deleted == true
                     ? const TextStyle(
                         color: Colors.black,

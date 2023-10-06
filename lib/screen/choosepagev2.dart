@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/widgets/choosepage/menu.dart';
 import 'package:icuapp/widgets/choosepage/showlist.dart';
-import 'package:icuapp/widgets/choosepage/table.dart';
 
 class ChoosePageV2 extends ConsumerStatefulWidget {
   const ChoosePageV2({Key? key}) : super(key: key);
@@ -59,7 +58,7 @@ class ChoosePageStateV2 extends ConsumerState<ChoosePageV2> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(chosenTime),
-          elevation: 3,
+          shadowColor: const Color.fromRGBO(254, 254, 254, 254),
         ),
         body: Column(
           children: [

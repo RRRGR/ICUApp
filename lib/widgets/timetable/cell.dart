@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/constant.dart';
-import 'package:icuapp/model/sharedpref.dart';
-import 'package:icuapp/screen/choosepage.dart';
 import 'package:icuapp/screen/choosepagev2.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 //時間割の授業名の入るセル
 class Cell extends ConsumerWidget {
