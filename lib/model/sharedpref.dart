@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:developer';
+// import 'dart:developer';
 
 //SharedPreferencesの値を取得
 Future<List?> getValue(year_season_time) async {
@@ -11,61 +11,57 @@ Future<List?> getValue(year_season_time) async {
 }
 
 //以下それぞれProviderの値の更新と読み取り
-void update_chosenYear(String newYear, ref) async {
+void updateChosenYear(String newYear, ref) async {
   ref.read(chosenYearProvider.notifier).state = newYear;
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString('chosenYear', newYear);
 }
 
-void update_chosenSeason(String newSeason, ref) async {
+void updateChosenSeason(String newSeason, ref) async {
   ref.read(chosenSeasonProvider.notifier).state = newSeason;
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString('chosenSeason', newSeason);
 }
 
-void update_eighthClass(bool newValue, ref) async {
+void updateEighthClass(bool newValue, ref) async {
   ref.read(eighthClassProvider.notifier).state = newValue;
   final prefs = await SharedPreferences.getInstance();
   await prefs.setBool('eighthClass', newValue);
 }
 
-void update_satClass(bool newValue, ref) async {
+void updateSatClass(bool newValue, ref) async {
   ref.read(satClassProvider.notifier).state = newValue;
   final prefs = await SharedPreferences.getInstance();
   await prefs.setBool('satClass', newValue);
 }
 
-void update_cWeek(bool newValue, ref) async {
+void updateCWeek(bool newValue, ref) async {
   ref.read(cWeekProvider.notifier).state = newValue;
   final prefs = await SharedPreferences.getInstance();
   await prefs.setBool('cWeek', newValue);
 }
 
-void update_fontSize(String newValue, ref) async {
+void updateFontSize(String newValue, ref) async {
   ref.read(cellFontSizeProvider.notifier).state = newValue;
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString('fontSize', newValue);
 }
 
-void read_chosenYear(ref) async {
+void readChosenYear(ref) async {
   final prefs = await SharedPreferences.getInstance();
   String? chosenYear = prefs.getString('chosenYear');
   chosenYear ??= '2022';
-  if (chosenYear != null) {
-    ref.read(chosenYearProvider.notifier).state = chosenYear;
-  }
+  ref.read(chosenYearProvider.notifier).state = chosenYear;
 }
 
-void read_chosenSeason(ref) async {
+void readChosenSeason(ref) async {
   final prefs = await SharedPreferences.getInstance();
   String? chosenSeason = prefs.getString('chosenSeason');
   chosenSeason ??= 'Spring';
-  if (chosenSeason != null) {
-    ref.read(chosenSeasonProvider.notifier).state = chosenSeason;
-  }
+  ref.read(chosenSeasonProvider.notifier).state = chosenSeason;
 }
 
-void read_eighthState(ref) async {
+void readEighthState(ref) async {
   final prefs = await SharedPreferences.getInstance();
   final bool? eighthClass = prefs.getBool('eighthClass');
   if (eighthClass != null) {
@@ -73,7 +69,7 @@ void read_eighthState(ref) async {
   }
 }
 
-void read_satClassState(ref) async {
+void readSatClassState(ref) async {
   final prefs = await SharedPreferences.getInstance();
   final bool? satClass = prefs.getBool('satClass');
   if (satClass != null) {
@@ -81,7 +77,7 @@ void read_satClassState(ref) async {
   }
 }
 
-void read_cWeekState(ref) async {
+void readCWeekState(ref) async {
   final prefs = await SharedPreferences.getInstance();
   final bool? cWeek = prefs.getBool('cWeek');
   if (cWeek != null) {
@@ -89,7 +85,7 @@ void read_cWeekState(ref) async {
   }
 }
 
-void read_fontSizeState(ref) async {
+void readFontSizeState(ref) async {
   final prefs = await SharedPreferences.getInstance();
   final String? fontSize = prefs.getString('fontSize');
   if (fontSize != null) {
