@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:icuapp/model/ad.dart';
-import 'package:icuapp/model/constant.dart';
-import 'package:icuapp/model/firett.dart';
 import 'package:icuapp/screen/settings.dart';
 import 'package:icuapp/widgets/signinpage/signinbutton.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -132,16 +129,24 @@ class WebDrawer extends StatelessWidget {
   }
 }
 
-class WebPage extends StatelessWidget {
+class WebPage extends StatefulWidget {
   final String webUrl;
   WebPage(this.webUrl, {Key? key}) : super(key: key);
+
+  @override
+  State<WebPage> createState() => _WebPageState();
+}
+
+class _WebPageState extends State<WebPage> {
   BannerAd myBanner = BannerAd(
     adUnitId: getTestAdBannerUnitId(),
     size: AdSize.banner,
     request: const AdRequest(),
     listener: const BannerAdListener(),
   );
+
   InAppWebViewController? webViewController;
+
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
         useShouldOverrideUrlLoading: true,
@@ -153,6 +158,7 @@ class WebPage extends StatelessWidget {
       ios: IOSInAppWebViewOptions(
         allowsInlineMediaPlayback: true,
       ));
+
   @override
   Widget build(BuildContext context) {
     myBanner.load();
@@ -189,7 +195,7 @@ class WebPage extends StatelessWidget {
             child: InAppWebView(
               initialOptions: options,
               initialUrlRequest: URLRequest(
-                url: Uri.parse(webUrl),
+                url: Uri.parse(widget.webUrl),
               ),
               onWebViewCreated: (InAppWebViewController controller) {
                 webViewController = controller;
