@@ -63,8 +63,8 @@ class WebDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const PDFPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const WebPage('https://icumap.com')));
             },
           ),
           ListTile(
