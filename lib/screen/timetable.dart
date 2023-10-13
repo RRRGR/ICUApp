@@ -33,7 +33,7 @@ class TimetableState extends ConsumerState<Timetable> {
           globalKeyAppBar.currentContext?.findRenderObject() as RenderBox;
       appBarDy = appBarWidget.localToGlobal(Offset.zero).dy;
       appBarHeight = appBarWidget.size.height;
-      double remainHeight = height - (appBarDy + appBarHeight) - 50.0;
+      double remainHeight = height - (appBarDy + appBarHeight) - 1.0;
       ref.read(remainHeightProvider.notifier).state = remainHeight;
     });
     Future(() async {
@@ -73,7 +73,7 @@ class TimetableState extends ConsumerState<Timetable> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(16),
                     child: const ResetButton(),
                   ),
                 )
