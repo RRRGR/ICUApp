@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:icuapp/model/ad.dart';
+import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/screen/settings.dart';
 import 'package:icuapp/widgets/signinpage/signinbutton.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -15,67 +16,51 @@ class WebDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: const Color(0xffffffff),
       child: ListView(
         children: <Widget>[
-          //DrawerHeader(child: Text('aa')),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const Settings()));
-            },
+          const SizedBox(
+            height: 10,
           ),
           ListTile(
-            leading: const SizedBox(),
-            title: const Text('空き教室'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => WebPage('https://openclassrooms.icu')));
-            },
-          ),
-          ListTile(
-            leading: const SizedBox(),
-            title: const Text('シラバス検索'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => WebPage('https://syllabus.icu')));
-            },
-          ),
-          ListTile(
-            leading: Image.asset(
-              'images/favicon_cafe.png',
-              width: 38.0,
-              height: 38.0,
+            leading: const Icon(
+              Icons.room,
+              color: icu,
+              size: 28,
             ),
-            title: const Text('学食'),
+            title: const Text(
+              '空き教室',
+              style: TextStyle(color: Colors.black),
+            ),
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      WebPage('https://www.aim-kenko.jp/0002240')));
+                      const WebPage('https://openclassrooms.icu')));
             },
           ),
           ListTile(
-            leading: Image.asset(
-              'images/drive_icon.png',
-              width: 33.0,
-              height: 33.0,
+            leading: const Icon(Icons.search, color: icu, size: 28),
+            title: const Text(
+              'シラバス検索',
+              style: TextStyle(color: Colors.black),
             ),
-            title: const Text('過去授業資料'),
             onTap: () {
-              final Uri _url = Uri.parse(
-                  'https://drive.google.com/drive/folders/1FSV9lI-4gC5edrfok9jcrxrzt2MLL1tB?usp=share_link');
-              launchUrl(_url, mode: LaunchMode.externalApplication);
+              Navigator.of(context).pop();
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const WebPage('https://syllabus.icu')));
             },
-            trailing: const Icon(Icons.open_in_new),
           ),
           ListTile(
-            leading: const SizedBox(),
-            title: const Text('学内地図'),
+            leading: const Icon(
+              Icons.map,
+              color: Colors.brown,
+              size: 30,
+            ),
+            title: const Text(
+              '学内地図',
+              style: TextStyle(color: Colors.black),
+            ),
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(
@@ -84,19 +69,55 @@ class WebDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Image.asset(
-              'images/moodle2022.png',
+              'images/favicon_cafe.png',
               width: 38.0,
               height: 38.0,
             ),
-            title: const Text('Moodle'),
+            title: const Text(
+              '学食',
+              style: TextStyle(color: Colors.black),
+            ),
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      WebPage('https://2022.moodle.icu.ac.jp/my/')));
+                      const WebPage('https://www.aim-kenko.jp/0002240')));
             },
           ),
-
+          ListTile(
+            leading: Image.asset(
+              'images/drive_icon.png',
+              width: 33.0,
+              height: 33.0,
+            ),
+            title: const Text(
+              '過去授業資料',
+              style: TextStyle(color: Colors.black),
+            ),
+            onTap: () {
+              final Uri urlText = Uri.parse(
+                  'https://drive.google.com/drive/folders/1FSV9lI-4gC5edrfok9jcrxrzt2MLL1tB?usp=share_link');
+              launchUrl(urlText, mode: LaunchMode.externalApplication);
+            },
+            trailing: const Icon(Icons.open_in_new),
+          ),
+          ListTile(
+            leading: Image.asset(
+              'images/moodle2022.png',
+              width: 38.0,
+              height: 38.0,
+            ),
+            title: const Text(
+              'Moodle',
+              style: TextStyle(color: Colors.black),
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      const WebPage('https://2023.moodle.icu.ac.jp/my/')));
+            },
+          ),
           ListTile(
             leading: Container(
               color: Colors.blue[900],
@@ -106,17 +127,48 @@ class WebDrawer extends StatelessWidget {
                 height: 30.0,
               ),
             ),
-            title: const Text('ICU Portal'),
+            title: const Text(
+              'ICU Portal',
+              style: TextStyle(color: Colors.black),
+            ),
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      WebPage('https://icu-portal.icu.ac.jp')));
+                      const WebPage('https://icu-portal.icu.ac.jp')));
+            },
+          ),
+          Container(
+            height: 1,
+            margin: const EdgeInsets.fromLTRB(30, 20, 30, 20),
+            color: icu,
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.settings,
+              color: Colors.black,
+              size: 28,
+            ),
+            title: const Text(
+              'Settings',
+              style: TextStyle(color: Colors.black),
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const Settings()));
             },
           ),
           ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Log out'),
+            leading: const Icon(
+              Icons.logout,
+              color: Colors.red,
+              size: 32,
+            ),
+            title: const Text(
+              'Log out',
+              style: TextStyle(color: Colors.black),
+            ),
             onTap: () {
               googleSignIn.disconnect();
               FirebaseAuth.instance.signOut();
@@ -131,7 +183,7 @@ class WebDrawer extends StatelessWidget {
 
 class WebPage extends StatefulWidget {
   final String webUrl;
-  WebPage(this.webUrl, {Key? key}) : super(key: key);
+  const WebPage(this.webUrl, {Key? key}) : super(key: key);
 
   @override
   State<WebPage> createState() => _WebPageState();
@@ -203,7 +255,6 @@ class _WebPageState extends State<WebPage> {
             ),
           ),
           SizedBox(
-            //color: Colors.white,
             height: 50.0,
             width: double.infinity,
             child: AdWidget(ad: myBanner),
@@ -248,7 +299,6 @@ class PDFPageState extends ConsumerState<PDFPage> {
         children: [
           Expanded(child: const PDF().fromAsset('pdf/ICUmap.pdf')),
           SizedBox(
-            //color: Colors.white,
             height: 50.0,
             width: double.infinity,
             child: AdWidget(ad: myBanner),
