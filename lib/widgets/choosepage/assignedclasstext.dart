@@ -26,7 +26,7 @@ class AssignedClassText extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final chosenYear = ref.watch(chosenYearProvider);
     final chosenSeason = ref.watch(chosenSeasonProvider);
-
+    final fontSize = ref.watch(cellFontSizeProvider);
     final CourseInfo noneFoundData = CourseInfo()
       ..j = 'Tap here to reset'
       ..schedule = '';
@@ -57,7 +57,8 @@ class AssignedClassText extends ConsumerWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final item = selectedList[index];
-                    return (chosenData.no != '')
+                    return (chosenData.no != '' &&
+                            chosenData.j != 'Tap here to reset')
                         ? Dismissible(
                             key: UniqueKey(),
                             confirmDismiss: (direction) {
@@ -76,8 +77,9 @@ class AssignedClassText extends ConsumerWidget {
                             },
                             background:
                                 Container(color: const Color(0xFFD71A1A)),
-                            child: ListTile_txt_info(selectedList[index]))
-                        : ListTile_txt_info(noneFoundData);
+                            child:
+                                ListTileTxtInfo(selectedList[index], fontSize))
+                        : ListTileTxtInfo(noneFoundData, fontSize);
                   },
                 ),
               ),

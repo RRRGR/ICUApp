@@ -30,6 +30,7 @@ class SettingsState extends ConsumerState<Settings> {
     final remainHeight = ref.watch(remainHeightProvider);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.of(context).pop(),

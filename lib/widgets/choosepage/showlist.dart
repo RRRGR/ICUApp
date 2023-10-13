@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'dart:async' show Future;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +25,6 @@ class ShowList extends ConsumerWidget {
     List resultList = [];
     for (int i = 0; i < rawList.length; i++) {
       String combinedStr = "";
-      log("message");
       rawList[i].toMap().values.forEach((v) {
         combinedStr += v.toString().toLowerCase();
       });
@@ -73,6 +71,7 @@ class ShowList extends ConsumerWidget {
     final inputState = ref.watch(searchBoolProvider);
     final inputString = ref.watch(inputStringProvider);
     final pageMode = ref.watch(choosePageModeProvider);
+    final fontSize = ref.watch(cellFontSizeProvider);
     void addAndPop(int courseId, int year, String season, WidgetRef ref,
         BuildContext context) async {
       await IsarService().addCourseToTT(courseId, year, season, ref);
@@ -100,7 +99,7 @@ class ShowList extends ConsumerWidget {
           ),
         ),
         child: Scrollbar(
-          child: ListTile_txt_info(classInfo),
+          child: ListTileTxtInfo(classInfo, fontSize),
         ),
       ),
     );
@@ -139,10 +138,11 @@ class ResetTimeButton extends ConsumerWidget {
   }
 }
 
-class ListTile_txt_info extends StatelessWidget {
+class ListTileTxtInfo extends StatelessWidget {
   final CourseInfo classInfo;
-
-  const ListTile_txt_info(this.classInfo, {Key? key}) : super(key: key);
+  final String fontSize;
+  const ListTileTxtInfo(this.classInfo, this.fontSize, {Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     String? courseNo = classInfo.no;
@@ -153,8 +153,8 @@ class ListTile_txt_info extends StatelessWidget {
     bool? deleted = classInfo.deleted;
     if (className == 'Tap here to reset') {
       return const ListTile(
-        title: Text('No Data yet!'),
-        subtitle: Text('Use the search tab to add courses'),
+        title: Text('Use the yellow search tab to add courses.'),
+        subtitle: Text('No data found'),
       );
     } else {
       return ListTile(
@@ -163,27 +163,38 @@ class ListTile_txt_info extends StatelessWidget {
             : Text(
                 '$courseNo: ${className!}',
                 style: deleted == true
-                    ? const TextStyle(
+                    ? TextStyle(
+                        fontSize: 16 - (12 - double.parse(fontSize)),
                         color: Colors.black,
                         decoration: TextDecoration.lineThrough)
-                    : const TextStyle(color: Colors.black),
+                    : TextStyle(
+                        color: Colors.black,
+                        fontSize: 16 - (12 - double.parse(fontSize)),
+                      ),
               ),
         subtitle: instructor != null
             ? Text(
                 '$classNameE\n$schedule\n$instructor',
                 style: deleted == true
-                    ? const TextStyle(
+                    ? TextStyle(
+                        fontSize: 13 - (12 - double.parse(fontSize)),
                         color: Colors.black54,
                         decoration: TextDecoration.lineThrough)
-                    : const TextStyle(color: Colors.black54),
+                    : TextStyle(
+                        color: Colors.black54,
+                        fontSize: 13 - (12 - double.parse(fontSize))),
               )
             : Text(
                 schedule!,
                 style: deleted == true
-                    ? const TextStyle(
+                    ? TextStyle(
+                        fontSize: 15 - (12 - double.parse(fontSize)),
                         color: Colors.black54,
                         decoration: TextDecoration.lineThrough)
-                    : const TextStyle(color: Colors.black54),
+                    : TextStyle(
+                        color: Colors.black54,
+                        fontSize: 15 - (12 - double.parse(fontSize)),
+                      ),
               ),
         trailing: GestureDetector(
           onTap: () {

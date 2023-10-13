@@ -90,12 +90,12 @@ class TablesState extends ConsumerState<Tables> {
               ),
           ],
         ),
-        /*Container(
-          //color: Colors.white,
-          height: 50.0,
-          width: double.infinity,
-          child: AdWidget(ad: myBanner),
-        )*/
+        // Container(
+        //   //color: Colors.white,
+        //   height: 50.0,
+        //   width: double.infinity,
+        //   //child: AdWidget(ad: myBanner),
+        // )
       ],
     );
   }

@@ -52,6 +52,7 @@ class TimetableState extends ConsumerState<Timetable> {
       appBar: AppBar(
         key: globalKeyAppBar,
         centerTitle: false,
+        backgroundColor: Colors.black,
         elevation: 2,
         actions: [
           Expanded(
@@ -112,7 +113,7 @@ class YearButton extends ConsumerWidget {
           ),
           value: chosenYear,
           elevation: 3,
-          dropdownColor: Colors.grey,
+          dropdownColor: icu,
           items: yearList.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
@@ -146,7 +147,7 @@ class SeasonButton extends ConsumerWidget {
             value: chosenSeason,
             elevation: 0,
             underline: const SizedBox(),
-            dropdownColor: Colors.grey,
+            dropdownColor: icu,
             items: seasonList.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,

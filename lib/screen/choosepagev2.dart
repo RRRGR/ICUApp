@@ -33,7 +33,7 @@ class ChoosePageStateV2 extends ConsumerState<ChoosePageV2> {
     Widget page(String state) {
       switch (state) {
         case 'Info':
-          return const Text('Swipe >>> to delete selected class');
+          return const Text('Swipe >>> to delete course');
         case 'Search':
           return const ShowList();
         case 'Edit':
@@ -58,6 +58,7 @@ class ChoosePageStateV2 extends ConsumerState<ChoosePageV2> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(chosenTime),
+          backgroundColor: Colors.black,
           shadowColor: const Color.fromRGBO(254, 254, 254, 254),
         ),
         body: Column(
@@ -68,8 +69,8 @@ class ChoosePageStateV2 extends ConsumerState<ChoosePageV2> {
             ),
             const Menu(),
             Expanded(child: page(state)),
-            SizedBox(
-              //color: Colors.white,
+            Container(
+              color: Colors.white,
               height: 50.0,
               width: double.infinity,
               child: AdWidget(ad: myBanner),

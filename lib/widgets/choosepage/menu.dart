@@ -32,16 +32,12 @@ class MenuState extends ConsumerState<Menu> {
       color: const Color.fromRGBO(254, 254, 254, 254),
       child: Stack(
         children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(26, 12, 70, 0),
-                child: Text(
-                  choosePageMode,
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(26, 8, 70, 20),
+            child: Text(
+              choosePageMode,
+              style: const TextStyle(fontSize: 20),
+            ),
           ),
           displayCard(choosePageMode),
           const MenuIcons()
