@@ -53,7 +53,7 @@ class TimetableState extends ConsumerState<Timetable> {
         key: globalKeyAppBar,
         centerTitle: false,
         backgroundColor: Colors.black,
-        elevation: 2,
+        elevation: 0,
         actions: [
           Expanded(
             child: Stack(
@@ -83,7 +83,13 @@ class TimetableState extends ConsumerState<Timetable> {
           )
         ],
       ),
-      body: const Tables(),
+      body: Column(children: [
+        Container(
+          height: 10,
+          color: icu,
+        ),
+        const Tables()
+      ]),
       drawer: const WebDrawer(),
     );
   }
@@ -135,29 +141,27 @@ class SeasonButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String chosenSeason = ref.watch(chosenSeasonProvider);
     List<String> seasonList = ["Spring", "Autumn", "Winter"];
-    return Container(
-      child: DropdownButtonHideUnderline(
-        child: ButtonTheme(
-          alignedDropdown: true,
-          child: DropdownButton<String>(
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            ),
-            value: chosenSeason,
-            elevation: 0,
-            underline: const SizedBox(),
-            dropdownColor: icu,
-            items: seasonList.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (value) {
-              updateChosenSeason(value!, ref);
-            },
+    return DropdownButtonHideUnderline(
+      child: ButtonTheme(
+        alignedDropdown: true,
+        child: DropdownButton<String>(
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
           ),
+          value: chosenSeason,
+          elevation: 0,
+          underline: const SizedBox(),
+          dropdownColor: icu,
+          items: seasonList.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          onChanged: (value) {
+            updateChosenSeason(value!, ref);
+          },
         ),
       ),
     );

@@ -63,6 +63,10 @@ class ChoosePageStateV2 extends ConsumerState<ChoosePageV2> {
         ),
         body: Column(
           children: [
+            Container(
+              height: 10,
+              color: Colors.amber,
+            ),
             const SizedBox(
               width: double.infinity,
               height: 24,
