@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:icuapp/model/ad.dart';
-import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/widgets/settingpage/settingpage.dart';
 
 class Settings extends ConsumerStatefulWidget {
@@ -27,7 +26,6 @@ class SettingsState extends ConsumerState<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    final remainHeight = ref.watch(remainHeightProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -39,10 +37,9 @@ class SettingsState extends ConsumerState<Settings> {
       ),
       body: Column(
         children: [
-          const SettingPage(),
-          SizedBox(height: remainHeight - 48 * 7 - 50),
-          SizedBox(
-            //color: Colors.white,
+          const Expanded(child: SettingPage()),
+          Container(
+            color: Colors.white,
             height: 50.0,
             width: double.infinity,
             child: AdWidget(ad: myBanner),
