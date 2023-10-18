@@ -37,10 +37,6 @@ class SettingsState extends ConsumerState<Settings> {
       ),
       body: Column(
         children: [
-          Container(
-            height: 10,
-            color: Colors.green,
-          ),
           const Expanded(child: SettingPage()),
           Container(
             color: Colors.white,

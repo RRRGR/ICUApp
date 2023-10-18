@@ -83,13 +83,7 @@ class TimetableState extends ConsumerState<Timetable> {
           )
         ],
       ),
-      body: Column(children: [
-        Container(
-          height: 10,
-          color: icu,
-        ),
-        const Tables()
-      ]),
+      body: const Tables(),
       drawer: const WebDrawer(),
     );
   }
