@@ -28,22 +28,23 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ICUApp'),
+        backgroundColor: Colors.black,
       ),
       body: Column(
         children: [
           Expanded(
             child: Container(
               alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
+              child: const Padding(
+                padding: EdgeInsets.all(12.0),
                 child: Column(
-                  children: const [
+                  children: [
                     SizedBox(
                       height: 20,
                     ),
                     Text(
                       'Please sign in with ICU google account.',
-                      style: TextStyle(fontSize: 30),
+                      style: TextStyle(fontSize: 24),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
@@ -54,12 +55,6 @@ class _SignInPageState extends State<SignInPage> {
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            //color: Colors.white,
-            height: 50.0,
-            width: double.infinity,
-            child: AdWidget(ad: myBanner),
           ),
         ],
       ),
