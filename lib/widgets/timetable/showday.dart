@@ -10,7 +10,7 @@ class ShowDay extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final eighthClass = ref.watch(eighthClassProvider);
     final remainHeight = ref.watch(remainHeightProvider);
-    return Container(
+    return SizedBox(
       height: (eighthClass == true) ? remainHeight / 18 : remainHeight / 16,
       child: Align(
         alignment: Alignment.center,

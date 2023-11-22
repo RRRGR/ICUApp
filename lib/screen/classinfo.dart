@@ -33,6 +33,7 @@ class _ClassInfoState extends State<ClassInfo> {
     String? className = classInfo.j;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text(className!),
       ),
       body: Column(

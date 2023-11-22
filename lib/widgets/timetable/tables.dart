@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:icuapp/model/ad.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/widgets/timetable/periodrow.dart';
 import 'package:icuapp/widgets/timetable/showday.dart';
-import 'package:icuapp/widgets/timetable/showtime.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 //tableウィジェットを使用してセルなどを設置
 class Tables extends ConsumerStatefulWidget {
@@ -93,12 +90,12 @@ class TablesState extends ConsumerState<Tables> {
               ),
           ],
         ),
-        /*Container(
-          //color: Colors.white,
-          height: 50.0,
-          width: double.infinity,
-          child: AdWidget(ad: myBanner),
-        )*/
+        // Container(
+        //   //color: Colors.white,
+        //   height: 50.0,
+        //   width: double.infinity,
+        //   //child: AdWidget(ad: myBanner),
+        // )
       ],
     );
   }

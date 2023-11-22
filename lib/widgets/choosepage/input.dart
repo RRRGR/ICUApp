@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/db/crud.dart';
 import 'package:icuapp/model/constant.dart';
-import 'package:icuapp/model/sharedpref.dart';
-import 'package:icuapp/widgets/choosepage/showlist.dart';
 
 class SearchInput extends ConsumerWidget {
   const SearchInput({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chosenYear = ref.watch(chosenYearProvider);
-    final chosenSeason = ref.watch(chosenSeasonProvider);
-
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -23,7 +18,7 @@ class SearchInput extends ConsumerWidget {
         padding: const EdgeInsets.fromLTRB(16.0, 20, 10, 18),
         child: Stack(
           children: [
-            Container(
+            SizedBox(
               height: 36,
               child: TextField(
                 enabled: true,
@@ -47,11 +42,11 @@ class SearchInput extends ConsumerWidget {
                     borderSide: BorderSide(color: Colors.grey, width: 1.0),
                   ),
                   enabledBorder: OutlineInputBorder(),
-                  labelText: 'Search Courses',
+                  labelText: 'Search from this period',
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -169,11 +164,11 @@ class RoomInput extends ConsumerWidget {
                       },
                       child: ListTile(
                         title: Text(
-                          "新規予定として: 「${inputString}」を登録する",
+                          "新規予定として: 「$inputString」を登録する",
                           style: const TextStyle(color: Colors.black),
                         ),
                         subtitle: Text(
-                          'Save custom input "${inputString}" for ',
+                          'Save custom input "$inputString" for ',
                           style: const TextStyle(color: Colors.black54),
                         ),
                       ),

@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/constant.dart';
-import 'package:icuapp/model/firett.dart';
+// import 'package:icuapp/model/firett.dart';
 import 'package:icuapp/model/sharedpref.dart';
 import 'package:icuapp/widgets/settingpage/firebasebutton.dart';
 
@@ -36,7 +36,7 @@ class SetListIOS extends ConsumerWidget {
           trailing: CupertinoSwitch(
             value: eighthClass,
             onChanged: (bool value) {
-              update_eighthClass(value, ref);
+              updateEighthClass(value, ref);
             },
           ),
         ),
@@ -45,7 +45,7 @@ class SetListIOS extends ConsumerWidget {
           trailing: CupertinoSwitch(
             value: satClass,
             onChanged: (bool value) {
-              update_satClass(value, ref);
+              updateSatClass(value, ref);
             },
           ),
         ),
@@ -54,7 +54,7 @@ class SetListIOS extends ConsumerWidget {
           trailing: CupertinoSwitch(
             value: cWeek,
             onChanged: (bool value) {
-              update_cWeek(value, ref);
+              updateCWeek(value, ref);
             },
           ),
         ),
@@ -82,7 +82,7 @@ class SetListAndroid extends ConsumerWidget {
           title: const Text('8th Period'),
           value: eighthClass,
           onChanged: (bool value) {
-            update_eighthClass(value, ref);
+            updateEighthClass(value, ref);
           },
         ),
         SwitchListTile(
@@ -90,7 +90,7 @@ class SetListAndroid extends ConsumerWidget {
           title: const Text('Saturday'),
           value: satClass,
           onChanged: (bool value) {
-            update_satClass(value, ref);
+            updateSatClass(value, ref);
           },
         ),
         SwitchListTile(
@@ -98,7 +98,7 @@ class SetListAndroid extends ConsumerWidget {
           title: const Text('C-Week'),
           value: cWeek,
           onChanged: (bool value) {
-            update_cWeek(value, ref);
+            updateCWeek(value, ref);
           },
         ),
         const FontSizeButton(),
@@ -121,7 +121,7 @@ class FontSizeButton extends ConsumerWidget {
         value: fontSize,
         elevation: 16,
         onChanged: (String? newValue) {
-          update_fontSize(newValue!, ref);
+          updateFontSize(newValue!, ref);
         },
         items: <String>[
           '5',

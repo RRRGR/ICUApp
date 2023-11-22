@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:icuapp/db/coursedb.dart';
-import 'package:icuapp/model/ad.dart';
-import 'package:icuapp/model/firett.dart';
 import 'package:icuapp/db/crud.dart';
 import 'package:icuapp/model/sharedpref.dart';
 import 'package:icuapp/widgets/timetable/tables.dart';
@@ -54,18 +50,18 @@ class TimetableState extends ConsumerState<Timetable> {
   @override
   void initState() {
     super.initState();
-    read_chosenYear(ref);
-    read_chosenSeason(ref);
-    read_eighthState(ref);
-    read_satClassState(ref);
-    read_cWeekState(ref);
-    read_fontSizeState(ref);
+    readChosenYear(ref);
+    readChosenSeason(ref);
+    readEighthState(ref);
+    readSatClassState(ref);
+    readCWeekState(ref);
+    readFontSizeState(ref);
     WidgetsBinding.instance.addPostFrameCallback((cb) {
       appBarWidget =
           globalKeyAppBar.currentContext?.findRenderObject() as RenderBox;
       appBarDy = appBarWidget.localToGlobal(Offset.zero).dy;
       appBarHeight = appBarWidget.size.height;
-      double remainHeight = height - (appBarDy + appBarHeight) - 50.0;
+      double remainHeight = height - (appBarDy + appBarHeight) - 1.0;
       ref.read(remainHeightProvider.notifier).state = remainHeight;
     });
     Future(() async {
@@ -93,16 +89,17 @@ class TimetableState extends ConsumerState<Timetable> {
       appBar: AppBar(
         key: globalKeyAppBar,
         centerTitle: false,
-        elevation: 2,
+        backgroundColor: Colors.black,
+        elevation: 0,
         actions: [
           Expanded(
             child: Stack(
               children: [
-                Center(
+                const Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const <Widget>[
+                    children: <Widget>[
                       SizedBox(
                         width: 20,
                       ),
@@ -114,7 +111,7 @@ class TimetableState extends ConsumerState<Timetable> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(16),
                     child: const ResetButton(),
                   ),
                 )
@@ -143,28 +140,26 @@ class YearButton extends ConsumerWidget {
       "2018",
       "2017"
     ];
-    return Container(
-      child: DropdownButtonHideUnderline(
-        child: ButtonTheme(
-          alignedDropdown: true,
-          child: DropdownButton<String>(
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            ),
-            value: chosenYear,
-            elevation: 3,
-            dropdownColor: Colors.grey,
-            items: yearList.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (value) {
-              update_chosenYear(value!, ref);
-            },
+    return DropdownButtonHideUnderline(
+      child: ButtonTheme(
+        alignedDropdown: true,
+        child: DropdownButton<String>(
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
           ),
+          value: chosenYear,
+          elevation: 3,
+          dropdownColor: icu,
+          items: yearList.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          onChanged: (value) {
+            updateChosenYear(value!, ref);
+          },
         ),
       ),
     );
@@ -177,29 +172,27 @@ class SeasonButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String chosenSeason = ref.watch(chosenSeasonProvider);
     List<String> seasonList = ["Spring", "Autumn", "Winter"];
-    return Container(
-      child: DropdownButtonHideUnderline(
-        child: ButtonTheme(
-          alignedDropdown: true,
-          child: DropdownButton<String>(
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            ),
-            value: chosenSeason,
-            elevation: 0,
-            underline: const SizedBox(),
-            dropdownColor: Colors.grey,
-            items: seasonList.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (value) {
-              update_chosenSeason(value!, ref);
-            },
+    return DropdownButtonHideUnderline(
+      child: ButtonTheme(
+        alignedDropdown: true,
+        child: DropdownButton<String>(
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
           ),
+          value: chosenSeason,
+          elevation: 0,
+          underline: const SizedBox(),
+          dropdownColor: icu,
+          items: seasonList.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          onChanged: (value) {
+            updateChosenSeason(value!, ref);
+          },
         ),
       ),
     );

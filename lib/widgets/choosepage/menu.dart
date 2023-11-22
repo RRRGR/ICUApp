@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// imports 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/model/constant.dart';
 import 'package:icuapp/widgets/choosepage/assignedclasstext.dart';
@@ -29,19 +29,15 @@ class MenuState extends ConsumerState<Menu> {
     final choosePageMode = ref.watch(choosePageModeProvider);
     return Container(
       width: double.infinity,
-      color: Colors.white,
+      color: const Color.fromRGBO(254, 254, 254, 254),
       child: Stack(
         children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(26, 12, 70, 0),
-                child: Text(
-                  choosePageMode,
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(26, 8, 70, 20),
+            child: Text(
+              choosePageMode,
+              style: const TextStyle(fontSize: 20),
+            ),
           ),
           displayCard(choosePageMode),
           const MenuIcons()
@@ -118,7 +114,7 @@ class MenuIconsState extends ConsumerState<MenuIcons> {
               //borderRadius: BorderRadius.all(Radius.circular(8)),
               color: Color(iconColors[type]),
             ),
-            child: Container(
+            child: SizedBox(
               height: 40,
               width: 47,
               child: icons[type],

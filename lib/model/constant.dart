@@ -1,12 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icuapp/db/coursedb.dart';
 import 'package:icuapp/db/crud.dart';
 import 'package:icuapp/db/timetabledb.dart';
-import 'package:icuapp/model/sharedpref.dart';
-import 'package:isar/isar.dart';
 
 double height = 0; //端末の大きさ
 double width = 0;
@@ -31,7 +27,7 @@ final chosenSeasonProvider = StateProvider<String>((ref) => 'Spring');
 final inputStringProvider = StateProvider<String>((ref) => '');
 final searchBoolProvider = StateProvider<bool>((ref) => true);
 final selectedTimeProvider = StateProvider<bool>((ref) => false);
-final choosePageModeProvider = StateProvider<String>((ref) => 'Search');
+final choosePageModeProvider = StateProvider<String>((ref) => 'Info');
 final customClassProvider =
     StateProvider<Map>(((ref) => {'j': '', 'schedule': ''}));
 
@@ -57,7 +53,7 @@ final streamCellProvider =
 
 final streamCourseListProvider = StreamProvider((ref) async* {
   final mode = ref.watch(choosePageModeProvider);
-  final inputString = '';
+  const inputString = '';
   if (mode == "Search") {
     yield await IsarService().getCoursesByTime(
         int.parse(ref.read(chosenYearProvider)),
