@@ -10,6 +10,7 @@ class FireTimeTable {
     //SharedPreferencesの値をFirestoreに保存
     Map<String, dynamic> TTMap = {};
     for (String year in [
+      '2024',
       '2023',
       '2022',
       '2021',

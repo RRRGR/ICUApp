@@ -125,7 +125,7 @@ class IsarService {
     }
     final isar = await db;
     List<TimeTable> ttList = [];
-    for (int year in [2017, 2018, 2019, 2020, 2021, 2022, 2023]) {
+    for (int year in [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]) {
       for (String season in ["Spring", "Autumn", "Winter"]) {
         for (var period in ['1', '2', '3', '4', '5', '6', '7', '8']) {
           for (var day in ['M', 'TU', 'W', 'TH', 'F', 'SA']) {

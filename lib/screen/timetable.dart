@@ -71,7 +71,7 @@ class TimetableState extends ConsumerState<Timetable> {
         WidgetsBinding.instance!.addPostFrameCallback((_) => loadingDialog() //
             );
       }
-      for (int year in [2023, 2022, 2021, 2020, 2019, 2018, 2017]) {
+      for (int year in [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017]) {
         await i.writeJsonToDB(year);
         ref.read(loadCounterProvider.notifier).update((state) => state + 1);
       }
@@ -132,6 +132,7 @@ class YearButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String chosenYear = ref.watch(chosenYearProvider);
     List<String> yearList = [
+      "2024",
       "2023",
       "2022",
       "2021",
