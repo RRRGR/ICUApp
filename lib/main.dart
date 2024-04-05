@@ -14,6 +14,7 @@ void main() async {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          useMaterial3: false,
           primarySwatch: materialWhite,
         ),
         home: const Home(),
